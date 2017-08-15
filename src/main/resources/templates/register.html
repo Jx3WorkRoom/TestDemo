@@ -1,0 +1,96 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+<title>会员注册界面</title>
+ <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
+ <script th:src="@{/dist/js/jx3/jquery.js}"></script>
+ <script th:src="@{/dist/js/jx3/base.js}"></script>
+
+ <style>
+  .checkbox {
+   width: 50%;
+   margin-left: 96px;
+  }
+  .checkbox a {
+   margin-left: 10px;
+  }
+ </style>
+</head>
+<body>
+<!-- top logo -->
+<div class="topLogo"><img src="../css/images/jx3/logo_2.png" /></div>
+<!-- navigation -->
+<div class="navCon">
+ <div class="nav"><a href="index.html">首页</a><a href="accountList.html">账号交易</a><a href="appearanceSale.html">外观交易</a><a href="propSale.html">道具交易</a><a href="goldExchangeList.html">金币收售</a><a href="levelingList.html">代练代打</a><a href="blackList.html">剑三黑榜</a><a href="userCenter/dataAndSecurity.html">用户中心</a><a class="last" href="login.html" class="cur">登录 / 注册</a><img class="gift" src="../css/images/jx3/gift.png"></div>
+</div>
+<div id="maincontent">
+ <div id="mcon">
+ <!-- login content -->
+ <div class="login">
+  <div class="inputcon">
+    <img class="contopimg" src="../css/images/jx3/loginimg.png" />
+    <div class="logincon">
+     <div class="title">会员注册</div>
+     <table width="100%">
+      <tr>
+       <td class="wr ft1">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</td>
+       <td><input type="text" placeholder="请输入" /></td>
+       <td class="ft2">6字符以上，限数字、字母、下划线组成，不分大小写</td>
+      </tr>
+      <tr>
+       <td class="wr ft1">昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：</td>
+       <td><input type="text" placeholder="请输入" /></td>
+       <td class="ft2">4-16字符的汉字、字母或数字</td>
+      </tr>
+      <tr>
+       <td class="wr ft1">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+       <td><input type="password" placeholder="请输入" /></td>
+       <td class="ft2">4-16位的密码</td>
+      </tr>
+      <tr>
+       <td class="wr ft1">确认密码：</td>
+       <td><input type="password" placeholder="请输入" /></td>
+       <td class="ft2">请再次输入上面的密码</td>
+      </tr>
+      <tr>
+       <td class="wr ft1">手&nbsp;&nbsp;机&nbsp;&nbsp;号：</td>
+       <td><input type="password" placeholder="请输入" /></td>
+       <td class="ft2"><img src="../css/images/jx3/getcode.png" /></td>
+      </tr>
+      <tr>
+       <td class="wr ft1">验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
+       <td><input type="password" placeholder="请输入" /></td>
+       <td class="ft2"></td>
+      </tr>
+      <tr>
+       <td colspan="3">
+        <div class="checkbox">
+         <label>
+          <input type="checkbox" style="width: 14px;vertical-align: middle;margin-right: 5px;" checked="checked">我已阅读并同意<a href="">用户手册</a>
+         </label>
+        </div>
+       </td>
+      </tr>
+      <tr>
+       <td class="wr ft1"></td>
+       <td><a href="###"><img src="../css/images/jx3/register-btn.png" /></a></td>
+       <td></td>
+      </tr>
+     </table>
+    </div>
+  </div>
+ </div>
+ </div>
+</div>
+<!-- foot -->
+<div class="footcontent">
+<a href="#">关于我们</a> | <a href="#">常见问题</a> | <a href="#">免责声明</a> | <a href="#">友情链接</a> | <a href="#">联系我们</a><br>
+Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号
+</div>
+</body>
+</html>

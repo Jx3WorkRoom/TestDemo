@@ -1,0 +1,749 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+<title>账号出售详细发布</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/drop.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/user.css}">
+    <script th:src="@{/dist/js/jx3/jquery.js}"></script>
+    <script th:src="@{/dist/js/jx3/bt.js}"></script>
+    <script th:src="@{/dist/js/jx3/base.js}"></script>
+    <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+</head>
+
+<body>
+<!-- top logo -->
+<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<!-- navigation -->
+<div class="navCon">
+    <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">剑三老玩家</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
+</div>
+<div id="maincontent">
+  <div id="mcon"> 
+    <!-- usercon -->
+    <div class="usercon input1">
+      <div class="tb">
+        <div class="tr">
+            <div class="td menue"> <img th:src="@{/dist/css/images/jx3/uctop.png}" />
+                <div class="menuelist">
+                    <dt>我的服务</dt>
+                    <dd class="cur"><a href="dataAndSecurity">资料与安全</a></dd>
+                    <dd><a href="myCollection">我的收藏</a></dd>
+                    <dd><a href="myRelease">我的发布</a></dd>
+                    <dd><a href="myService">我的服务</a></dd>
+                    <dd><a href="serviceSetting">服务设置</a></dd>
+                    <dt>我要发布</dt>
+                    <dd><a href="report">我要举报</a></dd>
+                    <dd><a href="appearanceTransaction">外观交易</a></dd>
+                    <dd><a href="propTransaction">道具交易</a></dd>
+                    <dd><a href="accountTransaction">金币交易</a></dd>
+                    <dd><a href="accountExchange">代练交易</a></dd>
+                    <dd><a href="quickRelease">账号收售快速发布</a></dd>
+                    <dd><a href="detailRelease">账号收售详细发布</a></dd>
+                    <dt>后台管理</dt>
+                    <dd><a href="userList">用户列表</a></dd>
+                    <dd><a href="userManage">用户管理</a></dd>
+                </div>
+            </div>
+          <div class="td">
+            <div class="rightcon">
+              <div class="title xqfb">
+                <div class="ht"><span class="cur">基本资料</span><span>外观发型</span><span>坐骑奇趣</span><span>橙色装备</span><span>珍稀挂件</span><span>奇遇奇珍</span><span>图片其他</span></div>
+              </div>
+              <div class="detailGroup">
+                  <div class="group">
+                      <table class="mt15">
+                          <tr>
+                              <td align="right" class="wr ft1">所在区服：</td>
+                              <td onLoad="setup()" style="margin:0">
+                                  <form name="frm">
+                                      <select style="width: 100px;" id="pre" onchange="chg(this);">
+                                          <option value="-1">请选择</option>
+                                      </select>
+                                      <select style="width: 100px;" id="city" onchange="chg2(this)" ;>
+                                          <option value="-1">请选择</option>
+                                      </select>
+                                      <select style="width: 100px;" id="area">
+                                          <option value="-1">请选择</option>
+                                      </select>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">体型：</td>
+                              <td><input class="w250" type="text" value="" /></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">价格：</td>
+                              <td><input class="w250" type="text" value="" /></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <!--<tr>-->
+                              <!--<td align="right" class="wr ft1"></td>-->
+                              <!--<td colspan="7"><span class="codebtn">保存</span>　<span class="codebtn">取消</span></td>-->
+                          <!--</tr>-->
+                      </table>
+                      <div class="title2">挂件珍物</div>
+                      <table class="mt15">
+                          <tr>
+                              <td align="right" class="wr ft1">面部挂件数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">背部挂件数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">腰部挂件数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">左肩饰数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">右肩饰数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                      </table>
+                      <div class="title2">称号</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
+                          其它稀有称号：<input class="w100" type="text" value="" />　<!--<span id="addicon" class="codebtn">新增</span>-->
+                      </div>
+                      <div class="title2">重要数据</div>
+                      <table class="mt15">
+                          <tr>
+                              <td align="right" class="wr ft1">资历：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">副本五甲：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">消费充值：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">消费积分：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">游戏金币：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">宠物分值：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">建号时间：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">点卡时间：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">通宝数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">游戏金币：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">二内：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">三内：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                      </table>
+                  </div>
+                  <div class="group">
+                      <div class="title2">发型</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
+                      </div>
+                      <div class="title2">披风</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
+                      </div>
+                      <div class="title2">成衣-限量</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
+                      </div>
+                      <div class="title2">成衣-限时</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
+                      </div>
+                      <div class="title2">套装盒子</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
+                      </div>
+                      <div class="title2">外观拓印</div>
+                      <table class="mt15">
+                          <tr>
+                              <td align="right" class="wr ft1">白发数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">黑发数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">易容数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">武器排印数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1">散件拓印数量：</td>
+                              <td><input class="w100" type="text" value="" /></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                      </table>
+                  </div>
+                  <div class="group">
+                      <div class="title2">坐骑</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>赤兔</span>
+                          <span><i class="icon0"></i>踏炎</span>
+                          <span><i class="icon0"></i>里飞沙</span>
+                          <span><i class="icon0"></i>绝尘</span>
+                          <span><i class="icon0"></i>霸红尘</span>
+                          <span><i class="icon0"></i>雷兽飞电</span>
+                          <span><i class="icon0"></i>赤珠飞电</span>
+                          <span><i class="icon0"></i>赤兔</span>
+                          <span><i class="icon0"></i>踏炎</span>
+                          <span><i class="icon0"></i>里飞沙</span>
+                          <span><i class="icon0"></i>绝尘</span>
+                          <span><i class="icon0"></i>霸红尘</span>
+                          <span><i class="icon0"></i>雷兽飞电</span>
+                          <span><i class="icon0"></i>赤珠飞电</span>
+                      </div>
+                      </div>
+                      <div class="title2">马具</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>赤兔</span>
+                          <span><i class="icon0"></i>踏炎</span>
+                          <span><i class="icon0"></i>里飞沙</span>
+                          <span><i class="icon0"></i>绝尘</span>
+                          <span><i class="icon0"></i>霸红尘</span>
+                          <span><i class="icon0"></i>雷兽飞电</span>
+                          <span><i class="icon0"></i>赤珠飞电</span>
+                          <span><i class="icon0"></i>赤兔</span>
+                          <span><i class="icon0"></i>踏炎</span>
+                          <span><i class="icon0"></i>里飞沙</span>
+                          <span><i class="icon0"></i>绝尘</span>
+                          <span><i class="icon0"></i>霸红尘</span>
+                          <span><i class="icon0"></i>雷兽飞电</span>
+                          <span><i class="icon0"></i>赤珠飞电</span>
+                      </div>
+                      </div>
+                      <div class="title2">马饰</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>赤兔</span>
+                          <span><i class="icon0"></i>踏炎</span>
+                          <span><i class="icon0"></i>里飞沙</span>
+                          <span><i class="icon0"></i>绝尘</span>
+                          <span><i class="icon0"></i>霸红尘</span>
+                          <span><i class="icon0"></i>雷兽飞电</span>
+                          <span><i class="icon0"></i>赤珠飞电</span>
+                          <span><i class="icon0"></i>赤兔</span>
+                          <span><i class="icon0"></i>踏炎</span>
+                          <span><i class="icon0"></i>里飞沙</span>
+                          <span><i class="icon0"></i>绝尘</span>
+                          <span><i class="icon0"></i>霸红尘</span>
+                          <span><i class="icon0"></i>雷兽飞电</span>
+                          <span><i class="icon0"></i>赤珠飞电</span>
+                      </div>
+                      </div>
+                      <div class="title2">奇趣</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>赤兔</span>
+                          <span><i class="icon0"></i>踏炎</span>
+                          <span><i class="icon0"></i>里飞沙</span>
+                          <span><i class="icon0"></i>绝尘</span>
+                          <span><i class="icon0"></i>霸红尘</span>
+                          <span><i class="icon0"></i>雷兽飞电</span>
+                          <span><i class="icon0"></i>赤珠飞电</span>
+                          <span><i class="icon0"></i>赤兔</span>
+                          <span><i class="icon0"></i>踏炎</span>
+                          <span><i class="icon0"></i>里飞沙</span>
+                          <span><i class="icon0"></i>绝尘</span>
+                          <span><i class="icon0"></i>霸红尘</span>
+                          <span><i class="icon0"></i>雷兽飞电</span>
+                          <span><i class="icon0"></i>赤珠飞电</span>
+                      </div>
+                      </div>
+                  </div>
+                  <div class="group">
+                      <div class="title2">橙武</div>
+                      <table class="mt15">
+                          <tbody><tr>
+                              <td align="right" class="wr ft1">95橙武：</td>
+                              <td><input class="w250" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">90橙武：</td>
+                              <td><input class="w250" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">80橙武：</td>
+                              <td><input class="w250" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">70橙武：</td>
+                              <td><input class="w250" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">门派特效：</td>
+                              <td><input class="w250" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          </tbody></table>
+                      <div class="title2">玄晶小铁</div>
+                      <table class="mt15">
+                          <tbody><tr>
+                              <td align="right" class="wr ft1">95玄晶：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1">95小铁：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">90玄晶：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1">90小铁：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">80玄晶：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1">80小铁：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">70玄晶：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1">70小铁：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          </tbody></table>
+                      <div class="title2">装备</div>
+                      <table class="mt15">
+                          <tbody><tr>
+                              <td align="right" class="wr ft1">PVP-奶装：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1">PVE-奶装：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">PVP-奶装：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1">PVE-T装：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">PVP-DPS-内功装：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1">PVE-DPS-内功装：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">PVP-DPS-外功装：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1">PVE-DPS-内功装：</td>
+                              <td><input class="w150" type="text" value=""></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                              <td align="right" class="wr ft1"></td>
+                              <td></td>
+                          </tr>
+                          </tbody></table>
+                  </div>
+                  <div class="group">
+                      <div class="title2">十大珍稀挂件</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>寻珍味·虎仔</span>
+                          <span><i class="icon0"></i>铁血枫红旗</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">重要运营挂件</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>寻珍味·虎仔</span>
+                          <span><i class="icon0"></i>铁血枫红旗</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">重要副本挂件</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>寻珍味·虎仔</span>
+                          <span><i class="icon0"></i>铁血枫红旗</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">奇遇挂件</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>寻珍味·虎仔</span>
+                          <span><i class="icon0"></i>铁血枫红旗</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">JJC奖励挂件</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>寻珍味·虎仔</span>
+                          <span><i class="icon0"></i>铁血枫红旗</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">重要成就挂件</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>寻珍味·虎仔</span>
+                          <span><i class="icon0"></i>铁血枫红旗</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">重要充消挂件</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>寻珍味·虎仔</span>
+                          <span><i class="icon0"></i>铁血枫红旗</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                  </div>
+                  <div class="group">
+                      <div class="title2">绝世奇遇</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>三山四海</span>
+                          <span><i class="icon0"></i>阴阳两界</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">普通奇遇</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>三山四海</span>
+                          <span><i class="icon0"></i>阴阳两界</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">江湖奇遇</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>三山四海</span>
+                          <span><i class="icon0"></i>阴阳两界</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                      <div class="title2">宠物奇珍</div>
+                      <div class="conlist">
+                          　<div class="iconcon">
+                          <span><i class="icon0"></i>三山四海</span>
+                          <span><i class="icon0"></i>阴阳两界</span>
+                          <span><i class="icon0"></i>三尺青锋</span>
+                          <span><i class="icon0"></i>塞外宝驹</span>
+                          <span><i class="icon0"></i>清风捕王</span>
+                          <span><i class="icon0"></i>黑白路</span>
+                          <span><i class="icon0"></i>少年行</span>
+                          <span><i class="icon0"></i>茶馆奇缘</span>
+                          <span><i class="icon0"></i>生死判</span>
+                          <span><i class="icon0"></i>炼狱厨神</span>
+                      </div>
+                      </div>
+                  </div>
+                  <div class="group">
+                      <div class="title2">图片上传</div>
+                      <table class="mt15">
+                          <tr>
+                              <td align="right" class="wr ft1">补充说明：</td>
+                              <td colspan="7"><textarea class="w250" rows="7" placeholder="外观及价格，外观名和价格连写，有多个外观则换行，格式如：
+电五唯满侠黑盒子3000
+电五青盒子4000
+电点青盒子4000"></textarea></td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1">上传图片：</td>
+                              <td colspan="7">
+                                  <div class="imglist">
+                                      <ul>
+                                          <li class="upload"><img th:src="@{/dist/css/images/jx3/game02.jpg}" width="167" height="99" /><i class="icon1"></i></li>
+                                          <li class="upload"><img th:src="@{/dist/css/images/jx3/game02.jpg}" width="167" height="99" /><i class="icon1"></i></li>
+                                          <li class="upload"><img th:src="@{/dist/css/images/jx3/game02.jpg}" width="167" height="99" /><i class="icon1"></i></li>
+                                          <li class="addimg"><input id="file" type="file"  /><img th:src="@{/dist/css/images/jx3/addimgicon.png}" width="167" height="99" /></li>
+                                      </ul>
+                                  </div>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td align="right" class="wr ft1"></td>
+                              <td colspan="7"><span class="codebtn">保存</span>　<span class="codebtn">取消</span></td>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- foot -->
+<div class="footcontent"> <a href="#">关于我们</a> | <a href="#">常见问题</a> | <a href="#">免责声明</a> | <a href="#">友情链接</a> | <a href="#">联系我们</a><br>
+  Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号 </div>
+<!-- /.modal -->
+</body>
+<script>
+    //声明省
+    var pres = ["双线","电月","电点","网通"]; //直接声明Array
+    //声明市
+    var cities = [
+        ["双一","双二"],
+        ["电一","电二","电三","电四","电六","电七"],
+        ["电五","电八"],
+        ["网一"," 网三"]
+    ];
+    var areas = [
+        [
+            ["双剑合璧","天下归一","日月凌空","比翼齐飞"],
+            ["四海一家","风雷刀谷"]
+        ],
+        [
+            ["长安城","龙争虎斗"],
+            ["白帝城","相知莫问","荻花宫"],
+            ["微山书院","秀名尘身","秦王殿","金蛇漫舞"],
+            ["日月明尊","沁园春","蝶恋花"],
+            ["名扬四海","红尘寻梦","大圣归来"],
+            ["一苇渡江","仙侣情缘","情深似海"]
+        ],
+        [
+            ["乾坤一掷","剑胆琴心","千岛湖","平步青云","唯我独尊","梦江南","斗转星移","幽月轮","武林同庆","金榜题名"],
+            ["战无不胜","亢龙有悔","引仙水榭","暗香掠影","百家争鸣","绝代天骄","风骨霸刀"]
+        ],
+        [
+            ["李忘生","飞龙在天","松烟竹雾"],
+            ["破阵子","天鹅坪","雪絮金屏","飞鸢泛月"]
+        ]
+    ]
+    //设置一个省的公共下标
+    var pIndex = -1;
+    var preEle = document.getElementById("pre");
+    var cityEle = document.getElementById("city");
+    var areaEle = document.getElementById("area");
+    //先设置省的值
+    for (var i = 0; i < pres.length; i++) {
+        //声明option.<option value="pres[i]">Pres[i]</option>
+        var op = new Option(pres[i], i);
+        //添加
+        preEle.options.add(op);
+    }
+    function chg(obj) {
+        if (obj.value == -1) {
+            cityEle.options.length = 0;
+            areaEle.options.length = 0;
+        }
+        //获取值
+        var val = obj.value;
+        pIndex = obj.value;
+        //获取ctiry
+        var cs = cities[val];
+        //获取默认区
+        var as = areas[val][0];
+        //先清空市
+        cityEle.options.length = 0;
+        areaEle.options.length = 0;
+        for (var i = 0; i < cs.length; i++) {
+            var op = new Option(cs[i], i);
+            cityEle.options.add(op);
+        }
+        for (var i = 0; i < as.length; i++) {
+            var op = new Option(as[i], i);
+            areaEle.options.add(op);
+        }
+    }
+    function chg2(obj) {
+        var val = obj.selectedIndex;
+        var as = areas[pIndex][val];
+        areaEle.options.length = 0;
+        for (var i = 0; i < as.length; i++) {
+            var op = new Option(as[i], i);
+            areaEle.options.add(op);
+        }
+    }
+</script>
+
+<script type="text/javascript">
+$().ready(function(e) {
+	var typeid='';
+    $(".s_top ul li").click(function(){
+		$(".s_top ul li").removeClass('cur');
+		$(this).addClass('cur')
+	});
+	$(".icon1").click(function(){
+		$(this).parents('li').remove()
+	});
+	$('.rightcon .title span').click(function(){
+		$(this).addClass('cur').siblings('span').removeClass('cur');
+        var spanindex=$(this).index();
+        var detailGroup=$('.detailGroup .group');
+        $(detailGroup[spanindex]).show().siblings('.group').hide();
+	});
+	$('#addicon').click(function(){
+		var addft=$(this).parent().find('input').val();
+		if(addft!=''){
+			$('.iconcon').append('<span><i class="icon0"></i>'+addft+'</span>')
+		}
+	})
+	
+});
+</script>
+</html>

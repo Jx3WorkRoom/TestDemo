@@ -1,0 +1,261 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <title>服务设置</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/drop.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/user.css}">
+    <script th:src="@{/dist/js/jx3/jquery.js}"></script>
+    <script th:src="@{/dist/js/jx3/bt.js}"></script>
+    <script th:src="@{/dist/js/jx3/base.js}"></script>
+    <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+</head>
+
+<body>
+<!-- top logo -->
+<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<!-- navigation -->
+<div class="navCon">
+    <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">剑三老玩家</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
+</div>
+<div id="maincontent">
+    <div id="mcon">
+        <!-- usercon -->
+        <div class="usercon input1">
+            <div class="tb">
+                <div class="tr">
+                    <div class="td menue"> <img th:src="@{/dist/css/images/jx3/uctop.png}" />
+                        <div class="menuelist">
+                            <dt>我的服务</dt>
+                            <dd class="cur"><a href="dataAndSecurity">资料与安全</a></dd>
+                            <dd><a href="myCollection">我的收藏</a></dd>
+                            <dd><a href="myRelease">我的发布</a></dd>
+                            <dd><a href="myService">我的服务</a></dd>
+                            <dd><a href="serviceSetting">服务设置</a></dd>
+                            <dt>我要发布</dt>
+                            <dd><a href="report">我要举报</a></dd>
+                            <dd><a href="appearanceTransaction">外观交易</a></dd>
+                            <dd><a href="propTransaction">道具交易</a></dd>
+                            <dd><a href="accountTransaction">金币交易</a></dd>
+                            <dd><a href="accountExchange">代练交易</a></dd>
+                            <dd><a href="quickRelease">账号收售快速发布</a></dd>
+                            <dd><a href="detailRelease">账号收售详细发布</a></dd>
+                            <dt>后台管理</dt>
+                            <dd><a href="userList">用户列表</a></dd>
+                            <dd><a href="userManage">用户管理</a></dd>
+                        </div>
+                    </div>
+                    <div class="td">
+                        <div class="rightcon">
+                            <div class="title">
+                                <div class="ht">用户列表</div>
+                            </div>
+                            <div class="userManage">
+                                <ul class="tab-nav">
+                                    <li class="cur">用户详细信息</li>
+                                    <li>用户权限列表</li>
+                                    <li>用户权限获取记录</li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="group">
+                                        <div class="tb tcon">
+                                            <div class="tr">
+                                                <div class="td name">用户ID：</div>
+                                                <div class="td mid">526135</div>
+                                                <div class="td">注册日期：</div>
+                                                <div class="td mid">2017-01-01 12:00:00</div>
+                                            </div>
+                                            <div class="tr">
+                                                <div class="td name">用户名：</div>
+                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入用户名"></div>
+                                                <div class="td"><a href="#" id="">修改</a></div>
+                                            </div>
+                                            <div class="tr">
+                                                <div class="td name">绑定手机：</div>
+                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定手机号"></div>
+                                                <div class="td"><a href="#" id="">修改</a></div>
+                                            </div>
+                                            <div class="tr">
+                                                <div class="td name">当前等级：</div>
+                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入当前等级"></div>
+                                                <div class="td"><a href="###" id="">修改</a></div>
+                                            </div>
+                                            <div class="tr">
+                                                <div class="td name">绑定邮箱：</div>
+                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定邮箱"></div>
+                                                <div class="td"><a href="#" id="">修改</a></div>
+                                            </div>
+                                            <div class="tr">
+                                                <div class="td name">绑定QQ号：</div>
+                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定QQ号"></div>
+                                                <div class="td"><a href="#" id="">修改</a></div>
+                                            </div>
+                                            <div class="tr">
+                                                <div class="td name">绑定贴吧账号：</div>
+                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定贴吧账号"></div>
+                                                <div class="td"><a href="#" id="">修改</a></div>
+                                            </div>
+                                            <div class="tr">
+                                                <div class="td name">绑定微信：</div>
+                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定微信号"></div>
+                                                <div class="td"><a href="#" id="">修改</a></div>
+                                            </div>
+                                            <div class="tr">
+                                                <div class="td name">绑定身份证：</div>
+                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定身份证"></div>
+                                                <div class="td"><a href="#" id="">修改</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="group">
+                                        <div class="classifiedList3">
+                                            <div class="table">
+                                                <div class="table-tr tablech1">
+                                                    <div class="table-th table-th3">模块</div>
+                                                    <div class="table-th">权限ID</div>
+                                                    <div class="table-th">权限名称</div>
+                                                    <div class="table-th">是否具有权限</div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">账号交易</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">查询搜索</div>
+                                                    <div class="table-td">有</div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">查询搜索</div>
+                                                    <div class="table-td">有</div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">账号交易</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">查询搜索</div>
+                                                    <div class="table-td">有</div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">查询搜索</div>
+                                                    <div class="table-td">有</div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">查询搜索</div>
+                                                    <div class="table-td">有</div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">账号交易</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">查询搜索</div>
+                                                    <div class="table-td">有</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="group">
+                                        <div class="classifiedList3">
+                                            <div class="table">
+                                                <div class="table-tr tablech1">
+                                                    <div class="table-th table-th3">序号</div>
+                                                    <div class="table-th">起始时间</div>
+                                                    <div class="table-th">结束时间</div>
+                                                    <div class="table-th">服务类型</div>
+                                                    <div class="table-th">付款金额</div>
+                                                    <div class="table-th">服务条数</div>
+                                                    <div class="table-th">状态</div>
+                                                    <div class="table-th">管理员调整</div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">账号交易-消息定制推送</div>
+                                                    <div class="table-td">10</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">有效</div>
+                                                    <div class="table-td"></div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">账号交易-消息定制推送</div>
+                                                    <div class="table-td">10</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">有效</div>
+                                                    <div class="table-td"></div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">账号交易-消息定制推送</div>
+                                                    <div class="table-td">10</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">有效</div>
+                                                    <div class="table-td"></div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">账号交易-消息定制推送</div>
+                                                    <div class="table-td">10</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">有效</div>
+                                                    <div class="table-td"></div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">账号交易-消息定制推送</div>
+                                                    <div class="table-td">10</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">有效</div>
+                                                    <div class="table-td"></div>
+                                                </div>
+                                                <div class="table-tr">
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">2017-01-01</div>
+                                                    <div class="table-td">账号交易-消息定制推送</div>
+                                                    <div class="table-td">10</div>
+                                                    <div class="table-td">11</div>
+                                                    <div class="table-td">有效</div>
+                                                    <div class="table-td"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- foot -->
+<div class="footcontent"> <a href="#">关于我们</a> | <a href="#">常见问题</a> | <a href="#">免责声明</a> | <a href="#">友情链接</a> | <a href="#">联系我们</a><br>
+    Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号 </div>
+<!-- /.modal -->
+</body>
+<script type="text/javascript">
+    $('.userManage .tab-nav li').click(function () {
+        $(true).addClass('cur').siblings('li').removeClass('cur');
+        var liindex=$(this).index();
+        var tabcontent=$('.tab-content .group');
+        $(tabcontent[liindex]).show().siblings('.group').hide();
+    })
+</script>
+</html>

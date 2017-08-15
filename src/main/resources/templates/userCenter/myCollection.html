@@ -1,0 +1,275 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+<title>我的收藏</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/drop.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/user.css}">
+  <script th:src="@{/dist/js/jx3/jquery.js}"></script>
+  <script th:src="@{/dist/js/jx3/bt.js}"></script>
+  <script th:src="@{/dist/js/jx3/base.js}"></script>
+  <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+</head>
+
+<body>
+<!-- top logo -->
+<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<!-- navigation -->
+<div class="navCon">
+  <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">剑三老玩家</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
+</div>
+<div id="maincontent">
+  <div id="mcon"> 
+    <!-- usercon -->
+    <div class="usercon">
+      <div class="tb">
+        <div class="tr">
+          <div class="td menue"> <img th:src="@{/dist/css/images/jx3/uctop.png}" />
+            <div class="menuelist">
+              <dt>我的服务</dt>
+              <dd class="cur"><a href="dataAndSecurity">资料与安全</a></dd>
+              <dd><a href="myCollection">我的收藏</a></dd>
+              <dd><a href="myRelease">我的发布</a></dd>
+              <dd><a href="myService">我的服务</a></dd>
+              <dd><a href="serviceSetting">服务设置</a></dd>
+              <dt>我要发布</dt>
+              <dd><a href="report">我要举报</a></dd>
+              <dd><a href="appearanceTransaction">外观交易</a></dd>
+              <dd><a href="propTransaction">道具交易</a></dd>
+              <dd><a href="accountTransaction">金币交易</a></dd>
+              <dd><a href="accountExchange">代练交易</a></dd>
+              <dd><a href="quickRelease">账号收售快速发布</a></dd>
+              <dd><a href="detailRelease">账号收售详细发布</a></dd>
+              <dt>后台管理</dt>
+              <dd><a href="userList">用户列表</a></dd>
+              <dd><a href="userManage">用户管理</a></dd>
+            </div>
+          </div>
+          <div class="td">
+            <div class="rightcon">
+              <div class="title">
+                <div class="ht">我的收藏</div>
+              </div>
+              <div class="tops">
+               <div class="fl"><i class="icon0"></i>　全选</div>
+               <div class="fr"><a href="#"><img th:src="@{/dist/css/images/jx3/del.png}" /></a></div>
+               <div class="clear"></div>
+              </div>
+              <div class="classifiedList3">
+                <div class="table">
+                  <div class="table-tr tablech1">
+                    <div class="table-th table-th3"></div>
+                    <div class="table-th">收藏类别</div>
+                    <div class="table-th">收藏内容资料简介</div>
+                    <div class="table-th">状态</div>
+                    <div class="table-th">收藏时间</div>
+                    <div class="table-th">发布时间</div>
+                  </div>
+                  <div class="table-tr">
+                    <div class="table-td"><i class="icon0"></i></div>
+                    <div class="table-td">账号</div>
+                    <div class="table-td table_lw">2k5出电点狐金蝶金鸡金猴红七红鸡红毒...</div>
+                    <div class="table-td">正常</div>
+                    <div class="table-td">2015-07-08</div>
+                    <div class="table-td">2015-07-08</div>
+                  </div>
+                  <div class="table-tr">
+                    <div class="table-td"><i class="icon0"></i></div>
+                    <div class="table-td">账号</div>
+                    <div class="table-td table_lw">2k5出电点狐金蝶金鸡金猴红七红鸡红毒...</div>
+                    <div class="table-td">正常</div>
+                    <div class="table-td">2015-07-08</div>
+                    <div class="table-td">2015-07-08</div>
+                  </div>
+                  <div class="table-tr">
+                    <div class="table-td"><i class="icon0"></i></div>
+                    <div class="table-td">账号</div>
+                    <div class="table-td table_lw">2k5出电点狐金蝶金鸡金猴红七红鸡红毒...</div>
+                    <div class="table-td warn">10人报告失效</div>
+                    <div class="table-td">2015-07-08</div>
+                    <div class="table-td">2015-07-08</div>
+                  </div>
+                  <div class="table-tr">
+                    <div class="table-td"><i class="icon0"></i></div>
+                    <div class="table-td">账号</div>
+                    <div class="table-td table_lw">2k5出电点狐金蝶金鸡金猴红七红鸡红毒...</div>
+                    <div class="table-td">正常</div>
+                    <div class="table-td">2015-07-08</div>
+                    <div class="table-td">2015-07-08</div>
+                  </div>
+                  <div class="table-tr">
+                    <div class="table-td"><i class="icon0"></i></div>
+                    <div class="table-td">账号</div>
+                    <div class="table-td table_lw">2k5出电点狐金蝶金鸡金猴红七红鸡红毒...</div>
+                    <div class="table-td">正常</div>
+                    <div class="table-td">2015-07-08</div>
+                    <div class="table-td">2015-07-08</div>
+                  </div>
+                  <div class="table-tr">
+                    <div class="table-td"><i class="icon0"></i></div>
+                    <div class="table-td">账号</div>
+                    <div class="table-td table_lw">2k5出电点狐金蝶金鸡金猴红七红鸡红毒...</div>
+                    <div class="table-td">正常</div>
+                    <div class="table-td">2015-07-08</div>
+                    <div class="table-td">2015-07-08</div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="pagers pagers2">
+                <ul class="pagination">
+                  <li class="disabled"><a href="#">上一页</a></li>
+                  <li class="active"><a href="#">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+                  <li><a href="#">下一页</a></li>
+                </ul>
+      </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- foot -->
+<div class="footcontent"> <a href="#">关于我们</a> | <a href="#">常见问题</a> | <a href="#">免责声明</a> | <a href="#">友情链接</a> | <a href="#">联系我们</a><br>
+  Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号 </div>
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"> <span class="inputtitle"></span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="pop01"> <span class="inputofnt"></span>
+          <input type="text" />
+        </div>
+        <div class="pop02">
+          <div class="changecon">
+            <table width="100%">
+              <tr>
+                <td class="wr ft1">注册手机号：</td>
+                <td><input type="password" placeholder="请输入" /></td>
+                <td class="ft2"><img class="getcode" th:src="@{/dist/css/images/jx3/getcode.png}" /><span class="getcodetime">30S后重新获取</span></td>
+              </tr>
+              <tr>
+                <td class="wr ft1">输入验证码：</td>
+                <td><input type="password" placeholder="请输入" /></td>
+                <td class="ft2"></td>
+              </tr>
+              <tr>
+                <td class="wr ft1">输入新手机号：</td>
+                <td><input type="text" placeholder="请输入" /></td>
+                <td class="ft2"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">保存</button>
+      </div>
+    </div>
+    <!-- /.modal-content --> 
+  </div>
+  <!-- /.modal-dialog --> 
+</div>
+<!-- /.modal -->
+</body>
+<script type="text/javascript">
+$().ready(function(e) {
+	var typeid=''
+    $(".s_top ul li").click(function(){
+		$(".s_top ul li").removeClass('cur');
+		$(this).addClass('cur')
+	})
+	var $m_btn = $('#tbBtn,#phoneBtn,#emailBtn,#zfbBtn,#wechartBtn,#qqBtn,#cardBtn');
+	var $modal = $('#myModal');
+	$m_btn.on('click', function(){
+	  $modal.modal({backdrop: 'static'});
+	  var $this = $("#myModal");
+	  var tid=$(this).attr("id");
+	  typeid=$(this).attr("id");
+	  $('.pop01').show()
+	  $('.pop02').hide()
+	  switch (tid){
+		  case "tbBtn":
+			$this.find('.inputtitle').html('修改贴吧账号');
+			$this.find('.inputofnt').html('请输入贴吧账号：');
+			return;
+		  case "emailBtn":
+			$this.find('.inputtitle').html('修改邮箱');
+			$this.find('.inputofnt').html('请输入邮箱：');
+			return;
+		  case "zfbBtn":
+			$this.find('.inputtitle').html('修改支付宝账号');
+			$this.find('.inputofnt').html('请输入支付宝账号：');
+			return;
+		  case "wechartBtn":
+			$this.find('.inputtitle').html('修改微信号');
+			$this.find('.inputofnt').html('请输入微信号：');
+			return;
+		  case "qqBtn":
+			$this.find('.inputtitle').html('修改新的QQ号码');
+			$this.find('.inputofnt').html('请输入新的QQ号码：');
+			return;
+		  case "cardBtn":
+			$this.find('.inputtitle').html('修改身份证');
+			$this.find('.inputofnt').html('请输入修改身份证：');
+			return;
+		  case "phoneBtn":
+			$this.find('.inputtitle').html('修改手机号码');
+			$('.pop01').hide()
+	  		$('.pop02').show()
+			return;
+		  
+	  }
+	});
+	//修改bootstrap居中
+	$modal.on('shown.bs.modal', function(){
+	  var $this = $(this);
+	  var $modal_dialog = $this.find('.modal-dialog');
+	  var m_top = ( $(window).height() - $modal_dialog.height() )/2;
+	  $modal_dialog.css({'margin': m_top + 'px auto'});
+	  
+	});
+	$modal.on('click','.btn-primary',function(){
+		  $modal.modal('hide')
+		  switch (typeid){
+			  case "tbBtn":
+			    alert("贴吧")
+				return;
+			  case "emailBtn":
+			  	alert("邮箱")
+				return;
+			  case "zfbBtn":
+				alert("支付宝")
+				return;
+			  case "wechartBtn":
+				alert("微信")
+				return;
+			  case "qqBtn":
+				alert("QQ")
+				return;
+			  case "cardBtn":
+				alert("身份证")
+				return;
+			  case "phoneBtn":
+			    alert("手机")
+				return;
+			  
+		  }
+	})
+});
+</script>
+</html>
