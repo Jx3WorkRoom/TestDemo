@@ -1,14 +1,13 @@
-var api = "http://127.0.0.1:8881/testDemoRest/accountList/";
+var api = "http://127.0.0.1:8881/testDemoRest/goldExchange/";
 //设置一个省的公共下标
 var pIndex = -1;
 var preEle = document.getElementById("pre");
 var cityEle = document.getElementById("city");
 var areaEle = document.getElementById("area");
-var clickSeachNum = 0;
 $(function () {
     initTable();
     initSeach();
-    timer()
+    timer();
 });
 
 function timer() {
@@ -23,10 +22,10 @@ function timer() {
 //keyNum page组件点击的第几页
 function initTable(url,keyNum) {
     var startNum = 0;
-    var endNum =10;
+    var endNum =20;
     if(keyNum!=null){
-        endNum = 10*keyNum;
-        startNum = endNum-10;
+        endNum = 20*keyNum;
+        startNum = endNum-20;
     }
     if(url==null) {
         var tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
@@ -50,24 +49,26 @@ function initTable(url,keyNum) {
             var sefont=$(".nav-pills ul li").eq(1).find('a').text();
             $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
         }
-        url = api+'accountList?tradeType='+encodeURI(tradeType)+'&startNum='+encodeURI(startNum)+'&endNum='+encodeURI(endNum);
+        url = api+'goldExchange?tradeType='+encodeURI(tradeType)+'&startNum='+encodeURI(startNum)+'&endNum='+encodeURI(endNum);
     }
     $(".table").empty();
     $(".table").append("<div class=\"table-tr tablered\">\n" +
         "            <div class=\"table-th table-th1\" style=\"width: 11% !important;padding-left: 30px;\">区服</div>\n" +
-        "            <div class=\"table-th\">门派体型</div>\n" +
-        "            <div class=\"table-th\">资料简介</div>\n" +
-        "             <div class=\"table-th\">收/售<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "            <div class=\"table-th\">价格（元）<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "            <div class=\"table-th\">匹配度<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "            <div class=\"table-th\">金币总量</div>\n" +
+        "               <div class=\"table-th\">单价(G/R)<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "               <div class=\"table-th\">可否拆分<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "               <div class=\"table-th\">购买/出售<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
         "            <div class=\"table-th\">关注度<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
         "            <div class=\"table-th\">上架时间<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "               <div class=\"table-th\">联系交易<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "            <div class=\"table-th\">状态报告<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "            <div class=\"table-th\">收藏</div>\n" +
         "          </div>");
     layer.load();
     var dataTemp = null;
     $.ajax({
-       url:url,
-       async:false,
+        url:url,
+        async:false,
         success:function (data) {
             dataTemp = data;
             //填充表格数据
@@ -75,36 +76,39 @@ function initTable(url,keyNum) {
             $.each(tableDatas,function (i,value) {
                 var time = sumTime(value.REPLY_TIME);
                 var tradeType = value.TRADE_TYPE==1?"求购":"出售";
-                var matchingDegree = "--";
-                if(clickSeachNum!=0){
-                    matchingDegree = sumMatchingDegree(value);
+                var isSplit = value.IF_SPLIT==1?"可拆分交易":"整单交易";
+                if(value.ISVALID==1){
+                    $(".table").append("<div class=\"table-tr\">\n" +
+                        "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
+                        "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
+                        "            <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
+                        "              <div class=\"table-td\">"+value.GOLD_TOTAL+"</div>\n" +
+                        "              <div class=\"table-td\">"+value.UNIT_PRICE+"</div>\n" +
+                        "              <div class=\"table-td\">"+isSplit+"</div>\n" +
+                        "              <div class=\"table-td\">"+tradeType+"</div>\n" +
+                        "            <div class=\"table-td \">"+value.USER_FOLLOW+"</div>\n" +
+                        "            <div class=\"table-td\">"+time+"</div>\n" +
+                        "              <div class=\"table-td\"><a class=\"modalBtn\" href=\"javascript:;\">卖方QQ</a></div>\n" +
+                        "              <div class=\"table-td\">正常</div>\n" +
+                        "            <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
+                        "          </div>");
+                }else {
+                    $(".table").append(" <div class=\"table-tr\">\n" +
+                        "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
+                        "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
+                        "            <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
+                        "              <div class=\"table-td\">"+value.GOLD_TOTAL+"</div>\n" +
+                        "              <div class=\"table-td\">"+value.UNIT_PRICE+"</div>\n" +
+                        "              <div class=\"table-td\">"+isSplit+"</div>\n" +
+                        "              <div class=\"table-td\">"+tradeType+"</div>\n" +
+                        "            <div class=\"table-td \">"+value.USER_FOLLOW+"</div>\n" +
+                        "            <div class=\"table-td\">"+time+"</div>\n" +
+                        "              <div class=\"table-td\"><a class=\"modalBtn\" href=\"javascript:;\">卖方QQ</a></div>\n" +
+                        "        <div class=\"table-td warn\">"+value.ISVALID+"人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                        "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
+                        "      </div>");
                 }
-                $(".table").append("<div class=\"table-tr\">\n" +
-                    "            <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
-                    "            <div class=\"table-td\">"+value.TIXIN+"</div>\n" +
-                    "            <div class=\"table-td table_lw\"><a href=\"accountDetail\">"+value.REPLY_CONTENT+"</a></div>\n" +
-                    "            <div class=\"table-td\">"+tradeType+"</div>\n" +
-                    "            <div class=\"table-td\">"+value.PRICE_NUM+"</div>\n" +
-                    "            <div class=\"table-td\">"+matchingDegree+"</div>\n" +
-                    "            <div class=\"table-td\">"+value.USER_FOLLOW+"</div>\n" +
-                    "            <div class=\"table-td\">"+time+"</div>\n" +
-                    "          </div>")
             });
-            //计算匹配度
-            function sumMatchingDegree(value) {
-                var n = $('.info').text().split('/');
-                var m = 0;
-                n = ['a','b','c','d'];
-                $.each(value,function (i,val) {
-                    for(var j=0;j<n.length;j++){
-                        if(val!=null) {
-                            if (val.toString().indexOf(n[j]) > -1)
-                                m++;
-                        }
-                    }
-                });
-                return (50+ parseInt(m/n.length))+"%";
-            }
             //计算上架时间
             function sumTime(time) {
                 var startTime =new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
@@ -125,6 +129,41 @@ function initTable(url,keyNum) {
                 }
                 return reStr;
             }
+
+            //弹出详情框
+            $('.modalBtn').click(function () {
+                $(this).parents('#maincontent').siblings('.modal').addClass('madalHide');
+            });
+            var colose = $('.close');
+            var cancel = $('.btn-default');
+            $(colose,cancel).click(function () {
+                $(this).parents('.modal').removeClass('madalHide');
+            });
+            //收藏
+            $('.icon-save').click(function () {
+                var username = $('#userName').text();
+                var mainId = $(this).parent().parent().find('.main_id').text();
+                var replyTime = $(this).parent().parent().find('.replyTime').text();
+                var isValided = null;
+                if(username==""){
+                    location.href = '/testDemo/login';
+                }else {
+                    if ($(this).attr('class').indexOf('cur') > -1) {
+                        $(this).removeClass('cur');
+                        isValided = 0;
+                    } else {
+                        $(this).addClass('cur');
+                        isValided = 1;
+                    }
+                    var url = api+'userIsvalid?userName='+encodeURI(username)+
+                        '&mainId='+encodeURI(mainId)+
+                        '&isValided='+encodeURI(isValided)+
+                        '&replyTime='+encodeURI(replyTime);
+                    $.getJSON(url,function (data) {
+                        layer.msg(data.info);
+                    });
+                }
+            });
         },
         complete:function () {
             layer.closeAll();
@@ -137,7 +176,7 @@ function initTable(url,keyNum) {
             }
         },
         error:function () {
-           layer.closeAll();
+            layer.closeAll();
             layer.msg("数据请求失败!")
         }
 
@@ -230,27 +269,17 @@ function chg2(obj) {
 
 //加载搜索框
 function initSeach() {
-    var url = api+'accountListSelection';
+    var url = api+'goldExchangeSelection';
     $.getJSON(url,function (data) {
         var selecttions = data.selecttions==null?"":data.selecttions;
         //填充区域选择框
         if(selecttions!="") {
             initSelections(selecttions);
         }
-        var tixin = data.tixin==null?"":data.tixin;
-        //填充体型选择框
-        if(tixin!="") {
-            initTixin(tixin);
-        }
-        var info = data.info==null?"":data.info;
-        if(info!=""){
-            initInfo(info);
-        }
     }).error(function () {
     }).complete(function () {
         $('.query-l').unbind("click");
         $('.query-l').click(function () {
-            clickSeachNum++;
             var tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
             if(tradeType=="求购"){
                 tradeType=1;
@@ -274,11 +303,9 @@ function initSeach() {
             if(shape==""&&info==""&&areaSelection==""){
                 initTable();
             }else {
-                url = api + 'accountList?tradeType=' + encodeURI(tradeType)
+                url = api + 'goldExchange?tradeType=' + encodeURI(tradeType)
                     + '&areaSelection=' + encodeURI(areaSelection)
-                    + '&shape=' + encodeURI(shape);
-                +'&info=' + encodeURI(info);
-                +'&startNum=0&endNum=10';
+                    +'&startNum=0&endNum=20';
                 initTable(url);
             }
         });
@@ -348,14 +375,6 @@ function initSeach() {
             }
             preEle.options.add(op);
         }
-    }
-
-    function initTixin() {
-        //todo
-    }
-
-    function initInfo() {
-        //todo
     }
 }
 

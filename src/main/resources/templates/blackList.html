@@ -12,6 +12,9 @@
     <script th:src="@{/dist/js/jx3/jquery.js}"></script>
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
+    <script th:src="@{/dist/js/layer/layer.js}"></script>
+    <script th:src="@{/dist/js/page/utils.js}"></script>
+    <script th:src="@{/dist/js/page/blackList.js}"></script>
 </head>
 
 <body>
@@ -19,6 +22,7 @@
 <div class="topLogo">
     <img th:src="@{/dist/css/images/jx3/logo_2.png}" />
 </div>
+<div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <!-- navigation -->
 <div class="navCon">
     <div class="nav">
@@ -53,10 +57,10 @@
             <table>
               <tr>
                 <td align="right" class="wr ft1">验证内容：</td>
-                <td><input type="text" placeholder="大杀四方/jjc/大战日常等" /></td>
+                <td><input type="text" placeholder="大杀四方/jjc/大战日常等" class="tixin"/></td>
               </tr>
                 <tr>
-                    <td class="wr ft1"></td><td colspan="2"><a href="#" class="query-l">查询</a><a href="#" class="issue-l">发布</a></td>
+                    <td class="wr ft1"></td><td colspan="2"><a href="#" class="query-l">查询</a></td>
                 </tr>
             </table>
             <div class="table-th11"></div>
@@ -119,94 +123,6 @@
       <div class="classifiedList">
           <div class="title-l">剑三黑榜风云录</div>
         <div class="table">
-          <div class="table-tr tablered">
-            <div class="table-th table-th1" style="width: 11% !important;padding-left: 30px;">欺诈类型</div>
-            <div class="table-th">黑鬼资料</div>
-            <div class="table-th">涉及区服<div class="sort"><p class="top00"></p><p class="down00"></p></div></div>
-            <div class="table-th">上榜时间<div class="sort"><p class="top00"></p><p class="down00"></p></div></div>
-          </div>
-            <div class="table-td">金币诈骗</div>
-            <div class="table-td"><a href="blackDetail.html">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</a></div>
-            <div class="table-td ">电五唯满侠</div>
-            <div class="table-td">2017年6月5日</div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td ">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td ">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td ">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td ">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td ">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
-          <div class="table-tr">
-              <div class="table-td">金币诈骗</div>
-              <div class="table-td">黑鬼资料：手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585</div>
-              <div class="table-td">电五唯满侠</div>
-              <div class="table-td">2017年6月5日</div>
-          </div>
         </div>
       </div>
       <div class="pagers">

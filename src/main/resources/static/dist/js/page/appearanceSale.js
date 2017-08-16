@@ -7,8 +7,17 @@ var areaEle = document.getElementById("area");
 $(function () {
     initTable();
     initSeach();
+    timer();
 });
 
+
+function timer() {
+    setInterval("timeFun()",10*60*1000)
+    function timeFun() {
+        initTable();
+        initSeach();
+    }
+}
 //url 查询时传入新的url
 //keyNum page组件点击的第几页
 function initTable(url,keyNum) {
@@ -158,6 +167,7 @@ function initTable(url,keyNum) {
             if(pageList!=""){
                 initPage(pageList,keyNum);
             }else{
+                $('.pagination').empty();
                 layer.msg("分页组件加载失败!")
             }
         },
@@ -298,7 +308,7 @@ function initSeach() {
                     + '&areaSelection=' + encodeURI(areaSelection)
                     + '&shape=' + encodeURI(shape);
                 +'&info=' + encodeURI(info);
-                +'startNum=0&endNum=10';
+                +'&startNum=0&endNum=20';
                 initTable(url);
             }
         });
@@ -378,7 +388,7 @@ function initSeach() {
 //加载分页组件
 function initPage(pageList,keyNum) {
     var pageDatas = pageList;
-    pageList = pageList[0].rowNum==null?100:pageList[0].rowNum;
+    pageList = pageList==null?100:pageList;
     var pageNum = parseInt(pageList/10)+1;
     $('.pagination').empty();
     if(keyNum==null) {

@@ -2,7 +2,15 @@ var api = "http://127.0.0.1:8881/testDemoRest/";
 
 $(function () {
     initTable();
+    timer();
 });
+
+function timer() {
+    setInterval("timeFun()",10*60*1000)
+    function timeFun() {
+        initTable();
+    }
+}
 
 function initTable() {
     var url = api+'index/index';
