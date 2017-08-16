@@ -9,11 +9,14 @@
 <title>账号详情</title>
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/drop.css}">
-    < type="text/css" th:href="@{/dist/css/bootstrap.css}">
+    <link type="text/css" th:href="@{/dist/css/bootstrap.css}">
     <script th:src="@{/dist/js/jx3/jquery.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
     <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
-    <script type="application/javascript" th:src="@{/dist/js/jx3/bootstrap.js}"></script>
+    <script th:src="@{/dist/js/jx3/bootstrap.js}"></script>
+    <script th:src="@{/dist/js/layer/layer.js}"></script>
+    <script th:src="@{/dist/js/page/utils.js}"></script>
+    <script th:src="@{/dist/js/page/accountDetail.js}"></script>
 <style>
     .inputtitle {
         font-size: 16px;
@@ -37,7 +40,9 @@
         padding-left: 10px;
         height: 34px;
     }
-
+    .scrollimg>img{
+        height: 147px;
+    }
 </style>
 </head>
 
@@ -48,7 +53,7 @@
 <div class="navCon">
     <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="login">剑三老玩家</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
 </div>
-
+<div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <div id="maincontent">
  <div id="mcon">
 
@@ -57,7 +62,7 @@
   <!-- Convenient entrance -->
   <div class="searchcon">
    <div class="s_top">
-   <div class="toprightmenue"><span><i class="icon-save"></i>收藏</span>   |<a class="modalBtn" href="javascript:;">查看源1</a>|<a class="modalBtn" href="#identifier" data-toggle="modal">查看源2</a>|<a href="###">提交失效</a></div>
+       <div class="toprightmenue"><span><i class="icon-save"></i><label>收藏</label></span>   |<a class="modalBtn" href="javascript:void(0);">查看源</a><a href="javascript:void(0)" class="sumbitIsvalid">提交失效</a></div>
      <ul>
       <li class="cur">账号详情</li>
      </ul>
@@ -66,36 +71,13 @@
    </div>
    <div class="searchinput">
    <div class="logincon searccon levecon">
-     <div class="account1">
-【电五华乾毒姐】灵知情阅<br />
-【区服】电信五区唯我独尊<br />
-【门派】成男藏剑<br />
-【橙武】990灵知<br />
-【装分】PVE奶20957 输出16664  PVP奶21854混搭PVE<br />
-【阵营】浩气盟 <br />
-【战阶】8   <br />
-【竞技场】jjc12段55<br />
-【挂件】背部39 腰部33<br />
-【披风】共1件 白莲花<br />
-【称号】傲岸<br />
-【坐骑】闪电 奇趣2<br />
-【资历】1W5<br />
-【宠物】275<br />
-【外观】8拓印-武器1-成衣3（情阅、品玉）<br />
-【发型】1白发-叽红-高考金<br />
-【仓库】8级石头1<br />
-【补充】积分3169 <br />
-【点/月卡】136h<br />
-【注明】非绑定要清，拓印包括成衣，详情最终以图片为准，欢迎捉虫<br />
-【价格】8k3可刀
-     
+     <div class="account">
      </div>
     </div>
    </div>
   </div>
   <div class="searchcon">
    <div class="s_top">
-     
      <ul>
       <li class="cur">游戏截图</li>
      </ul>
@@ -105,7 +87,7 @@
    <div class="searchinput">
    <div class="logincon searccon levecon">
      <div class="account1">
-       <div class="bigimgs"><img th:src="@{/dist/css/images/jx3/bgame01.jpg}" /></div>
+       <div class="bigimgs"><img th:src="@{/dist/css/images/jx3/bgame01.jpg}" style="height: 506px"/></div>
        <div class="scrollcon"><img class="lefttg" th:src="@{/dist/css/images/jx3/right.png}" width="47" height="147" /><img  class="righttg"  th:src="@{/dist/css/images/jx3/right0.png}" width="47" height="147" />
          <div class="scrollimg"><img class="cur moveimg" th:src="@{/dist/css/images/jx3/game01.jpg}" /><img th:src="@{/dist/css/images/jx3/game02.jpg}" /><img th:src="@{/dist/css/images/jx3/game03.jpg}" /><img th:src="@{/dist/css/images/jx3/game04.jpg}" /><img th:src="@{/dist/css/images/jx3/game02.jpg}" /><img th:src="@{/dist/css/images/jx3/game03.jpg}" /></div>
        </div>
@@ -125,7 +107,7 @@ Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号
 
 
 
-<div class="modal fade" id="myModal" >
+<div class="modal fade" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header"> <span class="inputtitle">本账号来自百度贴吧：</span>
@@ -133,7 +115,7 @@ Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <table border="1">
+                <table border="1" id="source1">
                     <tr>
                         <td align="center"  valign="middle" bgcolor="#ccc" width="150px" height="30">发布时间</td>
                         <td align="center"  valign="middle" bgcolor="#ccc" width="300px" height="30">页面链接</td>
@@ -184,7 +166,7 @@ Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号
     </div>
     <!-- /.modal-dialog -->
 </div>
-<div class="modal fade" id="identifier" style="display: none;">
+<div class="modal fade" id="identifier">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header"> <span class="inputtitle">本条账号信息由平台用户上传：</span>
@@ -217,43 +199,8 @@ $().ready(function(e) {
 		$(this).addClass('cur')
 		$('.account1,.account2').hide();
 		$('.account'+(listindex+1)).show();
-	})
-	$('.icon-save').click(function(){
-		$(this).toggleClass('cur')
-		if($(this).parent('span').text()=='收藏'){
-			$(this).parent('span').html('<i class="cur icon-save"></i>已收藏')
-		}else{
-			$(this).parent('span').html('<i class="icon-save"></i>收藏')
-		}
-	})
-	$(".scrollimg img").click(function(){
-		$(".scrollimg img").removeClass('cur')
-		$(this).addClass('cur')
-		$(".bigimgs img").attr("src",$(this).attr('src').replace('/','/b'))
-	})
-	var startnum=0;
-	var imglen=$(".scrollimg img").length;
-	$(".lefttg").click(function(){
-		if(startnum==0) return;
-		startnum++;
-		$('.moveimg').css("margin-left",startnum*270+"px")
-	})
-	$(".righttg").click(function(){
-		if(startnum<(4-imglen)) return;
-		startnum--;
-		$('.moveimg').css("margin-left",startnum*270+"px")
-	})
+	});
 });
-    $('.modalBtn').click(function () {
-    $(this).parents('#maincontent').siblings('.modal').addClass('madalHide');
-})
-
-
-var colose = $('.close');
-var cancel = $('.btn-default');
-$(colose,cancel).click(function () {
-    $(this).parents('.modal').removeClass('madalHide');
-})
 
 
 
