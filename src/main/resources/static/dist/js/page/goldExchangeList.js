@@ -81,6 +81,7 @@ function initTable(url,keyNum) {
                     $(".table").append("<div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
                         "            <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
                         "              <div class=\"table-td\">"+value.GOLD_TOTAL+"</div>\n" +
                         "              <div class=\"table-td\">"+value.UNIT_PRICE+"</div>\n" +
@@ -96,6 +97,7 @@ function initTable(url,keyNum) {
                     $(".table").append(" <div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
                         "            <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
                         "              <div class=\"table-td\">"+value.GOLD_TOTAL+"</div>\n" +
                         "              <div class=\"table-td\">"+value.UNIT_PRICE+"</div>\n" +
@@ -132,7 +134,22 @@ function initTable(url,keyNum) {
 
             //弹出详情框
             $('.modalBtn').click(function () {
-                $(this).parents('#maincontent').siblings('.modal').addClass('madalHide');
+                var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.main_id').text();
+                var url =api+'goldExchangeSource?userId='+encodeURI(userId);
+                $.getJSON(url,function (data) {
+                    if(data.datas.length<1){
+                        layer.msg('未查看用户联系方式,可能方式已缺失!');
+                    }else{
+                        $('#myModal').addClass('madalHide');
+                        data =data.datas[0].USER_QQ==null?"null":data.datas[0].USER_QQ;
+                        var $table = $('#identifier').find('table');
+                        $table.empty();
+                        $table.append("<p>用户联系方式：</p>\n" +
+                            "                    <p>QQ："+data+"</p>\n" +
+                            "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                            "                    <p>客服QQ：153435143</p>")
+                    }
+                });
             });
             var colose = $('.close');
             var cancel = $('.btn-default');

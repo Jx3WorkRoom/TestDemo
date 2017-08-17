@@ -9,9 +9,9 @@ $(document).ready(function(e) {
 			if(document.getElementById('mcon')!=null) {
                 loginheight = document.getElementById('mcon').clientHeight + 388;
                 var loginID=document.getElementById('maincontent');
-                if(loginheight<height){
-                    loginID.style.height=(height-408)+"px";
-                }
+                // if(loginheight<height){
+                //     loginID.style.height=(height-300)+"px";
+                // }
             }
 		}
 	};
