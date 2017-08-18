@@ -382,7 +382,7 @@ function initSeach() {
 function initPage(pageList,keyNum) {
     var pageDatas = pageList;
     pageList = pageList==null?100:pageList;
-    var pageNum = parseInt(pageList/10)+1;
+    var pageNum = parseInt(pageList/20)+1;
     $('.pagination').empty();
     if(keyNum==null) {
         if (pageNum > 6) {
