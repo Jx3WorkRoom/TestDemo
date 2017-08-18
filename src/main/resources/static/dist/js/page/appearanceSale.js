@@ -79,6 +79,8 @@ function initTable(url,keyNum) {
                     $(".table").append(" <div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
+                        "        <div class=\"table-td sourceType\" style='display: none'>"+value.SOURCE_TYPE+"</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
                         "        <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
                         "        <div class=\"table-td\">"+value.VIEW_NAME+"</div>\n" +
                         "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">"+value.POST_CONTENT+"</a></div>\n" +
@@ -93,6 +95,8 @@ function initTable(url,keyNum) {
                     $(".table").append(" <div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
+                        "        <div class=\"table-td sourceType\" style='display: none'>"+value.SOURCE_TYPE+"</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
                         "        <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
                         "        <div class=\"table-td\">"+value.VIEW_NAME+"</div>\n" +
                         "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">"+value.POST_CONTENT+"</a></div>\n" +
@@ -126,9 +130,54 @@ function initTable(url,keyNum) {
                 return reStr;
             }
 
-            //弹出详情框
+            //查看源
+            $('.modalBtn').unbind('click');
             $('.modalBtn').click(function () {
-                $(this).parents('#maincontent').siblings('.modal').addClass('madalHide');
+                var sourceType =  $(this).parent().parent().find('.sourceType').text()==""?1:$(this).parent().parent().find('.sourceType').text();
+                var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
+                var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.main_id').text();
+                if(sourceType==1){
+                    $('#myModal').addClass('madalHide');
+                    var url =api+'appearanceSaleSource?mainId='+encodeURI(mainId)+
+                                '&sourceType='+encodeURI(sourceType)+
+                                '&userId='+encodeURI(userId);
+                    $.getJSON(url,function (data) {
+                       data=data.datas[0]==null?"": data.datas[0];
+                       if(data!=''){
+                           data.REPLY_TIME=data.REPLY_TIME==null?'null':data.REPLY_TIME;
+                           data.BELONG_QF=data.BELONG_QF==null?'null':data.BELONG_QF;
+                           data.POST_CONTENT=data.POST_CONTENT==null?'null':data.POST_CONTENT;
+                           data.PAGE_URL=data.PAGE_URL==null?'null':data.PAGE_URL;
+                           data.BELONG_FLOOR=data.BELONG_FLOOR==null?'null':data.BELONG_FLOOR;
+                           $('.source1').find('tr').eq(0).find('td').eq(1).text(data.REPLY_TIME);
+                           $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
+                           $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
+                           $('.source1').find('tr').eq(3).find('td').eq(1).empty();
+                           $('.source1').find('tr').eq(3).find('td').eq(1).append("<a href='"+data.PAGE_URL+"' target=\"_blank\">"+data.PAGE_URL+"</a>");
+                           $('.source1').find('tr').eq(4).find('td').eq(1).text(data.BELONG_FLOOR+'楼');
+                       }else{
+                           layer.msg("请求数据出错!");
+                       }
+                    });
+                }else{
+                    var url =api+'appearanceSaleSource?mainId='+encodeURI(mainId)+
+                        '&sourceType='+encodeURI(sourceType)+
+                        '&userId='+encodeURI(userId);
+                    $.getJSON(url,function (data) {
+                        if(data.datas.length<1){
+                            layer.msg('未查看用户联系方式,可能方式已缺失!');
+                        }else{
+                            $('#identifier').addClass('madalHide');
+                            data =data.datas[0].USER_QQ==null?"null":data.datas[0].USER_QQ;
+                            var $table = $('#identifier').find('table');
+                            $table.empty();
+                            $table.append("<p>用户联系方式：</p>\n" +
+                                "                    <p>QQ："+data+"</p>\n" +
+                                "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                "                    <p>客服QQ：153435143</p>")
+                        }
+                    });
+                }
             });
             var colose = $('.close');
             var cancel = $('.btn-default');
@@ -175,7 +224,6 @@ function initTable(url,keyNum) {
             layer.closeAll();
             layer.msg("数据请求失败!")
         }
-
     });
 }
 
