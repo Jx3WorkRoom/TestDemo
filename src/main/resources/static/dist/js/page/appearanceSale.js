@@ -363,15 +363,13 @@ function initSeach() {
             }else{
                 areaSelection="";
             }
-            var shape = $('.tixin').text()
-            var info = $('.info').text()
-            if(shape==""&&info==""&&areaSelection==""){
+            var shape = $('.tixin').val()
+            if(shape==""&&areaSelection==""){
                 initTable();
             }else {
-                url = api + 'accountList?tradeType=' + encodeURI(tradeType)
+                url = api + 'appearanceSale?tradeType=' + encodeURI(tradeType)
                     + '&areaSelection=' + encodeURI(areaSelection)
-                    + '&shape=' + encodeURI(shape);
-                +'&info=' + encodeURI(info);
+                    + '&shape=' + encodeURI(shape)
                 +'&startNum=0&endNum=20';
                 initTable(url);
             }
@@ -418,7 +416,7 @@ function initSeach() {
         pres = typeArr;
         //声明市
         cities = quArr;
-        areas = fuArr;
+        areas = fuArr[0];
 
         dsy.add("0", pres);
         $.each(cities,function (i,value) {
