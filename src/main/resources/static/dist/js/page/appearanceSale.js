@@ -1,6 +1,6 @@
 api = api+"appearanceSale/";
 //设置一个省的公共下标
-var pIndex = -1;
+var pIndex = 0;
 var preEle = document.getElementById("pre");
 var cityEle = document.getElementById("city");
 var areaEle = document.getElementById("area");
@@ -294,7 +294,7 @@ function chg(obj) {
     }
     //获取值
     var val = obj.value;
-    pIndex = obj.value;
+    pIndex = parseInt(obj.value)+1;
     //获取ctiry
     var cs = cities[val];
     //获取默认区
@@ -319,11 +319,20 @@ function chg(obj) {
 }
 function chg2(obj) {
     var val = obj.selectedIndex;
-    var as = areas[pIndex][val];
+    // var as = areas[pIndex][val];
+    var aIndex = obj.value;
+    if(parseInt(pIndex-1)>0) {
+        for(var i=0;i<parseInt(pIndex-1);i++) {
+            aIndex =  parseInt(aIndex)+cities[i].length;
+        }
+    }
+    var as = areas[aIndex];
     areaEle.options.length = 0;
-    for (var i = 0; i < as.length; i++) {
-        var op = new Option(as[i], i);
-        areaEle.options.add(op);
+    if(val!=0) {
+        for (var i = 0; i < as.length; i++) {
+            var op = new Option(as[i], i);
+            areaEle.options.add(op);
+        }
     }
 }
 
@@ -359,7 +368,7 @@ function initSeach() {
                 }
             });
             if(areaSelection.length>2) {
-                areaSelection.substring(0, areaSelection.length - 1);
+                areaSelection = areaSelection.substring(0, areaSelection.length - 1);
             }else{
                 areaSelection="";
             }
@@ -378,14 +387,14 @@ function initSeach() {
     function initSelections(selecttions) {
         var typeArr = [];
         var quArr = [];
-        var fuArr = [];
+        var areaArr = []
         $.each(selecttions, function (i, value) {
             if (typeArr.indexOf(value.qufu_type) == -1) {
                 typeArr.push(value.qufu_type);
             }
         });
         $.each(typeArr, function (i, value) {
-            var arrTemp = [];
+            var arrTemp = [""];
             $.each(selecttions, function (j, value1) {
                 if (value1.qufu_type == value) {
                     if (arrTemp.indexOf(value1.qufu_qu) == -1) {
@@ -395,10 +404,9 @@ function initSeach() {
             });
             quArr.push(arrTemp);
         });
-        var quArrTemp = [];
         $.each(quArr, function (i, value) {
             $.each(value, function (j, value1) {
-                var arrTemp = [];
+                var arrTemp = [""];
                 $.each(selecttions, function (k, value2) {
                     if (value2.qufu_qu == value1) {
                         if (arrTemp.indexOf(value2.qufu_fu) == -1) {
@@ -406,17 +414,16 @@ function initSeach() {
                         }
                     }
                 });
-                if (quArrTemp.indexOf(arrTemp) == -1) {
-                    quArrTemp.push(arrTemp);
+                if (areaArr.indexOf(arrTemp) == -1) {
+                    areaArr.push(arrTemp);
                 }
             });
-            fuArr.push(quArrTemp);
         });
         //声明省
         pres = typeArr;
         //声明市
         cities = quArr;
-        areas = fuArr[0];
+        areas = areaArr;
 
         dsy.add("0", pres);
         $.each(cities,function (i,value) {
