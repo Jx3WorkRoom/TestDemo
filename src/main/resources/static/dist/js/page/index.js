@@ -1,5 +1,3 @@
-var api = "http://192.168.18.104:8881/testDemoRest/";
-
 $(function () {
     initTable();
     timer();
@@ -31,7 +29,7 @@ function initTable() {
             "        <div class=\"table-th\" style=\"width: 12%\">关注度</div>\n" +
             "      </div>");
         $.each(table1Datas,function (i,value) {
-            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             var belongOf = value.BELONG_QF.replace("[","");
             belongOf = belongOf.replace("]","");
             belongOf = belongOf.split(',')[0];
@@ -55,7 +53,7 @@ function initTable() {
             "        <div class=\"table-th\" style=\"width: 12%\">关注度</div>\n" +
             "      </div>");
         $.each(table2Datas,function (i,value) {
-            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             var belongOf = value.BELONG_QF.replace("[","");
             belongOf = belongOf.replace("]","");
             belongOf = belongOf.split(',')[0];
@@ -79,7 +77,7 @@ function initTable() {
             "      </div>" +
             "      </div>");
         $.each(table3Datas,function (i,value) {
-            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             var tixin = value.TIXIN ==null?'--':value.TIXIN;
             $('#table3').append("<div class=\"table-tr\">\n" +
                 "        <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
@@ -114,7 +112,7 @@ function initTable() {
             "            <div class=\"table-th\" style=\"width: 30%;\">关注度</div>\n" +
             "          </div>");
         $.each(table5Datas,function (i,value) {
-            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             $('#table5').append("<div class=\"table-tr\">\n" +
                 "            <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 20%\">"+value.PROP_NAME+"</div>\n" +
@@ -130,7 +128,7 @@ function initTable() {
             "            <div class=\"table-th\" style=\"width: 30%;\">关注度</div>\n" +
             "          </div>");
         $.each(table6Datas,function (i,value) {
-            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             $('#table6').append("<div class=\"table-tr\">\n" +
                 "            <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 20%\">"+value.PROP_NAME+"</div>\n" +

@@ -1,4 +1,4 @@
-var api = "http://192.168.18.104:8881/testDemoRest/blackList/";
+api = api+"blackList/";
 $(function () {
     var favorId = getUrlParam('favorId');
     function getUrlParam(name) {

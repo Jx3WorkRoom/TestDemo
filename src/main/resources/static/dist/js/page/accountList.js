@@ -1,4 +1,4 @@
-var api = "http://192.168.18.104:8881/testDemoRest/accountList/";
+api = api+"accountList/";
 //设置一个省的公共下标
 var pIndex = -1;
 var preEle = document.getElementById("pre");
@@ -22,11 +22,12 @@ function timer() {
 //url 查询时传入新的url
 //keyNum page组件点击的第几页
 function initTable(url,keyNum) {
+    layer.load();
     var startNum = 0;
     var endNum =10;
     if(keyNum!=null){
-        endNum = 10*keyNum;
-        startNum = endNum-10;
+        endNum = 10;
+        startNum = keyNum*10-10;
     }
     if(url==null) {
         var tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
@@ -63,7 +64,6 @@ function initTable(url,keyNum) {
         "            <div class=\"table-th\">关注度<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
         "            <div class=\"table-th\">上架时间<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
         "          </div>");
-    layer.load();
     var dataTemp = null;
     $.ajax({
        url:url,

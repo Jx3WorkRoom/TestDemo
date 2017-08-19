@@ -1,4 +1,4 @@
-var api = "http://192.168.18.104:8881/testDemoRest/appearanceSale/";
+api = api+"appearanceSale/";
 //设置一个省的公共下标
 var pIndex = -1;
 var preEle = document.getElementById("pre");
@@ -24,8 +24,8 @@ function initTable(url,keyNum) {
     var startNum = 0;
     var endNum =20;
     if(keyNum!=null){
-        endNum = 20*keyNum;
-        startNum = endNum-20;
+        endNum = 20;
+        startNum = keyNum*20-20;
     }
     if(url==null) {
         var tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
@@ -139,13 +139,13 @@ function initTable(url,keyNum) {
                 var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
                 var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.main_id').text();
                 if(sourceType==1){
-                    $('#myModal').addClass('madalHide');
                     var url =api+'appearanceSaleSource?mainId='+encodeURI(mainId)+
                                 '&sourceType='+encodeURI(sourceType)+
                                 '&userId='+encodeURI(userId);
                     $.getJSON(url,function (data) {
                        data=data.datas[0]==null?"": data.datas[0];
                        if(data!=''){
+                           $('#myModal').addClass('madalHide');
                            data.REPLY_TIME=data.REPLY_TIME==null?'null':data.REPLY_TIME;
                            data.BELONG_QF=data.BELONG_QF==null?'null':data.BELONG_QF;
                            data.POST_CONTENT=data.POST_CONTENT==null?'null':data.POST_CONTENT;
@@ -160,6 +160,8 @@ function initTable(url,keyNum) {
                        }else{
                            layer.msg("请求数据出错!");
                        }
+                    }).error(function () {
+                        layer.msg("未查到有效信息!");
                     });
                 }else{
                     var url =api+'appearanceSaleSource?mainId='+encodeURI(mainId)+
@@ -219,7 +221,6 @@ function initTable(url,keyNum) {
                 var url = api+"protDisable?mainId="+mainId;
                 $.getJSON(url,function (data) {
                     layer.msg(data.info);
-
                 }).error(function () {
                    layer.msg("提交失败");
                 });

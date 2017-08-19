@@ -1,4 +1,4 @@
-var api = "http://192.168.18.104:8881/testDemoRest/blackList/";
+api = api+"blackList/";
 //设置一个省的公共下标
 var pIndex = -1;
 var preEle = document.getElementById("pre");
@@ -24,8 +24,8 @@ function initTable(url,keyNum) {
     var startNum = 0;
     var endNum =20;
     if(keyNum!=null){
-        endNum = 20*keyNum;
-        startNum = endNum-20;
+        endNum = 20;
+        startNum = keyNum*20-20;
     }
     if(url==null) {
         url = api+'getblackListAction?startNum='+encodeURI(startNum)+'&endNum='+encodeURI(endNum);

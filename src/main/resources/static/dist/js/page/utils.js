@@ -1,3 +1,4 @@
+var api = 'http://127.0.0.1:8881/testDemoRest/';
 function checkValue(value, rtValue) {
 	if (typeof (value) != undefined && value != null && value != 'undefined') {
 		if (value == "null") {

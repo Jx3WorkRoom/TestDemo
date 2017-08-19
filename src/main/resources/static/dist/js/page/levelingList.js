@@ -1,4 +1,4 @@
-var api = "http://192.168.18.104:8881/testDemoRest/levelingList/";
+api = api+"levelingList/";
 //设置一个省的公共下标
 var pIndex = -1;
 var preEle = document.getElementById("pre");
@@ -24,8 +24,8 @@ function initTable(url,keyNum) {
     var startNum = 0;
     var endNum =20;
     if(keyNum!=null){
-        endNum = 20*keyNum;
-        startNum = endNum-20;
+        endNum = 20;
+        startNum = keyNum*20-20;
     }
     if(url==null) {
         var tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
@@ -74,7 +74,7 @@ function initTable(url,keyNum) {
                 var time = sumTime(value.REPLY_TIME);
                 var tradeType = value.NEED_TYPE==1?"找":"接";
                 var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
-                if(value.ISVALID==1){
+                var isValidNum = value.USER_ISVALID==null?'0':value.USER_ISVALID;
                     $(".table").append(" <div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
@@ -85,24 +85,9 @@ function initTable(url,keyNum) {
                         "          <div class=\"table-td\">"+tradeType+"</div>\n" +
                         "        <div class=\"table-td\">"+follow+"</div>\n" +
                         "        <div class=\"table-td\">"+time+"</div>\n" +
-                        "        <div class=\"table-td\">正常</div>\n" +
+                        "        <div class=\"table-td warn\">"+isValidNum+"人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
                         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
                         "      </div>");
-                }else {
-                    $(".table").append(" <div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
-                        "        <div class=\"table-td sourceType\" style='display: none'>"+value.NEED_TYPE+"</div>\n" +
-                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
-                        "        <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
-                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">"+value.POST_CONTENT+"</a></div>\n" +
-                        "          <div class=\"table-td\">"+tradeType+"</div>\n" +
-                        "        <div class=\"table-td\">"+follow+"</div>\n" +
-                        "        <div class=\"table-td\">"+time+"</div>\n" +
-                        "        <div class=\"table-td warn\">"+value.ISVALID+"人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
-                        "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
-                        "      </div>");
-                }
             });
             //计算上架时间
             function sumTime(time) {
@@ -203,6 +188,17 @@ function initTable(url,keyNum) {
                         layer.msg(data.info);
                     });
                 }
+            });
+            //提交失效
+            $('.protDisable').unbind("click");
+            $('.protDisable').click(function () {
+                var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
+                var url = api+"protDisable?mainId="+mainId;
+                $.getJSON(url,function (data) {
+                    layer.msg(data.info);
+                }).error(function () {
+                    layer.msg("提交失败");
+                });
             });
         },
         complete:function () {

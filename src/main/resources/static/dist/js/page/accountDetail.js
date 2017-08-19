@@ -1,4 +1,4 @@
-var api = "http://192.168.18.104:8881/testDemoRest/accountList/";
+api = api+"accountList/";
 $(function () {
     var favorId = getUrlParam('favorId');
     function getUrlParam(name) {
@@ -24,6 +24,7 @@ function initDetail(favorId) {
             replyTime = data.REPLY_TIME==null?"":data.REPLY_TIME;
             sourceType =data.SOURCE_TYPE==null?1:data.SOURCE_TYPE;
             userId = data.userId==null?1:data.userId;
+            $('.userIsvalid').text(data.USER_ISVALID+"人提交失效!")
             var imgSrc = data.PIC_PATH;
             imgSrc = '/testDemo/dist/css/images/jx3/game05.jpg';
             $('.bigimgs img').attr('src',imgSrc);
@@ -140,8 +141,8 @@ function initDetail(favorId) {
         var startNum = 0;
         var endNum =10;
         if(keyNum!=null){
-            endNum = 10*keyNum;
-            startNum = endNum-10;
+            endNum = 10;
+            startNum = keyNum*10-10;
         }
         var url = api+'accountDetailSource?mainId='+encodeURI(mainId)+
             '&sourceType='+encodeURI(sourceType)+
