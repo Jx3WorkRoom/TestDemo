@@ -16,7 +16,31 @@
     <script th:src="@{/dist/js/page/utils.js}"></script>
     <script th:src="@{/dist/js/page/levelingList.js}"></script>
 </head>
+<style>
+    .inputtitle {
+        font-size: 16px;
+        display: inline-block;
+        text-align: left;
+    }
+    .madalHide {
+        display: block;
+        opacity: 1;
+        background: rgba(0,0,0,.5);
+    }
+    .modal-header {
+        text-align: center;
+    }
+    .madalHide .modal-dialog {
+        margin: 130.5px auto;
+    }
+    .group-item input {
+        border-radius: 4px;
+        border: 1px solid #dadada;
+        padding-left: 10px;
+        height: 34px;
+    }
 
+</style>
 <body>
 <!-- top logo -->
 <div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
@@ -143,6 +167,63 @@
 Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号
 </div>
 </body>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <span class="inputtitle">本账号来自百度贴吧：</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <table border="1" class="source1">
+                    <tr>
+                        <td align="center"  valign="middle" bgcolor="#ccc" width="150px" height="30">发布时间</td>
+                        <td align="center"  valign="middle" width="420px" height="30"></td>
+                    </tr>
+                    <tr>
+                        <td align="center"  valign="middle" bgcolor="#ccc" width="150px" height="30">所属区服</td>
+                        <td align="center"  valign="middle" width="420x" height="30"></td>
+                    </tr>
+                    <tr>
+                        <td align="center"  valign="middle" bgcolor="#ccc" width="150px" height="30">发布内容</td>
+                        <td align="center"  valign="middle" width="420x" height="30"></td>
+                    </tr>
+                    <tr>
+                        <td align="center"  valign="middle" bgcolor="#ccc" width="150px" height="30">页面链接</td>
+                        <td align="center"  valign="middle" width="420x" height="30"></td>
+                    </tr>
+                    <tr>
+                        <td align="center"  valign="middle" bgcolor="#ccc" width="150px" height="30">贴吧楼层</td>
+                        <td align="center"  valign="middle" width="420x" height="30"></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="modal-footer"><span class="inputtitle">因有重复发帖会显示多条。若本账号已完成交易或不再交易，请点击上方失效报告，将提升您的信用</span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="identifier">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <span class="inputtitle">本条账号信息由平台用户上传：</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <table border="1">
+                </table>
+            </div>
+            <div class="modal-footer"><span class="inputtitle"></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <script type="text/javascript">
     $('.table-th').click(function () {
         if($(this).children('.sort').length>0){

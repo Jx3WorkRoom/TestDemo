@@ -49,6 +49,7 @@
 <body>
 <!-- top logo -->
 <div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
 <!-- navigation -->
 <div class="navCon">
     <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="login">剑三老玩家</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
@@ -193,17 +194,6 @@ Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号
 
 <script type="text/javascript">
 $().ready(function(e) {
-    $(".s_top ul li").click(function(){
-		$(".s_top ul li").removeClass('cur');
-		var listindex=$(".s_top ul li").index(this);
-		$(this).addClass('cur')
-		$('.account1,.account2').hide();
-		$('.account'+(listindex+1)).show();
-	});
 });
-
-
-
-
 </script>
 </html>

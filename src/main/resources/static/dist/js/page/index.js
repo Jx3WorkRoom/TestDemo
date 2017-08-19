@@ -1,4 +1,4 @@
-var api = "http://127.0.0.1:8881/testDemoRest/";
+var api = "http://192.168.18.104:8881/testDemoRest/";
 
 $(function () {
     initTable();
@@ -16,8 +16,12 @@ function initTable() {
     var url = api+'index/index';
     layer.load();
     $.getJSON(url,function (data) {
-        var table1Datas = data.datas2==null?"":data.datas2;
-        var table2Datas = data.datas1==null?"":data.datas1;
+        var table1Datas = data.datas1==null?"":data.datas1;
+        var table2Datas = data.datas2==null?"":data.datas2;
+        var table3Datas = data.datas3==null?"":data.datas3;
+        var table4Datas = data.datas4==null?"":data.datas4;
+        var table5Datas = data.datas5==null?"":data.datas5;
+        var table6Datas = data.datas6==null?"":data.datas6;
         $("#table1").empty();
         $("#table1").append("<div class=\"table-tr tablered\">\n" +
             "        <div class=\"table-th table-th1\" style=\"width: 11% !important;padding-left: 30px;\">区服</div>\n" +
@@ -27,35 +31,118 @@ function initTable() {
             "        <div class=\"table-th\" style=\"width: 12%\">关注度</div>\n" +
             "      </div>");
         $.each(table1Datas,function (i,value) {
+            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            var belongOf = value.BELONG_QF.replace("[","");
+            belongOf = belongOf.replace("]","");
+            belongOf = belongOf.split(',')[0];
+            var TIXIN = value.TIXIN.replace("[","");
+            TIXIN = TIXIN.replace("]","");
+            TIXIN = TIXIN.split(',')[0];
             $("#table1").append("<div class=\"table-tr\">\n" +
-                "        <div class=\"table-td\" style=\"width: 11% !important;\">"+value.BELONG_QF+"</div>\n" +
-                "        <div class=\"table-td\" style=\"width: 8%\">"+value.TIXIN+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 11% !important;\">"+belongOf+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 8%\">"+TIXIN+"</div>\n" +
                 "        <div class=\"table-td table_lw\" style=\"width: 59%;padding-left: 34px;\">"+value.REPLY_CONTENT+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 10%\">"+value.PRICE_NUM+"</div>\n" +
-                "        <div class=\"table-td\" style=\"width:12%;\">"+value.USER_FOLLOW+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width:12%;\">"+follow+"</div>\n" +
                 "      </div>")
         });
         $("#table2").empty();
         $("#table2").append("<div class=\"table-tr tableyellow\">\n" +
-            "        <div class=\"table-th table-th5\" style=\"width: 11% !important;padding-left: 30px;\">区服</div>\n" +
+            "        <div class=\"table-th table-th1\" style=\"width: 11% !important;padding-left: 30px;\">区服</div>\n" +
             "        <div class=\"table-th\" style=\"width: 8%\">门派体型</div>\n" +
             "        <div class=\"table-th\" style=\"width: 59%;padding-left: 34px;\">资料简介</div>\n" +
             "        <div class=\"table-th\" style=\"width: 10%\">价格(元)</div>\n" +
             "        <div class=\"table-th\" style=\"width: 12%\">关注度</div>\n" +
             "      </div>");
         $.each(table2Datas,function (i,value) {
+            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            var belongOf = value.BELONG_QF.replace("[","");
+            belongOf = belongOf.replace("]","");
+            belongOf = belongOf.split(',')[0];
+            var TIXIN = value.TIXIN.replace("[","");
+            TIXIN = TIXIN.replace("]","");
+            TIXIN = TIXIN.split(',')[0];
             $('#table2').append("<div class=\"table-tr\">\n" +
-                "        <div class=\"table-td\" style=\"width: 11% !important;\">"+value.BELONG_QF+"</div>\n" +
-                "        <div class=\"table-td\" style=\"width: 8%\">"+value.TIXIN+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 11% !important;\">"+belongOf+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 8%\">"+TIXIN+"</div>\n" +
                 "        <div class=\"table-td table_lw\" style=\"width: 59%;padding-left: 34px;\">"+value.REPLY_CONTENT+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 10%\">"+value.PRICE_NUM+"</div>\n" +
-                "        <div class=\"table-td\" style=\"width:12%;\">"+value.USER_FOLLOW+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width:12%;\">"+follow+"</div>\n" +
                 "      </div>");
+        });
+        $("#table3").empty();
+        $("#table3").append("<div class=\"table-tr tablec1\">\n" +
+            "        <div class=\"table-th\" style=\"width: 25% !important\">区服</div>\n" +
+            "        <div class=\"table-th\" style=\"width: 20%\">外观</div>\n" +
+            "        <div class=\"table-th\" style=\"width: 25%;\">价格(元)</div>\n" +
+            "        <div class=\"table-th\" style=\"width: 30%;\">关注度</div>\n" +
+            "      </div>" +
+            "      </div>");
+        $.each(table3Datas,function (i,value) {
+            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            var tixin = value.TIXIN ==null?'--':value.TIXIN;
+            $('#table3').append("<div class=\"table-tr\">\n" +
+                "        <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 20%\">"+tixin+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 25%;\">"+value.PRICE_NUM+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 30%\">"+follow+"</div>\n" +
+                "      </div>");
+        });
+        $("#table4").empty();
+        $("#table4").append("<div class=\"table-tr tablec1\">\n" +
+            "        <div class=\"table-th\" style=\"width: 25% !important\">区服</div>\n" +
+            "        <div class=\"table-th\" style=\"width: 20%\">外观</div>\n" +
+            "        <div class=\"table-th\" style=\"width: 25%;\">价格(元)</div>\n" +
+            "        <div class=\"table-th\" style=\"width: 30%;\">关注度</div>\n" +
+            "      </div>" +
+            "      </div>");
+        $.each(table4Datas,function (i,value) {
+            var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
+            var tixin = value.TIXIN ==null?'--':value.TIXIN;
+            $('#table4').append("<div class=\"table-tr\">\n" +
+                "        <div class=\"table-td\" style=\"width: 25% !important;\">"+value.BELONG_QF+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 20%\">"+tixin+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 25%\">"+value.PRICE_NUM+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width:30%;\">"+follow+"</div>\n" +
+                "      </div>");
+        });
+        $("#table5").empty();
+        $("#table5").append("<div class=\"table-tr tablec3\">\n" +
+            "            <div class=\"table-th\" style=\"width: 25% !important\">区服</div>\n" +
+            "            <div class=\"table-th\" style=\"width: 20%\">道具</div>\n" +
+            "            <div class=\"table-th\" style=\"width: 25%;\">价格(元)</div>\n" +
+            "            <div class=\"table-th\" style=\"width: 30%;\">关注度</div>\n" +
+            "          </div>");
+        $.each(table5Datas,function (i,value) {
+            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            $('#table5').append("<div class=\"table-tr\">\n" +
+                "            <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
+                "            <div class=\"table-td\" style=\"width: 20%\">"+value.PROP_NAME+"</div>\n" +
+                "            <div class=\"table-td\" style=\"width: 25%;\">"+value.PRICE_NUM+"</div>\n" +
+                "            <div class=\"table-td\" style=\"width: 30%\">"+follow+"</div>\n" +
+                "          </div>");
+        });
+        $("#table6").empty();
+        $("#table6").append("<div class=\"table-tr tablec3\">\n" +
+            "            <div class=\"table-th\" style=\"width: 25% !important\">区服</div>\n" +
+            "            <div class=\"table-th\" style=\"width: 20%\">道具</div>\n" +
+            "            <div class=\"table-th\" style=\"width: 25%;\">价格(元)</div>\n" +
+            "            <div class=\"table-th\" style=\"width: 30%;\">关注度</div>\n" +
+            "          </div>");
+        $.each(table6Datas,function (i,value) {
+            var follow = value.USER_FOLLOW ==null?"-":value.USER_FOLLOW;
+            $('#table6').append("<div class=\"table-tr\">\n" +
+                "            <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
+                "            <div class=\"table-td\" style=\"width: 20%\">"+value.PROP_NAME+"</div>\n" +
+                "            <div class=\"table-td\" style=\"width: 25%;\">"+value.PRICE_NUM+"</div>\n" +
+                "            <div class=\"table-td\" style=\"width: 30%\">"+follow+"</div>\n" +
+                "          </div>");
         });
     }).error(function (e) {
         layer.msg("数据请求失败!")
     }).complete(function (e) {
         layer.closeAll();
     });
+
 }
 

@@ -1,4 +1,4 @@
-var api = "http://127.0.0.1:8881/testDemoRest/accountList/";
+var api = "http://192.168.18.104:8881/testDemoRest/accountList/";
 //设置一个省的公共下标
 var pIndex = -1;
 var preEle = document.getElementById("pre");
@@ -76,17 +76,25 @@ function initTable(url,keyNum) {
                 var time = sumTime(value.REPLY_TIME);
                 var tradeType = value.TRADE_TYPE==1?"求购":"出售";
                 var matchingDegree = "--";
+                var follow = value.USER_FOLLOW==null?"--":value.USER_FOLLOW;
                 if(clickSeachNum!=0){
                     matchingDegree = sumMatchingDegree(value);
                 }
+                var belongOf = value.BELONG_QF.replace("[","");
+                belongOf = belongOf.replace("]","");
+                belongOf = belongOf.split(',')[0];
+                var TIXIN = value.TIXIN.replace("[","");
+                TIXIN = TIXIN.replace("]","");
+                TIXIN = TIXIN.split(',')[0];
+                var price = value.PRICE_NUM.replace("[","").replace("]","");
                 $(".table").append("<div class=\"table-tr\">\n" +
-                    "            <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
-                    "            <div class=\"table-td\">"+value.TIXIN+"</div>\n" +
+                    "            <div class=\"table-td\">"+belongOf+"</div>\n" +
+                    "            <div class=\"table-td\">"+TIXIN+"</div>\n" +
                     "            <div class=\"table-td table_lw\"><a href=\"accountDetail?favorId="+value.FAVOR_ID+"\">"+value.REPLY_CONTENT+"</a></div>\n" +
                     "            <div class=\"table-td\">"+tradeType+"</div>\n" +
-                    "            <div class=\"table-td\">"+value.PRICE_NUM+"</div>\n" +
+                    "            <div class=\"table-td\">"+price+"</div>\n" +
                     "            <div class=\"table-td\">"+matchingDegree+"</div>\n" +
-                    "            <div class=\"table-td\">"+value.USER_FOLLOW+"</div>\n" +
+                    "            <div class=\"table-td\">"+follow+"</div>\n" +
                     "            <div class=\"table-td\">"+time+"</div>\n" +
                     "          </div>")
             });
@@ -133,7 +141,7 @@ function initTable(url,keyNum) {
                 initPage(pageList,keyNum);
             }else{
                 $('.pagination').empty();
-                layer.msg("分页组件加载失败!")
+                layer.msg("加载数据出错!")
             }
         },
         error:function () {
@@ -363,7 +371,7 @@ function initSeach() {
 function initPage(pageList,keyNum) {
     var pageDatas = pageList;
     pageList = pageList==null?100:pageList;
-    var pageNum = parseInt(pageList/10)+1;
+    var pageNum = parseInt(pageList/20)+1;
     $('.pagination').empty();
     if(keyNum==null) {
         if (pageNum > 6) {
@@ -373,8 +381,8 @@ function initPage(pageList,keyNum) {
                 "          <li class=\"active\"><a href=\"javascrpit:void(0)\">1</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">" + pageNum - 1 + "</a></li>\n" +
+                "          <li class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(pageNum - 1) + "</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
@@ -421,8 +429,8 @@ function initPage(pageList,keyNum) {
                     "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
                     "          <li class=\"active\"><a href=\"javascrpit:void(0)\">2</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">" + pageNum - 1 + "</a></li>\n" +
+                    "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                    "          <li><a href=\"javascrpit:void(0)\">" + parseInt(pageNum - 1) + "</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
@@ -460,11 +468,12 @@ function initPage(pageList,keyNum) {
                 $('.pagination').append(
                     "          <li><a href=\"javascrpit:void(0)\">首页</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">上一页</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
+                    "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
                     "          <li  class=\"active\"><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">" + pageNum - 1 + "</a></li>\n" +
+                    "          <li><a href=\"javascrpit:void(0)\">4</a></li>\n" +
+                    "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                    "          <li><a href=\"javascrpit:void(0)\">" + parseInt(pageNum - 1) + "</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
@@ -497,20 +506,20 @@ function initPage(pageList,keyNum) {
                     );
                 }
             }
-        }else if(pageNum-keyNum>3&&keyNum>4){
+        }else if(pageNum-keyNum>3&&keyNum>=4){
             $('.pagination').append(
                 "          <li><a href=\"javascrpit:void(0)\">首页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">上一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n"
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n"
             );
             $('.pagination').append(
-                "          <li><a href=\"javascrpit:void(0)\">" + keyNum-1 + "</a></li>\n"+
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum-1) + "</a></li>\n"+
                 "          <li  class=\"active\"><a href=\"javascrpit:void(0)\">" + keyNum + "</a></li>\n"+
-                "          <li><a href=\"javascrpit:void(0)\">" + keyNum+1 + "</a></li>\n"
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum+1) + "</a></li>\n"
             );
             $('.pagination').append(
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n"+
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n"+
                 "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
@@ -522,9 +531,23 @@ function initPage(pageList,keyNum) {
                 "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">" + pageNum - 1 + "</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(pageNum - 1) + "</a></li>\n" +
                 "          <li   class=\"active\"><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
+            );
+        }else if(keyNum==parseInt(pageNum-1)){
+            $('.pagination').append(
+                "          <li><a href=\"javascrpit:void(0)\">首页</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">上一页</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum - 1) + "</a></li>\n" +
+                "          <li  class=\"active\"><a href=\"javascrpit:void(0)\">" + keyNum + "</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum+1) + "</a></li>\n" +
                 "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                 "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
             );
@@ -534,11 +557,10 @@ function initPage(pageList,keyNum) {
                 "          <li><a href=\"javascrpit:void(0)\">上一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">" + keyNum - 1 + "</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum - 1) + "</a></li>\n" +
                 "          <li   class=\"active\"><a href=\"javascrpit:void(0)\">" + keyNum + "</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"

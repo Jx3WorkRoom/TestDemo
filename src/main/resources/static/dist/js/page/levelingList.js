@@ -1,4 +1,4 @@
-var api = "http://127.0.0.1:8881/testDemoRest/levelingList/";
+var api = "http://192.168.18.104:8881/testDemoRest/levelingList/";
 //设置一个省的公共下标
 var pIndex = -1;
 var preEle = document.getElementById("pre");
@@ -55,11 +55,11 @@ function initTable(url,keyNum) {
     $(".table").append("<div class=\"table-tr tablered\">\n" +
         "        <div class=\"table-th table-th1\" style=\"width: 11% !important;padding-left: 30px;\">区服</div>\n" +
         "        <div class=\"table-th\">代练代打代清介绍</div>\n" +
-        "        <div class=\"table-th\">接或打<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "        <div class=\"table-th\">接或找<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
         "        <div class=\"table-th\">关注度<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
         "        <div class=\"table-th\">上架时间<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
         "        <div class=\"table-th\">状态报告<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-
+        "        <div class=\"table-th\">收藏<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
         "      </div>");
     layer.load();
     var dataTemp = null;
@@ -72,15 +72,18 @@ function initTable(url,keyNum) {
             var tableDatas = data.datas==null?"":data.datas;
             $.each(tableDatas,function (i,value) {
                 var time = sumTime(value.REPLY_TIME);
-                var tradeType = value.TYPE==1?"找":"接";
+                var tradeType = value.NEED_TYPE==1?"找":"接";
+                var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
                 if(value.ISVALID==1){
                     $(".table").append(" <div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>"+value.POST_TIME+"</div>\n" +
+                        "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
+                        "        <div class=\"table-td sourceType\" style='display: none'>"+value.NEED_TYPE+"</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
                         "        <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
                         "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">"+value.POST_CONTENT+"</a></div>\n" +
                         "          <div class=\"table-td\">"+tradeType+"</div>\n" +
-                        "        <div class=\"table-td\">"+value.USER_FOLLOW+"</div>\n" +
+                        "        <div class=\"table-td\">"+follow+"</div>\n" +
                         "        <div class=\"table-td\">"+time+"</div>\n" +
                         "        <div class=\"table-td\">正常</div>\n" +
                         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
@@ -89,10 +92,12 @@ function initTable(url,keyNum) {
                     $(".table").append(" <div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
+                        "        <div class=\"table-td sourceType\" style='display: none'>"+value.NEED_TYPE+"</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
                         "        <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
                         "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">"+value.POST_CONTENT+"</a></div>\n" +
                         "          <div class=\"table-td\">"+tradeType+"</div>\n" +
-                        "        <div class=\"table-td\">"+value.USER_FOLLOW+"</div>\n" +
+                        "        <div class=\"table-td\">"+follow+"</div>\n" +
                         "        <div class=\"table-td\">"+time+"</div>\n" +
                         "        <div class=\"table-td warn\">"+value.ISVALID+"人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
                         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
@@ -121,8 +126,53 @@ function initTable(url,keyNum) {
             }
 
             //弹出详情框
+            $('.modalBtn').unbind('click');
             $('.modalBtn').click(function () {
-                $(this).parents('#maincontent').siblings('.modal').addClass('madalHide');
+                var sourceType =  $(this).parent().parent().find('.sourceType').text()==""?1:$(this).parent().parent().find('.sourceType').text();
+                var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
+                var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.userId').text();
+                if(sourceType==1){
+                    $('#myModal').addClass('madalHide');
+                    var url =api+'levelingListSource?mainId='+encodeURI(mainId)+
+                        '&sourceType='+encodeURI(sourceType)+
+                        '&userId='+encodeURI(userId);
+                    $.getJSON(url,function (data) {
+                        data=data.datas[0]==null?"": data.datas[0];
+                        if(data!=''){
+                            data.REPLY_TIME=data.REPLY_TIME==null?'null':data.REPLY_TIME;
+                            data.BELONG_QF=data.BELONG_QF==null?'null':data.BELONG_QF;
+                            data.POST_CONTENT=data.POST_CONTENT==null?'null':data.POST_CONTENT;
+                            data.PAGE_URL=data.PAGE_URL==null?'null':data.PAGE_URL;
+                            data.BELONG_FLOOR=data.BELONG_FLOOR==null?'null':data.BELONG_FLOOR;
+                            $('.source1').find('tr').eq(0).find('td').eq(1).text(data.REPLY_TIME);
+                            $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
+                            $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
+                            $('.source1').find('tr').eq(3).find('td').eq(1).empty();
+                            $('.source1').find('tr').eq(3).find('td').eq(1).append("<a href='"+data.PAGE_URL+"' target=\"_blank\">"+data.PAGE_URL+"</a>");
+                            $('.source1').find('tr').eq(4).find('td').eq(1).text(data.BELONG_FLOOR+'楼');
+                        }else{
+                            layer.msg("请求数据出错!");
+                        }
+                    });
+                }else{
+                    var url =api+'levelingListSource?mainId='+encodeURI(mainId)+
+                        '&sourceType='+encodeURI(sourceType)+
+                        '&userId='+encodeURI(userId);
+                    $.getJSON(url,function (data) {
+                        if(data.datas.length<1){
+                            layer.msg('未查看用户联系方式,可能方式已缺失!');
+                        }else{
+                            $('#identifier').addClass('madalHide');
+                            data =data.datas[0].USER_QQ==null?"null":data.datas[0].USER_QQ;
+                            var $table = $('#identifier').find('table');
+                            $table.empty();
+                            $table.append("<p>用户联系方式：</p>\n" +
+                                "                    <p>QQ："+data+"</p>\n" +
+                                "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                "                    <p>客服QQ：153435143</p>")
+                        }
+                    });
+                }
             });
             var colose = $('.close');
             var cancel = $('.btn-default');
@@ -162,14 +212,13 @@ function initTable(url,keyNum) {
                 initPage(pageList,keyNum);
             }else{
                 $('.pagination').empty();
-                layer.msg("分页组件加载失败!")
+                layer.msg("加载数据出错!");
             }
         },
         error:function () {
             layer.closeAll();
             layer.msg("数据请求失败!")
         }
-
     });
 }
 
@@ -392,8 +441,8 @@ function initPage(pageList,keyNum) {
                 "          <li class=\"active\"><a href=\"javascrpit:void(0)\">1</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">" + pageNum - 1 + "</a></li>\n" +
+                "          <li class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(pageNum - 1) + "</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
@@ -440,8 +489,8 @@ function initPage(pageList,keyNum) {
                     "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
                     "          <li class=\"active\"><a href=\"javascrpit:void(0)\">2</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">" + pageNum - 1 + "</a></li>\n" +
+                    "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                    "          <li><a href=\"javascrpit:void(0)\">" + parseInt(pageNum - 1) + "</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
@@ -479,11 +528,12 @@ function initPage(pageList,keyNum) {
                 $('.pagination').append(
                     "          <li><a href=\"javascrpit:void(0)\">首页</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">上一页</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
+                    "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
                     "          <li  class=\"active\"><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                    "          <li><a href=\"javascrpit:void(0)\">" + pageNum - 1 + "</a></li>\n" +
+                    "          <li><a href=\"javascrpit:void(0)\">4</a></li>\n" +
+                    "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                    "          <li><a href=\"javascrpit:void(0)\">" + parseInt(pageNum - 1) + "</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                     "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
@@ -516,20 +566,20 @@ function initPage(pageList,keyNum) {
                     );
                 }
             }
-        }else if(pageNum-keyNum>3&&keyNum>4){
+        }else if(pageNum-keyNum>3&&keyNum>=4){
             $('.pagination').append(
                 "          <li><a href=\"javascrpit:void(0)\">首页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">上一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n"
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n"
             );
             $('.pagination').append(
-                "          <li><a href=\"javascrpit:void(0)\">" + keyNum-1 + "</a></li>\n"+
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum-1) + "</a></li>\n"+
                 "          <li  class=\"active\"><a href=\"javascrpit:void(0)\">" + keyNum + "</a></li>\n"+
-                "          <li><a href=\"javascrpit:void(0)\">" + keyNum+1 + "</a></li>\n"
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum+1) + "</a></li>\n"
             );
             $('.pagination').append(
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n"+
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n"+
                 "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
@@ -541,9 +591,23 @@ function initPage(pageList,keyNum) {
                 "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">" + pageNum - 1 + "</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(pageNum - 1) + "</a></li>\n" +
                 "          <li   class=\"active\"><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
+            );
+        }else if(keyNum==parseInt(pageNum-1)){
+            $('.pagination').append(
+                "          <li><a href=\"javascrpit:void(0)\">首页</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">上一页</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum - 1) + "</a></li>\n" +
+                "          <li  class=\"active\"><a href=\"javascrpit:void(0)\">" + keyNum + "</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum+1) + "</a></li>\n" +
                 "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                 "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
             );
@@ -553,11 +617,10 @@ function initPage(pageList,keyNum) {
                 "          <li><a href=\"javascrpit:void(0)\">上一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">1</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">2</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">3</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">" + keyNum - 1 + "</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li><a href=\"javascrpit:void(0)\">" + parseInt(keyNum - 1) + "</a></li>\n" +
                 "          <li   class=\"active\"><a href=\"javascrpit:void(0)\">" + keyNum + "</a></li>\n" +
-                "          <li><a href=\"javascrpit:void(0)\">...</a></li>\n" +
+                "          <li  class=\"disabled\"><a href=\"javascrpit:void(0)\">...</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">" + pageNum + "</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">下一页</a></li>\n" +
                 "          <li><a href=\"javascrpit:void(0)\">尾页</a></li>\n"
