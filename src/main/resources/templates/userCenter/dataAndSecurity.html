@@ -14,11 +14,15 @@
   <script th:src="@{/dist/js/jx3/bt.js}"></script>
   <script th:src="@{/dist/js/jx3/base.js}"></script>
   <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+    <script th:src="@{/dist/js/layer/layer.js}"></script>
+    <script th:src="@{/dist/js/page/utils.js}"></script>
+    <script th:src="@{/dist/js/page/dataAndSecurity.js}"></script>
 </head>
 
 <body>
 <!-- top logo -->
 <div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <!-- navigation -->
 <div class="navCon">
   <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">剑三老玩家</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
@@ -60,20 +64,20 @@
               <div class="tb tcon">
                 <div class="tr">
                   <div class="td name">账号：</div>
-                  <div class="td mid">dj1999</div>
+                  <div class="td mid" id="loginName">dj1999</div>
                   <div class="td"></div>
                 </div>
                 <div class="tr">
                   <div class="td name">昵称：</div>
-                  <div class="td mid">夜空守望者</div>
+                  <div class="td mid" id="user_Name">夜空守望者</div>
                   <div class="td"><a href="#" id="nameBtn">修改</a></div>
                 </div>
                 <div class="tr">
                   <div class="td name">性别：</div>
-                  <div class="td mid">
-                    <input name="sex" type="radio" checked value="" />
+                  <div class="td mid" id="userSex">
+                    <input name="sex" type="radio" checked value="男" />
                     男
-                    <input name="sex" type="radio" value="" />
+                    <input name="sex" type="radio" value="女" />
                     女</div>
                   <div class="td"></div>
                 </div>
@@ -84,7 +88,7 @@
               <div class="tb tcon">
                 <div class="tr">
                   <div class="td name">请输入手机号：</div>
-                  <div class="td mid">177 6565 8988</div>
+                  <div class="td mid"><input type="text" /></div>
                   <div class="td"><a href="#">获取验证码</a></div>
                 </div>
                 <div class="tr">
@@ -97,13 +101,13 @@
                 <div class="tr">
                   <div class="td name">请输入新密码：</div>
                   <div class="td mid">
-                    <input type="text" />
+                    <input type="text" id="newPassword"/>
                   </div>
                   <div class="td"></div>
                 </div>
                 <div class="tr">
                   <div class="td name"></div>
-                  <div class="td mid"><a href="###"><img th:src="@{/dist/css/images/jx3/enter.png}" /></a>　<a href="###"><img th:src="@{/dist/css/images/jx3/cancle.png}" /></a></div>
+                  <div class="td mid"><a href="javascript:void(0)" class="sureSubmit"><img th:src="@{/dist/css/images/jx3/enter.png}" /></a>　<a href="javascript:void(0)" class="sureReset"><img th:src="@{/dist/css/images/jx3/cancle.png}" /></a></div>
                   <div class="td"></div>
                 </div>
               </div>
@@ -113,12 +117,12 @@
               <div class="tb tcon">
                  <div class="tr">
                       <div class="td name"><span class="badge">绑定手机：</span></div>
-                      <div class="td mid">177***8988</div>
+                      <div class="td mid" id="userTel">177***8988</div>
                       <div class="td"><a href="###" id="phoneBtn">修改</a></div>
                   </div>
                   <div class="tr">
                       <div class="td name"><span class="badge">绑定QQ号：</span></div>
-                      <div class="td mid">124***1212</div>
+                      <div class="td mid" id="userQQ">124***1212</div>
                       <div class="td"><a href="###" id="qqBtn">修改</a></div>
                       <div class="td"><span class="label label-danger">（该项为您的交易联系方式）</span></div>
                   </div>
@@ -129,31 +133,31 @@
                   <div class="tb tcon">
                 <div class="tr">
                   <div class="td name"><span class="badge">绑定百度贴吧号：</span></div>
-                  <div class="td mid">夜空***者</div>
+                  <div class="td mid" id="userBar">夜空***者</div>
                     <div class="td"><span class="label label-info">（可选填）</span></div>
                   <div class="td"><a href="###" id="tbBtn">修改</a></div>
                 </div>
                 <div class="tr">
                   <div class="td name"><span class="badge">绑定邮箱：</span></div>
-                  <div class="td mid">12***@123.com</div>
+                  <div class="td mid" id="userMail">12***@123.com</div>
                     <div class="td"><span class="label label-info">（可选填）</span></div>
                   <div class="td"><a href="###" id="emailBtn">修改</a></div>
                 </div>
                 <div class="tr">
                   <div class="td name"><span class="badge">绑定支付宝：</span></div>
-                  <div class="td mid">12***@123.com</div>
+                  <div class="td mid" id="userZFB">12***@123.com</div>
                     <div class="td"><span class="label label-info">（可选填）</span></div>
                   <div class="td"><a href="###" id="zfbBtn">修改</a></div>
                 </div>
                 <div class="tr">
                   <div class="td name"><span class="badge">绑定微信号：</span></div>
-                  <div class="td mid">177***8988</div>
+                  <div class="td mid" id="userWeixin">177***8988</div>
                     <div class="td"><span class="label label-info">（可选填）</span></div>
                   <div class="td"><a href="###" id="wechartBtn">修改</a></div>
                 </div>
                 <div class="tr">
                   <div class="td name"><span class="badge">绑定身份证：</span></div>
-                  <div class="td mid">123****5678</div>
+                  <div class="td mid" id="userSFZ">123****5678</div>
                     <div class="td"><span class="label label-info">（可选填）</span></div>
                   <div class="td"><a href="###" id="cardBtn">修改</a></div>
                 </div>
@@ -209,7 +213,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary">保存</button>
+        <button type="button" class="btn btn-primary" id="sureBtn">保存</button>
       </div>
     </div>
     <!-- /.modal-content --> 
@@ -220,11 +224,11 @@
 </body>
 <script type="text/javascript">
 $().ready(function(e) {
-	var typeid=''
+	var typeid='';
     $(".s_top ul li").click(function(){
 		$(".s_top ul li").removeClass('cur');
 		$(this).addClass('cur')
-	})
+	});
 	var $m_btn = $('#tbBtn,#phoneBtn,#emailBtn,#zfbBtn,#wechartBtn,#qqBtn,#cardBtn,#nameBtn');
 	var $modal = $('#myModal');
 	$m_btn.on('click', function(){
@@ -279,33 +283,6 @@ $().ready(function(e) {
 	  $modal_dialog.css({'margin': m_top + 'px auto'});
 	  
 	});
-	$modal.on('click','.btn-primary',function(){
-		  $modal.modal('hide')
-		  switch (typeid){
-			  case "tbBtn":
-			    alert("贴吧")
-				return;
-			  case "emailBtn":
-			  	alert("邮箱")
-				return;
-			  case "zfbBtn":
-				alert("支付宝")
-				return;
-			  case "wechartBtn":
-				alert("微信")
-				return;
-			  case "qqBtn":
-				alert("QQ")
-				return;
-			  case "cardBtn":
-				alert("身份证")
-				return;
-			  case "phoneBtn":
-			    alert("手机")
-				return;
-			  
-		  }
-	})
 });
 </script>
 </html>

@@ -2,7 +2,7 @@
 .usercon{ width:948px; margin:0 auto; padding:25px; border:1px solid #dddddd; margin-top:20px}
 .usercon .menue{ width:180px}
 .menuelist{ width:178px; border:1px solid #e0dddd; border-top:0; border-bottom-left-radius:4px;border-bottom-right-radius:4px;}
-.menuelist dt{ text-align:left; padding:16px 0; padding-left:15px; font-size:17px; color:#353535; border-bottom:1px solid #e0dddd; background:url(../images/menbg004.png) top repeat-x; }
+.menuelist dt{ text-align:left; padding:16px 0; padding-left:15px; font-size:17px; color:#353535; border-bottom:1px solid #e0dddd;}
 .menuelist dd{padding:10px 0; font-size:14px; color:#353535; padding-left:30px; border-bottom:1px solid #e0dddd; text-align:left; background:#ecf3fd; cursor:pointer}
 .menuelist dd a{ display:inline-block; color:#353535; border-left:0; text-decoration:none;-webkit-transition:all ease 200ms; transition:all ease 200ms}
 .menuelist dd.cur a,.menuelist dd:hover a{ display:inline-block; color:#353535; border-left:4px solid #428bef; padding-left:8px}
