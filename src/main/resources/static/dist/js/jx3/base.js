@@ -36,25 +36,25 @@ $(document).ready(function(e) {
 				window.location.href="index.html";
 				return;
 			case 1:
-				window.location.href="list.html";
+				window.location.href="accountList.html";
 				return;
 			case 2:
 				window.location.href="appearanceSale.html";
 				return;
 			case 3:
-				window.location.href="appearanceSale.html";
+				window.location.href="propSale.html";
 				return;
 			case 4:
 				window.location.href="goldExchangeList.html";
 				return;
 			case 5:
-				window.location.href="jx3BlackList.html";
-				return;
-			case 6:
 				window.location.href="levelingList.html";
 				return;
+			case 6:
+				window.location.href="blackList.html";
+				return;
 			case 7:
-				window.location.href="userCenter/12myCollection.html";
+				window.location.href="userCenter/dataAndSecurity.html";
 				return;
 		}
 	})

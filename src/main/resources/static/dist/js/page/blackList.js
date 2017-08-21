@@ -53,7 +53,7 @@ function initTable(url,keyNum) {
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.FAVOR_ID+"</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>"+value.FAVOR_DATE+"</div>\n" +
                         "        <div class=\"table-td\">"+value.PAR_NAME+"</div>\n"+
-                        "       <div class=\"table-td\"><a href=\"blackDetail?favorId="+value.FAVOR_ID+"\">"+value.CHEAT_INFO+"</a></div>"+
+                        "       <div class=\"table-td\"><a href=\"blackDetail?favorId="+value.FAVOR_ID+"\" target='view_window'>"+value.CHEAT_INFO+"</a></div>"+
                         "              <div class=\"table-td \">"+value.BELONG_QF+"</div>\n" +
                         "              <div class=\"table-td\">"+time+"</div>\n" +
                         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +

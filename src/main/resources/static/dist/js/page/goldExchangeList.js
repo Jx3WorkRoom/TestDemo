@@ -29,27 +29,49 @@ function initTable(url,keyNum) {
     }
     if(url==null) {
         var tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-        if(tradeType=="求购"){
-            tradeType=1;
-        }else{
-            tradeType=2;
+        if (tradeType == "求购") {
+            tradeType = 1;
+        } else {
+            tradeType = 2;
         }
         var str = getUrlParam('tradeType');
+
         function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg); //匹配目标参数
-            if (r != null) return unescape(r[2]); return null; //返回参数值
+            if (r != null) return unescape(r[2]);
+            return null; //返回参数值
         }
-        if(parseInt(str)==1){
-            tradeType=1;
-            var sefont=$(".nav-pills ul li").eq(0).find('a').text();
-            $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
-        }else if(parseInt(str)==2){
-            tradeType=2;
-            var sefont=$(".nav-pills ul li").eq(1).find('a').text();
-            $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
+
+        if (parseInt(str) == 1) {
+            tradeType = 1;
+            var sefont = $(".nav-pills ul li").eq(0).find('a').text();
+            $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont + '<b class="caret"></b>')
+        } else if (parseInt(str) == 2) {
+            tradeType = 2;
+            var sefont = $(".nav-pills ul li").eq(1).find('a').text();
+            $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont + '<b class="caret"></b>')
         }
-        url = api+'goldExchange?tradeType='+encodeURI(tradeType)+'&startNum='+encodeURI(startNum)+'&endNum='+encodeURI(endNum);
+        var areaSelection = "";
+        $('.areaSelect').find('select').each(function () {
+            var text = $(this).find('option:selected').text();
+            if (text.indexOf("请选择") == -1) {
+                areaSelection += text + ',';
+            }
+        });
+        if (areaSelection.length > 2) {
+            areaSelection = areaSelection.substring(0, areaSelection.length - 1);
+        } else {
+            areaSelection = "";
+        }
+        if (areaSelection == "") {
+            url = api + 'goldExchange?tradeType=' + encodeURI(tradeType) + '&startNum=' + encodeURI(startNum) + '&endNum=' + encodeURI(endNum);
+        }else{
+            url = api + 'goldExchange?tradeType=' + encodeURI(tradeType)
+                + '&areaSelection=' + encodeURI(areaSelection)
+                +'&startNum='+encodeURI(startNum)
+                +'&endNum=20';
+        }
     }
     $(".table").empty();
     $(".table").append("<div class=\"table-tr tablered\">\n" +

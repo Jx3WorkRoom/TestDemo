@@ -49,7 +49,28 @@ function initTable(url,keyNum) {
             var sefont=$(".nav-pills ul li").eq(1).find('a').text();
             $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
         }
-        url = api+'appearanceSale?tradeType='+encodeURI(tradeType)+'&startNum='+encodeURI(startNum)+'&endNum='+encodeURI(endNum);
+        var areaSelection = "";
+        $('.areaSelect').find('select').each(function () {
+            var text = $(this).find('option:selected').text();
+            if(text.indexOf("请选择")==-1) {
+                areaSelection += text + ',';
+            }
+        });
+        if(areaSelection.length>2) {
+            areaSelection = areaSelection.substring(0, areaSelection.length - 1);
+        }else{
+            areaSelection="";
+        }
+        var shape = $('.tixin').val()
+        if(shape==""&&areaSelection=="") {
+            url = api + 'appearanceSale?tradeType=' + encodeURI(tradeType) + '&startNum=' + encodeURI(startNum) + '&endNum=' + encodeURI(endNum);
+        }else{
+            url = api + 'appearanceSale?tradeType=' + encodeURI(tradeType)
+                + '&areaSelection=' + encodeURI(areaSelection)
+                + '&shape=' + encodeURI(shape)
+                +'&startNum=' +encodeURI(startNum);
+                +'&endNum=20';
+        }
     }
     $(".table").empty();
     $(".table").append("<div class=\"table-tr tablered\">\n" +

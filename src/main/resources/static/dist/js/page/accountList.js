@@ -51,7 +51,30 @@ function initTable(url,keyNum) {
             var sefont=$(".nav-pills ul li").eq(1).find('a').text();
             $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
         }
-        url = api+'accountList?tradeType='+encodeURI(tradeType)+'&startNum='+encodeURI(startNum)+'&endNum='+encodeURI(endNum);
+        var areaSelection = "";
+        $('.areaSelect').find('select').each(function () {
+            var text = $(this).find('option:selected').text();
+            if(text.indexOf("请选择")==-1) {
+                areaSelection += text + ',';
+            }
+        });
+        if(areaSelection.length>2) {
+            areaSelection = areaSelection.substring(0, areaSelection.length - 1);
+        }else{
+            areaSelection="";
+        }
+        var shape = $('.tixin').val();
+        var info = $('.info').val();
+        if(shape==""&&info==""&&areaSelection==""){
+            url = api+'accountList?tradeType='+encodeURI(tradeType)+'&startNum='+encodeURI(startNum)+'&endNum='+encodeURI(endNum);
+        }else{
+            url = api + 'accountList?tradeType=' + encodeURI(tradeType)
+                + '&areaSelection=' + encodeURI(areaSelection)
+                + '&shape=' + encodeURI(shape)
+                +'&info=' + encodeURI(info)
+                +'&startNum=' + encodeURI(startNum)
+                +'&endNum='; + encodeURI(endNum);
+        }
     }
     $(".table").empty();
     $(".table").append("<div class=\"table-tr tablered\">\n" +
@@ -90,7 +113,7 @@ function initTable(url,keyNum) {
                 $(".table").append("<div class=\"table-tr\">\n" +
                     "            <div class=\"table-td\">"+belongOf+"</div>\n" +
                     "            <div class=\"table-td\">"+TIXIN+"</div>\n" +
-                    "            <div class=\"table-td table_lw\"><a href=\"accountDetail?favorId="+value.FAVOR_ID+"\">"+value.REPLY_CONTENT+"</a></div>\n" +
+                    "            <div class=\"table-td table_lw\"><a href=\"accountDetail?favorId="+value.FAVOR_ID+"\"  target='view_window'>"+value.REPLY_CONTENT+"</a></div>\n" +
                     "            <div class=\"table-td\">"+tradeType+"</div>\n" +
                     "            <div class=\"table-td\">"+price+"</div>\n" +
                     "            <div class=\"table-td\">"+matchingDegree+"</div>\n" +
