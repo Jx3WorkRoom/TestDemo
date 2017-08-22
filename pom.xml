@@ -6,7 +6,7 @@
 	<groupId>com.testDemo</groupId>
 	<artifactId>testDemo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
 	<name>testDemo</name>
 	<description>springboot web展示基本通用架构</description>
