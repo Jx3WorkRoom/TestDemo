@@ -1,4 +1,4 @@
-api = api+"myCollection/";
+api = api+"myRelease/";
 var username = "";
 $(function () {
     username = $('#userName').text();
@@ -12,7 +12,7 @@ function initTable(name,keyNum) {
         startNum = keyNum*10-10;
     }
     layer.load();
-    var url = api+'myCollectionInfo?userName='+encodeURI(name)+'&num='+encodeURI(startNum);
+    var url = api+'myReleaseInfo?userName='+encodeURI(name)+'&num='+encodeURI(startNum);
     var dataTemp=null;
     $.getJSON(url,function (data) {
         dataTemp=data;
@@ -21,41 +21,65 @@ function initTable(name,keyNum) {
             $('.table').empty();
             $('.table').append("<div class=\"table-tr tablech1\">\n" +
                 "                    <div class=\"table-th table-th3\"></div>\n" +
-                "                    <div class=\"table-th\">收藏类别</div>\n" +
-                "                    <div class=\"table-th\">收藏内容资料简介</div>\n" +
+                "                    <div class=\"table-th\">发布类型</div>\n" +
+                "                    <div class=\"table-th\">发布内容</div>\n" +
                 "                    <div class=\"table-th\">状态</div>\n" +
-                "                    <div class=\"table-th\">收藏时间</div>\n" +
                 "                    <div class=\"table-th\">发布时间</div>\n" +
+                "                    <div class=\"table-th\">内容管理</div>\n" +
                 "                  </div>");
             $.each(data,function(i,value){
+                var pageValueEdit = "";
+                var pageValue = "";
                 var collectType = "";
                 if(parseInt(value.COLLECT_TYPE)==1){
+                    pageValueEdit = 'quickRelease?mainId='+encodeURI(value.MAIN_ID);
+                    pageValue = 'quickRelease';
                     collectType = '账号出售';
                 }else if(parseInt(value.COLLECT_TYPE)==2){
+                    pageValueEdit = 'detailRelease?mainId='+encodeURI(value.MAIN_ID);
+                    pageValue = 'detailRelease';
                     collectType = '账号求购';
                 }else if(parseInt(value.COLLECT_TYPE)==3){
+                    pageValueEdit = 'appearanceTransaction?mainId='+encodeURI(value.MAIN_ID);
+                    pageValue = 'appearanceTransaction';
                     collectType = '外观出售';
                 }else if(parseInt(value.COLLECT_TYPE)==4){
+                    pageValueEdit = 'appearanceTransaction?mainId='+encodeURI(value.MAIN_ID);
+                    pageValue = 'appearanceTransaction';
                     collectType = '外观求购';
                 }else if(parseInt(value.COLLECT_TYPE)==5){
+                    pageValueEdit = 'propTransaction?mainId='+encodeURI(value.MAIN_ID);
+                    pageValue = 'propTransaction';
                     collectType = '道具出售';
                 }else if(parseInt(value.COLLECT_TYPE)==6){
+                    pageValueEdit = 'propTransaction?mainId='+encodeURI(value.MAIN_ID);
+                    pageValue = 'propTransaction';
                     collectType = '道具求购';
                 }else if(parseInt(value.COLLECT_TYPE)==7){
+                    pageValueEdit = 'accountTransaction?mainId='+encodeURI(value.MAIN_ID);
+                    pageValue = 'accountTransaction';
                     collectType = '金币交易';
                 }else if(parseInt(value.COLLECT_TYPE)==8){
+                    pageValueEdit = 'accountExchange?mainId='+encodeURI(value.MAIN_ID);
+                    pageValue = 'accountExchange';
                     collectType = '代练代打';
                 }
-                var cont = value.COLLECT_CONT.split('[').join('');
-                cont = cont.split('').join('');
+                var cont = value.COLLECT_CONT.replace(':','');
+                cont = cont.replace("BELONG_QF","");
+                cont = cont.replace("TIXIN","");
+                cont = cont.replace("TITLE_NAME","");
+                cont = cont.replace("WAIGUAN_NAME","");
+                cont = cont.replace("HORSE_NAME","");
+                cont = cont.replace("ARM_NAME","");
+                cont = cont.replace("STRA_NAME","");
+                cont = cont.replace("PEND_NAME","");
                 $('.table').append("<div class=\"table-tr\">\n" +
                     "                    <div class=\"table-td\"><i class=\"icon1\"></i></div>\n" +
-                    "                    <div class=\"table-td recordId\" style='display: none'>"+value.RECORD_ID+"</div>\n" +
                     "                    <div class=\"table-td\">"+collectType+"</div>\n" +
-                    "                    <div class=\"table-td table_lw\">"+cont+"</div>\n" +
-                    "                    <div class=\"table-td warn\">"+value.COLLECT_STUSTA+"人报告失效</div>\n" +
-                    "                    <div class=\"table-td\">"+value.COLLECT_DATE+"</div>\n" +
+                    "                    <div class=\"table-td table_lw\"><a href='"+pageValue+"'> 2k</a></div>\n" +
+                    "                    <div class=\"table-td\">"+value.COLLECT_STUSTA+"人报告失效</div>\n" +
                     "                    <div class=\"table-td\">"+value.FAVOR_DATE+"</div>\n" +
+                    "                    <div class=\"table-td\"><a href='"+pageValueEdit+"'>修改</a></div>\n" +
                     "                  </div>");
             });
         }else{
@@ -91,25 +115,25 @@ function initTable(name,keyNum) {
             }
         });
     }).error(function () {
-       layer.msg("加载收藏信息失败!");
+        layer.msg("加载收藏信息失败!");
     }).complete(function () {
         $('.remove').unbind('click');
         $('.remove').click(function () {
             var ids = [];
-           $('.icon1.cur').each(function () {
-               if($(this).parent().html().indexOf("全选")==-1){
-                   var recordId = $(this).parent().parent().find('.recordId').text();
-                   ids.push(recordId);
-               }
-           });
-           var url = api+'removeRecord?ids='+encodeURI(ids);
-           $.getJSON(url,function (data) {
-               layer.msg(data.info);
-           }).error(function () {
-               layer.msg("删除异常!");
-           }).complete(function () {
-               initTable(username);
-           });
+            $('.icon1.cur').each(function () {
+                if($(this).parent().html().indexOf("全选")==-1){
+                    var recordId = $(this).parent().parent().find('.recordId').text();
+                    ids.push(recordId);
+                }
+            });
+            var url = api+'removeRecord?ids='+encodeURI(ids);
+            $.getJSON(url,function (data) {
+                layer.msg(data.info);
+            }).error(function () {
+                layer.msg("删除异常!");
+            }).complete(function () {
+                initTable(username);
+            });
         });
         layer.closeAll();
         var pageList = dataTemp.pageList==null?"":dataTemp.pageList;
