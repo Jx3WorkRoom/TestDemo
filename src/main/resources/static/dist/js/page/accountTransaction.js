@@ -29,7 +29,7 @@ function saveTable(url,keyNum) {
 
 //加载搜索框
 function initSeach() {
-    var url = api+'saveWyjbInfo';
+    var url = api+'saveJbjyInfo';
     $.getJSON(url,function (data) {
         var selecttions = data.selecttions==null?"":data.selecttions;
         //填充区域选择框
@@ -50,20 +50,18 @@ function initSeach() {
         console.log('2222222222222222222222');
         $('.query-l').unbind("click");
         $('.query-l').click(function () {
-                var cheatType = '1';//欺诈类别
+                var tradeType = '1';//
                 var belongQf = '1'; //涉事区服
-                var tixin = '1';//门派体型
-                var roleName = '1';//角色名
-                var cheatIntro = '1';//被黑经历
-                var cheatInfo = '1';//资料信息(网页链接地址)
-                var pageUrl = '1';//网页链接地址
-                url = api + 'saveWyjbInfo?cheatType=' + encodeURI(cheatType)
+                var goldTotal = '1';//
+                var unitPrice = '1';//
+                var ifSplit = '1';//
+                var favorInfo = '1';//
+                url = api + 'saveJbjyInfo?tradeType=' + encodeURI(tradeType)
                     + '&belongQf=' + encodeURI(belongQf)
-                    + '&tixin=' + encodeURI(tixin)
-                    +'&roleName=' + encodeURI(roleName)
-                    +'&cheatIntro=' + encodeURI(cheatIntro)
-                    +'&cheatInfo=' + encodeURI(cheatInfo)
-                    +'&pageUrl=' + encodeURI(pageUrl);
+                    + '&goldTotal=' + encodeURI(goldTotal)
+                    +'&unitPrice=' + encodeURI(unitPrice)
+                    +'&ifSplit=' + encodeURI(ifSplit)
+                    +'&favorInfo=' + encodeURI(favorInfo);
                 saveTable(url);
         });
     });
