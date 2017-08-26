@@ -19,6 +19,7 @@
 <body>
 <!-- top logo -->
 <div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <!-- navigation -->
 <div class="navCon">
     <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">剑三老玩家</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
@@ -32,121 +33,228 @@
                     <div class="td menue"> <img th:src="@{/dist/css/images/jx3/uctop.png}" />
                         <div class="menuelist">
                             <dt>我的服务</dt>
-                            <dd class="cur"><a href="dataAndSecurity">资料与安全</a></dd>
-                            <dd><a href="myCollection">我的收藏</a></dd>
-                            <dd><a href="myRelease">我的发布</a></dd>
-                            <dd><a href="myService">我的服务</a></dd>
-                            <dd><a href="serviceSetting">服务设置</a></dd>
+                            <dd><a href="dataAndSecurity.html">资料与安全</a></dd>
+                            <dd><a href="myCollection.html">我的收藏</a></dd>
+                            <dd><a href="myRelease.html">我的发布</a></dd>
+                            <dd class="cur"><a href="myService.html">查看信息服务</a></dd>
+                            <dd><a href="serviceSetting.html">信息定制服务</a></dd>
                             <dt>我要发布</dt>
-                            <dd><a href="report">我要举报</a></dd>
-                            <dd><a href="appearanceTransaction">外观交易</a></dd>
-                            <dd><a href="propTransaction">道具交易</a></dd>
-                            <dd><a href="accountTransaction">金币交易</a></dd>
-                            <dd><a href="accountExchange">代练交易</a></dd>
-                            <dd><a href="quickRelease">账号收售快速发布</a></dd>
-                            <dd><a href="detailRelease">账号收售详细发布</a></dd>
+                            <dd><a href="report.html">我要举报</a></dd>
+                            <dd><a href="appearanceTransaction.html">外观交易</a></dd>
+                            <dd><a href="propTransaction.html">道具交易</a></dd>
+                            <dd><a href="accountTransaction.html">金币交易</a></dd>
+                            <dd><a href="accountExchange.html">代练交易</a></dd>
+                            <dd><a href="quickRelease.html">账号收售快速发布</a></dd>
+                            <dd><a href="detailRelease.html">账号收售详细发布</a></dd>
                             <dt>后台管理</dt>
-                            <dd><a href="userList">用户列表</a></dd>
-                            <dd><a href="userManage">用户管理</a></dd>
+                            <dd><a href="userList.html">用户管理</a></dd>
+                            <dd><a href="userManage.html">功能权限设置</a></dd>
+                            <dd><a href="userservice.html">用户查看权限管理</a></dd>
+                            <dd><a href="usersetting.html">用户定制权限管理</a></dd>
+                            <dd><a href="userimgs.html">图文管理</a></dd>
                         </div>
                     </div>
                     <div class="td">
                         <div class="rightcon">
                             <div class="title">
-                                <div class="ht">用户列表</div>
+                                <div class="ht">用户列表及账号管理</div>
                             </div>
-                            <div class="userList">
-                                <div class="tops">
-                                    <table>
-                                        <tbody><tr>
-                                            <td align="right" class="wr ft1">用户搜索：</td>
-                                            <td><ul class="nav nav-pills">
-                                                <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">用户名<b class="caret"></b></a>
-                                                    <ul class="dropdown-menu">
-                                                        <li data-filter-camera-type="all"><a data-toggle="tab" href="#">用户名</a></li>
-                                                        <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">联系电话</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul></td>
-                                            <td><input class="w250" type="text" placeholder="情输入搜索内容"></td>
-                                            <td colspan="2"><a href="#" class="search-l">搜索</a></td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
+                            <div class="userManage">
+
+                                <ul class="tab-nav">
+                                    <li class="cur">账号管理</li>
+                                    <li>用户列表</li>
+                                </ul>
                                 <div class="list">
-                                    <div class="classifiedList3">
-                                        <div class="table">
-                                            <div class="table-tr tablech1">
-                                                <div class="table-th table-th3">用户ID</div>
-                                                <div class="table-th">注册日期</div>
-                                                <div class="table-th">用户名</div>
-                                                <div class="table-th">绑定号码</div>
-                                                <div class="table-th">当前服务类型</div>
-                                                <div class="table-th">账户状态</div>
+                                    <div class="tab-content">
+                                        <div class="group">
+                                            <div class="tops">
+                                                <table>
+                                                    <tbody><tr>
+                                                        <td align="right" class="wr ft1">用户搜索：</td>
+                                                        <td><ul class="nav nav-pills">
+                                                            <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">用户账号<b class="caret"></b></a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li data-filter-camera-type="all"><a data-toggle="tab" href="#">用户账号</a></li>
+                                                                    <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">用户名</a></li>
+                                                                    <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">手机号</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul></td>
+                                                        <td><input class="w250" type="text" placeholder="情输入搜索内容"></td>
+                                                        <td colspan="2"><a href="#" class="search-l">搜索</a></td>
+                                                    </tr>
+                                                    </tbody></table>
                                             </div>
-                                            <div class="table-tr">
-                                                <div class="table-td">123456</div>
-                                                <div class="table-td">2017-01-01</div>
-                                                <div class="table-td">夜空守望者001</div>
-                                                <div class="table-td">18888888888</div>
-                                                <div class="table-td">免费用户</div>
-                                                <div class="table-td">有效</div>
-                                            </div>
-                                            <div class="table-tr">
-                                                <div class="table-td">123456</div>
-                                                <div class="table-td">2017-01-01</div>
-                                                <div class="table-td">夜空守望者001</div>
-                                                <div class="table-td">18888888888</div>
-                                                <div class="table-td">免费用户</div>
-                                                <div class="table-td">有效</div>
-                                            </div>
-                                            <div class="table-tr">
-                                                <div class="table-td">123456</div>
-                                                <div class="table-td">2017-01-01</div>
-                                                <div class="table-td">夜空守望者001</div>
-                                                <div class="table-td">18888888888</div>
-                                                <div class="table-td">免费用户</div>
-                                                <div class="table-td">有效</div>
-                                            </div>
-                                            <div class="table-tr">
-                                                <div class="table-td">123456</div>
-                                                <div class="table-td">2017-01-01</div>
-                                                <div class="table-td">夜空守望者001</div>
-                                                <div class="table-td">18888888888</div>
-                                                <div class="table-td">免费用户</div>
-                                                <div class="table-td">有效</div>
-                                            </div>
-                                            <div class="table-tr">
-                                                <div class="table-td">123456</div>
-                                                <div class="table-td">2017-01-01</div>
-                                                <div class="table-td">夜空守望者001</div>
-                                                <div class="table-td">18888888888</div>
-                                                <div class="table-td">免费用户</div>
-                                                <div class="table-td">有效</div>
-                                            </div>
-                                            <div class="table-tr">
-                                                <div class="table-td">123456</div>
-                                                <div class="table-td">2017-01-01</div>
-                                                <div class="table-td">夜空守望者001</div>
-                                                <div class="table-td">18888888888</div>
-                                                <div class="table-td">免费用户</div>
-                                                <div class="table-td">有效</div>
+                                            <div class="classifiedList3">
+                                                <div class="table">
+                                                    <div class="table-tr tablech1">
+                                                        <div class="table-th table-th3">用户ID</div>
+                                                        <div class="table-th">注册日期</div>
+                                                        <div class="table-th">用户名</div>
+                                                        <div class="table-th">绑定手机</div>
+                                                        <div class="table-th">用户账号</div>
+                                                        <div class="table-th">账户状态</div>
+                                                        <div class="table-th">管理员账号设置停用</div>
+                                                    </div>
+                                                    <div class="table-tr">
+                                                        <div class="table-td">123456</div>
+                                                        <div class="table-td">2017-01-01</div>
+                                                        <div class="table-td">夜空守望者001</div>
+                                                        <div class="table-td">188****8888</div>
+                                                        <div class="table-td">qaz123</div>
+                                                        <div class="table-td">正常</div>
+                                                        <div class="table-td">
+                                                            <td align="right" class="wr ft1">停用</td>
+                                                            <td><input type="text " value="24" />小时</td>
+                                                            <td align="right" class="wr ft1"></td>
+                                                            <td colspan="7"><span class="codebtn">保存</span></td>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-tr">
+                                                        <div class="table-td">123456</div>
+                                                        <div class="table-td">2017-01-01</div>
+                                                        <div class="table-td">夜空守望者001</div>
+                                                        <div class="table-td">188****8888</div>
+                                                        <div class="table-td">qaz123</div>
+                                                        <div class="table-td">正常</div>
+                                                        <div class="table-td">
+                                                            <td align="right" class="wr ft1">停用</td>
+                                                            <td><input type="text " value="24" />小时</td>
+                                                            <td align="right" class="wr ft1"></td>
+                                                            <td colspan="7"><span class="codebtn">保存</span></td>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-tr">
+                                                        <div class="table-td">123456</div>
+                                                        <div class="table-td">2017-01-01</div>
+                                                        <div class="table-td">夜空守望者001</div>
+                                                        <div class="table-td">188****8888</div>
+                                                        <div class="table-td">qaz123</div>
+                                                        <div class="table-td">正常</div>
+                                                        <div class="table-td">
+                                                            <td align="right" class="wr ft1">停用</td>
+                                                            <td><input type="text " value="24" />小时</td>
+                                                            <td align="right" class="wr ft1"></td>
+                                                            <td colspan="7"><span class="codebtn">保存</span></td>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-tr">
+                                                        <div class="table-td">123456</div>
+                                                        <div class="table-td">2017-01-01</div>
+                                                        <div class="table-td">夜空守望者001</div>
+                                                        <div class="table-td">188****8888</div>
+                                                        <div class="table-td">qaz123</div>
+                                                        <div class="table-td">正常</div>
+                                                        <div class="table-td">
+                                                            <td align="right" class="wr ft1">停用</td>
+                                                            <td><input type="text " value="24" />小时</td>
+                                                            <td align="right" class="wr ft1"></td>
+                                                            <td colspan="7"><span class="codebtn">保存</span></td>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-tr">
+                                                        <div class="table-td">123456</div>
+                                                        <div class="table-td">2017-01-01</div>
+                                                        <div class="table-td">夜空守望者001</div>
+                                                        <div class="table-td">188****8888</div>
+                                                        <div class="table-td">qaz123</div>
+                                                        <div class="table-td">正常</div>
+                                                        <div class="table-td">
+                                                            <td align="right" class="wr ft1">停用</td>
+                                                            <td><input type="text " value="24" />小时</td>
+                                                            <td align="right" class="wr ft1"></td>
+                                                            <td colspan="7"><span class="codebtn">保存</span></td>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-tr">
+                                                        <div class="table-td">123456</div>
+                                                        <div class="table-td">2017-01-01</div>
+                                                        <div class="table-td">夜空守望者001</div>
+                                                        <div class="table-td">188****8888</div>
+                                                        <div class="table-td">qaz123</div>
+                                                        <div class="table-td">正常</div>
+                                                        <div class="table-td">
+                                                            <td align="right" class="wr ft1">停用</td>
+                                                            <td><input type="text " value="24" />小时</td>
+                                                            <td align="right" class="wr ft1"></td>
+                                                            <td colspan="7"><span class="codebtn">保存</span></td>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pagers pagers2">
+                                                    <ul class="pagination">
+                                                        <li class="disabled"><a href="#">上一页</a></li>
+                                                        <li class="active"><a href="#">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                        <li><a href="#">4</a></li>
+                                                        <li><a href="#">5</a></li>
+                                                        <li><a href="#">下一页</a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
 
                                         </div>
+                                        <div class="group">
+                                            <div class="tb tcon">
+                                                <div class="tr">
+                                                    <div class="td name">用户ID：</div>
+                                                    <div class="td mid">526135</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">注册日期：</div>
+                                                    <div class="td mid">2017-01-01 12:00:00</div>
+                                                 </div>
+                                                <div class="tr">
+                                                    <div class="td name">登陆账号：</div>
+                                                    <div class="td mid">8945498</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">登陆密码：</div>
+                                                    <div class="td mid">edc78412321</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">用户名：</div>
+                                                    <div class="td mid">用户名***</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">性别：</div>
+                                                    <div class="td mid">嬲</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">绑定手机：</div>
+                                                    <div class="td mid">12345678998</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">绑定QQ：</div>
+                                                    <div class="td mid">684561469</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">绑定邮箱：</div>
+                                                    <div class="td mid">123456789@qq.com</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">绑定贴吧账号：</div>
+                                                    <div class="td mid">qwe987654</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">绑定微信：</div>
+                                                    <div class="td mid">asd456123</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">绑定支付宝：</div>
+                                                    <div class="td mid">123456789</div>
+                                                </div>
+                                                <div class="tr">
+                                                    <div class="td name">绑定身份证：</div>
+                                                    <div class="td mid">420802199505160516</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+
                                     </div>
-                                </div>
-                                <div class="pagers pagers2">
-                                    <ul class="pagination">
-                                        <li class="disabled"><a href="#">上一页</a></li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#">下一页</a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -161,6 +269,12 @@
 <!-- /.modal -->
 </body>
 <script type="text/javascript">
+    $('.userManage .tab-nav li').click(function () {
+        $(this).addClass('cur').siblings('li').removeClass('cur');
+        var liindex=$(this).index();
+        var tabcontent=$('.tab-content .group');
+        $(tabcontent[liindex]).show().siblings('.group').hide();
+    })
     $(".nav-pills ul li").click(function(){
         var sefont=$(this).find('a').text();
         $(this).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')

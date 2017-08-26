@@ -69,79 +69,79 @@ public class webAction {
         return "register";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/dataAndSecurity")
     public String dataAndSecurity() {
         return "userCenter/dataAndSecurity";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/userList")
     public String userList() {
         return "userCenter/userList";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/userManage")
     public String userManage() {
         return "userCenter/userManage";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/myCollection")
     public String myCollection() {
         return "userCenter/myCollection";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/myRelease")
     public String myRelease() {
         return "userCenter/myRelease";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/myService")
     public String myService() {
         return "userCenter/myService";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/serviceSetting")
     public String serviceSetting() {
         return "userCenter/serviceSetting";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/report")
     public String report() {
         return "userCenter/report";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/appearanceTransaction")
     public String appearanceTransaction() {
         return "userCenter/appearanceTransaction";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/propTransaction")
     public String propTransaction() {
         return "userCenter/propTransaction";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/quickRelease")
     public String quickRelease() {
         return "userCenter/quickRelease";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/detailRelease")
     public String detailRelease() {
         return "userCenter/detailRelease";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/detailRelease2")
     public String detailRelease2() {
         return "userCenter/detailRelease2";
@@ -152,16 +152,40 @@ public class webAction {
         return "userCenter/404";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/accountExchange")
     public String accountExchange() {
         return "userCenter/accountExchange";
     }
 
-    @PreAuthorize("hasAnyRole('admin')")
+    @PreAuthorize("hasAnyRole('admin','user')")
     @RequestMapping("/accountTransaction")
     public String accountTransaction() {
         return "userCenter/accountTransaction";
+    }
+
+    @PreAuthorize("hasAnyRole('admin','user')")
+    @RequestMapping("/sale")
+    public String saleaction() {
+        return "userCenter/sale";
+    }
+
+    @PreAuthorize("hasAnyRole('admin','user')")
+    @RequestMapping("/userservice")
+    public String userserviceaction() {
+        return "userCenter/userservice";
+    }
+
+    @PreAuthorize("hasAnyRole('admin','user')")
+    @RequestMapping("/usersetting")
+    public String usersettingaction() {
+        return "userCenter/usersetting";
+    }
+
+    @PreAuthorize("hasAnyRole('admin','user')")
+    @RequestMapping("/userimgs")
+    public String userimgsaction() {
+        return "userCenter/userimgs";
     }
 
 }
