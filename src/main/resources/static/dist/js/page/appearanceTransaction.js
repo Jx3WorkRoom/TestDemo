@@ -52,18 +52,14 @@ function initSeach() {
         $('.query-l').click(function () {
                 var cheatType = '1';//欺诈类别
                 var belongQf = '1'; //涉事区服
-                var tixin = '1';//门派体型
-                var roleName = '1';//角色名
-                var cheatIntro = '1';//被黑经历
-                var cheatInfo = '1';//资料信息(网页链接地址)
-                var pageUrl = '1';//网页链接地址
-                url = api + 'saveWyjbInfo?cheatType=' + encodeURI(cheatType)
+                var viewName = '1';//
+                var priceNum = '1';//
+                var favorInfo = '1';//
+                url = api + 'saveWgjyInfo?cheatType=' + encodeURI(cheatType)
                     + '&belongQf=' + encodeURI(belongQf)
-                    + '&tixin=' + encodeURI(tixin)
-                    +'&roleName=' + encodeURI(roleName)
-                    +'&cheatIntro=' + encodeURI(cheatIntro)
-                    +'&cheatInfo=' + encodeURI(cheatInfo)
-                    +'&pageUrl=' + encodeURI(pageUrl);
+                    + '&viewName=' + encodeURI(viewName)
+                    +'&priceNum=' + encodeURI(priceNum)
+                    +'&favorInfo=' + encodeURI(favorInfo);
                 saveTable(url);
         });
     });
