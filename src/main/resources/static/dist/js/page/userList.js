@@ -1,142 +1,174 @@
-api = api+"myRelease/";
-var username = "";
+var api = api+'userInfo/';
 $(function () {
-    username = $('#userName').text();
-    initTable(username);
+    initTable();
+    initSeach();
 });
 
-function initTable(name,keyNum) {
-    name = username;
+function initTable(url,keyNum) {
     var startNum = 0;
     if(keyNum!=null){
-        startNum = keyNum*10-10;
+        startNum = keyNum*20-20;
     }
+    if(url==null) {
+        url = api+'queryUserInfo?num='+encodeURI(startNum);
+    }
+    $(".table").empty();
+    $(".table").append("<div class=\"table-tr tablech1\">\n" +
+        "                <div class=\"table-th table-th3\">用户ID</div>\n" +
+        "                                                        <div class=\"table-th\">注册日期</div>\n" +
+        "                                                        <div class=\"table-th\">用户名</div>\n" +
+        "                                                        <div class=\"table-th\">绑定手机</div>\n" +
+        "                                                        <div class=\"table-th\">用户账号</div>\n" +
+        "                                                        <div class=\"table-th\">账户状态</div>\n" +
+        "                                                        <div class=\"table-th\">管理员账号设置停用</div>\n" +
+        "                                                    </div>");
     layer.load();
-    var url = api+'myReleaseInfo?userName='+encodeURI(name)+'&num='+encodeURI(startNum);
-    var dataTemp=null;
-    $.getJSON(url,function (data) {
-        dataTemp=data;
-        data = data.datas==null?'':data.datas;
-        if(data!=""){
-            $('.table').empty();
-            $('.table').append("<div class=\"table-tr tablech1\">\n" +
-                "                    <div class=\"table-th table-th3\"></div>\n" +
-                "                    <div class=\"table-th\">发布类型</div>\n" +
-                "                    <div class=\"table-th\">发布内容</div>\n" +
-                "                    <div class=\"table-th\">状态</div>\n" +
-                "                    <div class=\"table-th\">发布时间</div>\n" +
-                "                  </div>");
-            $.each(data,function(i,value){
-                var pageValueEdit = "";
-                var pageValue = "";
-                var collectType = "";
-                if(parseInt(value.FAVOR_TYPE)==1){
-                    pageValueEdit = 'quickRelease?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '账号快速发布';
-                }else if(parseInt(value.FAVOR_TYPE)==2){
-                    pageValueEdit = 'detailRelease?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '账号详细发布';
-                }else if(parseInt(value.FAVOR_TYPE)==3){
-                    pageValueEdit = 'appearanceTransaction?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '外观交易';
-                }else if(parseInt(value.FAVOR_TYPE)==4){
-                    pageValueEdit = 'propTransaction?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '道具交易';
-                }else if(parseInt(value.FAVOR_TYPE)==5){
-                    pageValueEdit = 'accountTransaction?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '金币交易';
-                }else if(parseInt(value.FAVOR_TYPE)==6){
-                    pageValueEdit = 'accountExchange?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '代练代打';
-                }else if(parseInt(value.FAVOR_TYPE)==7){
-                    pageValueEdit = 'report?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '我要举报';
-                }
-                var cont = value.COLLECT_CONT.replace(':','');
-                cont = cont.replace("BELONG_QF","");
-                cont = cont.replace("TIXIN","");
-                cont = cont.replace("TITLE_NAME","");
-                cont = cont.replace("WAIGUAN_NAME","");
-                cont = cont.replace("HORSE_NAME","");
-                cont = cont.replace("ARM_NAME","");
-                cont = cont.replace("STRA_NAME","");
-                cont = cont.replace("PEND_NAME","");
-                $('.table').append("<div class=\"table-tr\">\n" +
-                    "                    <div class=\"table-td\"><i class=\"icon1\"></i></div>\n" +
-                    "                    <div class=\"table-td\">"+collectType+"</div>\n" +
-                    "                    <div class=\"table-td table_lw\"><a href='"+pageValueEdit+"'> 2k</a></div>\n" +
-                    "                    <div class=\"table-td\">"+value.COLLECT_STUSTA+"人报告失效</div>\n" +
-                    "                    <div class=\"table-td\">"+value.FAVOR_DATE+"</div>\n" +
-                    "                  </div>");
+    var dataTemp = null;
+    $.ajax({
+        url:url,
+        async:false,
+        success:function (data) {
+            dataTemp = data;
+            //填充表格数据
+            var tableDatas = data.datas==null?"":data.datas;
+            $.each(tableDatas,function (i,value) {
+                var tel = change(value.USER_TEL);
+                var status = change2(value.ADMIN_LOCK);
+                $(".table").append("<div class=\"table-tr\">\n" +
+                    "                                                        <div class=\"table-td\">"+value.USER_ID+"</div>\n" +
+                    "                                                        <div class=\"table-td\">"+value.REGIST_DATE+"</div>\n" +
+                    "                                                        <div class=\"table-td\"><a href='javascript:void(0)'  class='userDetail'>"+value.USER_NAME+"</a></div>\n" +
+                    "                                                        <div class=\"table-td\">"+tel+"</div>\n" +
+                    "                                                        <div class=\"table-td\">"+value.LOGIN_NAME+"</div>\n" +
+                    "                                                        <div class=\"table-td\">"+status+"</div>\n" +
+                    "                                                        <div class=\"table-td\">\n" +
+                    "                                                            停用\n" +
+                    "                                                            <input type=\"text \" value=\"24\">小时\n" +
+                    "                                                            \n" +
+                    "                                                            <span class=\"codebtn\">保存</span>\n" +
+                    "                                                        </div>\n" +
+                    "                                                    </div>");
             });
-        }else{
-            layer.msg("加载收藏信息失败")
-        }
-        $('.icon1').css({
-            "display": "inline-block",
-            "background": "url(./dist/css/images/jx3/se0.png) no-repeat",
-            "width": "21px",
-            "height": "21px",
-            "cursor": "pointer",
-            "position": "relative",
-            "bottom": "-4px"
-        });
-        $(".icon1").unbind('click');
-        $(".icon1").click(function(){
-            if($(this).parent().html().indexOf("全选")==-1){
-                if($(this).attr('class').indexOf('cur')>-1){
-                    $(this).removeClass('cur');
-                    $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
-                }else{
-                    $(this).addClass('cur');
-                    $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
-                }
-            }else{
-                if($(this).attr('class').indexOf('cur')>-1){
-                    $(".icon1").removeClass('cur');
-                    $(".icon1").css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
-                }else{
-                    $(".icon1").addClass('cur');
-                    $(".icon1").css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+
+            $('.userDetail').click(function () {
+                $('.tab-nav').find('li').eq(1).show();
+                $('.tab-nav').find('li').eq(1).click();
+                var userId = $(this).parent().parent().find('div').eq(0).text();
+                var url = api+'queryUserInfoByUserId?userId='+encodeURI(userId);
+                $.getJSON(url,function (data) {
+                   data = data.datas[0] ==null?'': data.datas[0];
+                    var tel = change(data.USER_TEL);
+                    var password = change(data.LOGIN_WORD);
+                    var qq = data.USER_QQ == ""?'--':data.USER_QQ;
+                    var mail = data.USER_MAIL == ""?'--':data.USER_MAIL;
+                    var bar = data.USER_BAR == ""?'--':data.USER_BAR;
+                    var weixin = data.USER_WEIXIN == ""?'--':data.USER_WEIXIN;
+                    var zfb = data.USER_ZFB == ""?'--':data.USER_ZFB;
+                    var sfz = data.USER_SFZ == ""?'--':data.USER_SFZ;
+                    $('.mid').eq(0).text(data.USER_ID);
+                    $('.mid').eq(1).text(data.REGIST_DATE);
+                    $('.mid').eq(2).text(data.LOGIN_NAME);
+                    $('.mid').eq(3).text(password);
+                    $('.mid').eq(4).text(data.USER_NAME);
+                    $('.mid').eq(5).text(data.USER_SEX);
+                    $('.mid').eq(6).text(tel);
+                    $('.mid').eq(7).text(qq);
+                    $('.mid').eq(8).text(mail);
+                    $('.mid').eq(9).text(bar);
+                    $('.mid').eq(10).text(weixin);
+                    $('.mid').eq(11).text(zfb);
+                    $('.mid').eq(12).text(sfz);
+                });
+            });
+
+            $('.codebtn').click(function () {
+                var userId = $(this).parent().parent().find('div').eq(0).text();
+                var hour = $(this).parent().find('input').val();
+                var url = api+'editLockTime?userId='+encodeURI(userId)+"&hour="+encodeURI(hour);
+                $.getJSON(url,function (data) {
+                    layer.msg(data.info)
+                });
+            });
+
+            function change(str) {
+                if(str==""){
+                    return "--";
+                }else {
+                    if (str.indexOf('@') > -1) {
+                        var str1 = str.substring(0, 2);
+                        var str2 = str.substring(5, str.length);
+                        return str1 + "***" + str2;
+                    } else {
+                        var str1 = str.substring(0, 3);
+                        var str2 = str.substring(6, str.length);
+                        return str1 + "***" + str2;
+                    }
                 }
             }
-        });
-    }).error(function () {
-        layer.msg("加载收藏信息失败!");
-    }).complete(function () {
-        $('.remove').unbind('click');
-        $('.remove').click(function () {
-            var ids = [];
-            $('.icon1.cur').each(function () {
-                if($(this).parent().html().indexOf("全选")==-1){
-                    var recordId = $(this).parent().parent().find('.recordId').text();
-                    ids.push(recordId);
+
+            function change2(str) {
+                if(str==null){
+                    return "--";
                 }
-            });
-            var url = api+'removeRecord?ids='+encodeURI(ids);
-            $.getJSON(url,function (data) {
-                layer.msg(data.info);
-            }).error(function () {
-                layer.msg("删除异常!");
-            }).complete(function () {
-                initTable(username);
-            });
-        });
-        layer.closeAll();
-        var pageList = dataTemp.pageList==null?"":dataTemp.pageList;
-        if(pageList!=""){
-            initPage(pageList,keyNum);
-        }else{
-            $('.pagination').empty();
-            layer.msg("加载数据出错!");
+                str = str.split('-')[0]+str.split('-')[1]+str.split('-')[2];
+                str = parseInt(str);
+                var date  = parseInt(new DateUtil().formatDate("yyyyMMdd",new Date()));
+                if(date>str){
+                    return "正常";
+                }else{
+                    return "禁用";
+                }
+
+            }
+        },
+        complete:function () {
+            layer.closeAll();
+            var pageList = dataTemp.pageList==null?"":dataTemp.pageList;
+            if(pageList!=""){
+                initPage(pageList,keyNum);
+            }else{
+                $('.pagination').empty();
+                layer.msg("加载数据出错!");
+            }
+        },
+        error:function () {
+            layer.closeAll();
+            layer.msg("数据请求失败!")
+        }
+
+    });
+}
+
+//加载搜索框
+function initSeach() {
+    $('.search-l').unbind("click");
+    $('.search-l').click(function () {
+        var shape = $('.w250').val();
+        var type = $('.dropdown-toggle').text();
+        if(shape==""){
+            initTable();
+        }else {
+            if(type.indexOf('用户账号')>-1){
+                type = 1;
+            }else if(type.indexOf('用户名')>-1){
+                type = 2;
+            }else if(type.indexOf('手机号')>-1){
+                type = 3;
+            }
+            url = api + 'queryUserInfo?shape=' + encodeURI(shape)
+                +'&type='+encodeURI(type)
+                +'&num=0';
+            initTable(url);
         }
     });
 }
 
+
+//加载分页组件
 function initPage(pageList,keyNum) {
     var pageDatas = pageList;
     pageList = pageList==null?100:pageList-1;
-    var pageNum = parseInt(pageList/10)+1;
+    var pageNum = parseInt(pageList/20)+1;
     $('.pagination').empty();
     if(keyNum==null) {
         if (pageNum > 6) {
