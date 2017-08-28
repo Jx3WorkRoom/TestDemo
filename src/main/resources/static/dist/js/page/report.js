@@ -1,6 +1,7 @@
 //------------------------------------常量定义 Start------------------------------------
-    api = api+"accountList/";
     reportApi = api+"iwantRelease/";
+    api = api+"accountList/";
+
     //设置一个省的公共下标
     var pIndex = 0;
     var preEle = document.getElementById("pre");
@@ -134,19 +135,23 @@
 
     function initTable(url,keyNum) {
         var cheatType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-        if(cheatType=="外观诈骗"){
+        if(cheatType=="账号诈骗"){
             cheatType=1;
-        }else{
+        }else if(cheatType=="外观诈骗"){
             cheatType=2;
+        }else if(cheatType=="道具诈骗"){
+            cheatType=3;
+        }else if(cheatType=="金币诈骗"){
+            cheatType=4;
         }
-        var str = getUrlParam('cheatType');
-        // console.log('initTable()----------->'+str);
+        //var str = getUrlParam('cheatType');
+        console.log('initTable()----------->'+cheatType);
         // function getUrlParam(name) {
         //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         //     var r = window.location.search.substr(1).match(reg); //匹配目标参数
         //     if (r != null) return unescape(r[2]); return null; //返回参数值
         // }
-        if(parseInt(str)==1){
+        /*if(parseInt(str)==1){
             tradeType=1;
             var sefont=$(".nav-pills ul li").eq(0).find('a').text();
             $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
@@ -154,7 +159,7 @@
             tradeType=2;
             var sefont=$(".nav-pills ul li").eq(1).find('a').text();
             $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
-        }
+        }*/
     }
 
     //初始欺诈类型
@@ -250,14 +255,42 @@
             $('.query-l').click(function () {
                     var cheatType = '1';//欺诈类别
                     var belongQf = '1'; //涉事区服
-                    var tixin = '1';//门派体型
-                    var roleName = '1';//角色名
-                    var cheatIntro = '1';//被黑经历
-                    var cheatInfo = '1';//资料信息(网页链接地址)
-                    var pageUrl = '1';//网页链接地址
-                console.log('开始----------->'+$('.dropdown.all-camera-dropdown').find("p").eq(0));
-                    cheatType =$('.dropdown.all-camera-dropdown').find("p").eq(0).val().trim();
-                console.log(cheatType);
+                    var tixin = $('#tixin').val();//门派体型
+                    var roleName = $('#roleName').val();//角色名
+                    var cheatIntro = $('#cheatIntro').val();//被黑经历
+                    var cheatInfo = $('#cheatInfo').val();//资料信息(网页链接地址)
+                    var pageUrl = $('#pageUrl').val();//网页链接地址
+
+                //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
+                    cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                    if(cheatType=="账号诈骗"){
+                        cheatType=1;
+                    }else if(cheatType=="外观诈骗"){
+                        cheatType=2;
+                    }else if(cheatType=="道具诈骗"){
+                        cheatType=3;
+                    }else if(cheatType=="金币诈骗"){
+                        cheatType=4;
+                    }
+
+                    $('.areaSelect').find('select').each(function () {
+                        var text = $(this).find('option:selected').text();
+                        if(text.indexOf("请选择")==-1) {
+                            belongQf += text + ',';
+                        }
+                    });
+                    if(belongQf.length>2) {
+                        belongQf = belongQf.substring(0, belongQf.length - 1);
+                    }else{
+                        belongQf="";
+                    }
+                    console.log('开始----------->'+cheatType);
+                    console.log('开始----------->'+belongQf);
+                    console.log('开始----------->'+tixin);
+                    console.log('开始----------->'+roleName);
+                    console.log('开始----------->'+cheatIntro);
+                    console.log('开始----------->'+cheatInfo);
+                    console.log('开始----------->'+pageUrl);
                     /*if(tradeType=="求购"){
                         tradeType=1;
                     }else{
@@ -271,7 +304,7 @@
                         +'&cheatIntro=' + encodeURI(cheatIntro)
                         +'&cheatInfo=' + encodeURI(cheatInfo)
                         +'&pageUrl=' + encodeURI(pageUrl);
-                    //saveTable(url);
+                    saveTable(url);
 
             });
 
