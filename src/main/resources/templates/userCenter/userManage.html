@@ -14,6 +14,9 @@
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
     <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+    <script th:src="@{/dist/js/layer/layer.js}"></script>
+    <script th:src="@{/dist/js/page/utils.js}"></script>
+    <script th:src="@{/dist/js/page/userManage.js}"></script>
 </head>
 
 <body>
@@ -57,86 +60,17 @@
                     <div class="td">
                         <div class="rightcon">
                             <div class="title">
-                                <div class="ht">用户权限管理</div>
+                                <div class="ht">功能权限管理</div>
                             </div>
                             <div class="userManage">
-                                <div class="tops">
-                                    <table>
-                                        <tbody><tr>
-                                            <td align="right" class="wr ft1">用户搜索：</td>
-                                            <td><ul class="nav nav-pills">
-                                                <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">用户账号<b class="caret"></b></a>
-                                                    <ul class="dropdown-menu">
-                                                        <li data-filter-camera-type="all"><a data-toggle="tab" href="#">用户账号</a></li>
-                                                        <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">用户名</a></li>
-                                                        <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">手机号</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul></td>
-                                            <td><input class="w250" type="text" placeholder="情输入搜索内容"></td>
-                                            <td colspan="2"><a href="#" class="search-l">搜索</a></td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
                                 <ul class="tab-nav">
-                                    <!--<li class="cur">用户详细信息</li>-->
                                     <li class="cur">用户功能权限管理</li>
-                                    <li>用户信息定制权限</li>
+                                    <!--<li>用户信息定制权限</li>-->
                                 </ul>
                                 <div class="tab-content">
-                                    <!--<div class="group">
-                                        <div class="tb tcon">
-                                            <div class="tr">
-                                                <div class="td name">用户ID：</div>
-                                                <div class="td mid">526135</div>
-                                                <div class="td">注册日期：</div>
-                                                <div class="td mid">2017-01-01 12:00:00</div>
-                                            </div>
-                                            <div class="tr">
-                                                <div class="td name">用户名：</div>
-                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入用户名"></div>
-                                                <div class="td"><a href="#" id="">修改</a></div>
-                                            </div>
-                                            <div class="tr">
-                                                <div class="td name">绑定手机：</div>
-                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定手机号"></div>
-                                                <div class="td"><a href="#" id="">修改</a></div>
-                                            </div>
-                                            <div class="tr">
-                                                <div class="td name">当前等级：</div>
-                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入当前等级"></div>
-                                                <div class="td"><a href="###" id="">修改</a></div>
-                                            </div>
-                                            <div class="tr">
-                                                <div class="td name">绑定邮箱：</div>
-                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定邮箱"></div>
-                                                <div class="td"><a href="#" id="">修改</a></div>
-                                            </div>
-                                            <div class="tr">
-                                                <div class="td name">绑定QQ号：</div>
-                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定QQ号"></div>
-                                                <div class="td"><a href="#" id="">修改</a></div>
-                                            </div>
-                                            <div class="tr">
-                                                <div class="td name">绑定贴吧账号：</div>
-                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定贴吧账号"></div>
-                                                <div class="td"><a href="#" id="">修改</a></div>
-                                            </div>
-                                            <div class="tr">
-                                                <div class="td name">绑定微信：</div>
-                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定微信号"></div>
-                                                <div class="td"><a href="#" id="">修改</a></div>
-                                            </div>
-                                            <div class="tr">
-                                                <div class="td name">绑定身份证：</div>
-                                                <div class="td mid"><input class="w150" type="text" placeholder="请输入绑定身份证"></div>
-                                                <div class="td"><a href="#" id="">修改</a></div>
-                                            </div>
-                                        </div>
-                                    </div>-->
                                     <div class="group">
                                         <div class="classifiedList3">
-                                            <div class="table">
+                                            <div class="table table1">
                                                 <div class="table-tr tablech1">
                                                     <div class="table-th table-th3">页面模块</div>
                                                     <div class="table-th">功能ID</div>
@@ -452,7 +386,7 @@
                                     </div>
                                     <div class="group">
                                         <div class="classifiedList3">
-                                            <div class="table">
+                                            <div class="table table2">
                                                 <div class="table-tr tablech1">
                                                     <div class="table-th table-th3">服务类别</div>
                                                     <div class="table-th">服务ID</div>
@@ -514,45 +448,4 @@
     Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号 </div>
 <!-- /.modal -->
 </body>
-<div class="modal fade" id="identifier" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header"> <span class="inputtitle">本条账号信息由平台用户上传：</span>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body">
-                <table border="1">
-                    <p>用户联系方式：</p>
-                    <p>QQ：357525874</p>
-                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>
-                    <p>客服QQ：153435143</p>
-                </table>
-            </div>
-            <div class="modal-footer"><span class="inputtitle"></span>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<script type="text/javascript">
-    $('.userManage .tab-nav li').click(function () {
-        $(true).addClass('cur').siblings('li').removeClass('cur');
-        var liindex=$(this).index();
-        var tabcontent=$('.tab-content .group');
-        $(tabcontent[liindex]).show().siblings('.group').hide();
-    })
-
-    $('.modalBtn').click(function () {
-        $(this).parents('#maincontent').siblings('.modal').addClass('madalHide');
-    })
-
-
-    var colose = $('.close');
-    var cancel = $('.btn-default');
-    $(colose,cancel).click(function () {
-        $(this).parents('.modal').removeClass('madalHide');
-    })
-</script>
 </html>

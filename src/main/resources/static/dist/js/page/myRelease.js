@@ -63,6 +63,7 @@ function initTable(name,keyNum) {
                 cont = cont.replace("PEND_NAME","");
                 $('.table').append("<div class=\"table-tr\">\n" +
                     "                    <div class=\"table-td\"><i class=\"icon1\"></i></div>\n" +
+                    "                    <div class=\"table-td recordId\" style='display: none'>"+value.RECORD_ID+"</div>\n" +
                     "                    <div class=\"table-td\">"+collectType+"</div>\n" +
                     "                    <div class=\"table-td table_lw\"><a href='"+pageValueEdit+"'> 2k</a></div>\n" +
                     "                    <div class=\"table-td\">"+value.COLLECT_STUSTA+"人报告失效</div>\n" +
@@ -119,6 +120,14 @@ function initTable(name,keyNum) {
             }).error(function () {
                 layer.msg("删除异常!");
             }).complete(function () {
+                $('.table').empty();
+                $('.table').append("<div class=\"table-tr tablech1\">\n" +
+                    "                    <div class=\"table-th table-th3\"></div>\n" +
+                    "                    <div class=\"table-th\">发布类型</div>\n" +
+                    "                    <div class=\"table-th\">发布内容</div>\n" +
+                    "                    <div class=\"table-th\">状态</div>\n" +
+                    "                    <div class=\"table-th\">发布时间</div>\n" +
+                    "                  </div>");
                 initTable(username);
             });
         });

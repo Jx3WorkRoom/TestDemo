@@ -14,6 +14,9 @@
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
     <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+    <script th:src="@{/dist/js/layer/layer.js}"></script>
+    <script th:src="@{/dist/js/page/utils.js}"></script>
+    <script th:src="@{/dist/js/page/userService.js}"></script>
 </head>
 
 <body>
@@ -79,7 +82,7 @@
                                                     </ul>
                                                 </li>
                                             </ul></td>
-                                            <td><input class="w250" type="text" placeholder="情输入搜索内容"></td>
+                                            <td><input class="w250" type="text" placeholder="请输入搜索内容"></td>
                                             <td colspan="2"><a href="#" class="search-l">搜索</a></td>
                                         </tr>
                                         </tbody></table>
@@ -87,7 +90,7 @@
                                 <div class="tab-content">
                                     <div class="group">
                                         <div class="classifiedList3">
-                                            <div class="table">
+                                            <div class="table" id="table1">
                                                 <div class="table-tr tablech1">
                                                     <div class="table-th table-th3">服务事项</div>
                                                     <div class="table-th">剩余条数</div>
@@ -98,38 +101,38 @@
                                                     <div class="table-td">账号交易-查看</div>
                                                     <div class="table-td">7</div>
                                                     <div class="table-td">正常</div>
-                                                    <div class="table-td"><a href="28sale.html">可续费</a></div>
+                                                    <div class="table-td"><a href="sale.html">可续费</a></div>
                                                 </div>
                                                 <div class="table-tr">
                                                     <div class="table-td">外观交易-查看</div>
                                                     <div class="table-td">0</div>
                                                     <div class="table-td">结束</div>
-                                                    <div class="table-td warn"><a class="warn" href="28sale.html">请付费</a></div>
+                                                    <div class="table-td warn"><a class="warn" href="sale.html">请付费</a></div>
                                                 </div>
                                                 <div class="table-tr">
                                                     <div class="table-td">道具交易-查看</div>
                                                     <div class="table-td">0</div>
                                                     <div class="table-td">结束</div>
-                                                    <div class="table-td warn"><a class="warn" href="28sale.html">请付费</a></div>
+                                                    <div class="table-td warn"><a class="warn" href="sale.html">请付费</a></div>
                                                 </div>
                                                 <div class="table-tr">
                                                     <div class="table-td">金币交易-查看</div>
                                                     <div class="table-td">12</div>
                                                     <div class="table-td">正常</div>
-                                                    <div class="table-td"><a href="28sale.html">可续费</a></div>
+                                                    <div class="table-td"><a href="sale.html">可续费</a></div>
                                                 </div>
                                                 <div class="table-tr">
                                                     <div class="table-td">代练交易-查看</div>
                                                     <div class="table-td">15</div>
                                                     <div class="table-td">正常</div>
-                                                    <div class="table-td"><a href="28sale.html">可续费</a></div>
+                                                    <div class="table-td"><a href="sale.html">可续费</a></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="group">
                                         <div class="classifiedList3">
-                                            <div class="table">
+                                            <div class="table" id="table2">
                                                 <div class="table-tr tablech1">
                                                     <div class="table-th table-th3">服务事项</div>
                                                     <div class="table-th">付费日期</div>
@@ -174,8 +177,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="pagers pagers2">
-                                            <ul class="pagination">
+                                        <div class="pagers pagers2" >
+                                            <ul class="pagination" id="page2">
                                                 <li class="disabled"><a href="#">上一页</a></li>
                                                 <li class="active"><a href="#">1</a></li>
                                                 <li><a href="#">2</a></li>
@@ -188,7 +191,7 @@
                                     </div>
                                     <div class="group">
                                         <div class="classifiedList3">
-                                            <div class="table">
+                                            <div class="table" id="table3">
                                                 <div class="table-tr tablech1">
                                                     <div class="table-th table-th3">服务事项</div>
                                                     <div class="table-th">查看时间</div>
@@ -228,7 +231,7 @@
                                             </div>
                                         </div>
                                         <div class="pagers pagers2">
-                                            <ul class="pagination">
+                                            <ul class="pagination" id="page3">
                                                 <li class="disabled"><a href="#">上一页</a></li>
                                                 <li class="active"><a href="#">1</a></li>
                                                 <li><a href="#">2</a></li>
@@ -251,140 +254,11 @@
 <!-- foot -->
 <div class="footcontent"> <a href="#">关于我们</a> | <a href="#">常见问题</a> | <a href="#">免责声明</a> | <a href="#">友情链接</a> | <a href="#">联系我们</a><br>
     Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号 </div>
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header"> <span class="inputtitle"></span>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body">
-                <div class="pop01"> <span class="inputofnt"></span>
-                    <input type="text" />
-                </div>
-                <div class="pop02">
-                    <div class="changecon">
-                        <table width="100%">
-                            <tr>
-                                <td class="wr ft1">注册手机号：</td>
-                                <td><input type="password" placeholder="请输入" /></td>
-                                <td class="ft2"><img class="getcode" src="../../css/images/jx3/getcode.png" /><span class="getcodetime">30S后重新获取</span></td>
-                            </tr>
-                            <tr>
-                                <td class="wr ft1">输入验证码：</td>
-                                <td><input type="password" placeholder="请输入" /></td>
-                                <td class="ft2"></td>
-                            </tr>
-                            <tr>
-                                <td class="wr ft1">输入新手机号：</td>
-                                <td><input type="text" placeholder="请输入" /></td>
-                                <td class="ft2"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">保存</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 </body>
 <script type="text/javascript">
-    $('.userManage .tab-nav li').click(function () {
-        $(true).addClass('cur').siblings('li').removeClass('cur');
-        var liindex=$(this).index();
-        var tabcontent=$('.tab-content .group');
-        $(tabcontent[liindex]).show().siblings('.group').hide();
-    })
-    $().ready(function(e) {
-        var typeid=''
-        $(".s_top ul li").click(function(){
-            $(".s_top ul li").removeClass('cur');
-            $(this).addClass('cur')
-        })
-        var $m_btn = $('#tbBtn,#phoneBtn,#emailBtn,#zfbBtn,#wechartBtn,#qqBtn,#cardBtn');
-        var $modal = $('#myModal');
-        $m_btn.on('click', function(){
-            $modal.modal({backdrop: 'static'});
-            var $this = $("#myModal");
-            var tid=$(this).attr("id");
-            typeid=$(this).attr("id");
-            $('.pop01').show()
-            $('.pop02').hide()
-            switch (tid){
-                case "tbBtn":
-                    $this.find('.inputtitle').html('修改贴吧账号');
-                    $this.find('.inputofnt').html('请输入贴吧账号：');
-                    return;
-                case "emailBtn":
-                    $this.find('.inputtitle').html('修改邮箱');
-                    $this.find('.inputofnt').html('请输入邮箱：');
-                    return;
-                case "zfbBtn":
-                    $this.find('.inputtitle').html('修改支付宝账号');
-                    $this.find('.inputofnt').html('请输入支付宝账号：');
-                    return;
-                case "wechartBtn":
-                    $this.find('.inputtitle').html('修改微信号');
-                    $this.find('.inputofnt').html('请输入微信号：');
-                    return;
-                case "qqBtn":
-                    $this.find('.inputtitle').html('修改新的QQ号码');
-                    $this.find('.inputofnt').html('请输入新的QQ号码：');
-                    return;
-                case "cardBtn":
-                    $this.find('.inputtitle').html('修改身份证');
-                    $this.find('.inputofnt').html('请输入修改身份证：');
-                    return;
-                case "phoneBtn":
-                    $this.find('.inputtitle').html('修改手机号码');
-                    $('.pop01').hide()
-                    $('.pop02').show()
-                    return;
-
-            }
-        });
-        //修改bootstrap居中
-        $modal.on('shown.bs.modal', function(){
-            var $this = $(this);
-            var $modal_dialog = $this.find('.modal-dialog');
-            var m_top = ( $(window).height() - $modal_dialog.height() )/2;
-            $modal_dialog.css({'margin': m_top + 'px auto'});
-
-        });
-        $modal.on('click','.btn-primary',function(){
-            $modal.modal('hide')
-            switch (typeid){
-                case "tbBtn":
-                    alert("贴吧")
-                    return;
-                case "emailBtn":
-                    alert("邮箱")
-                    return;
-                case "zfbBtn":
-                    alert("支付宝")
-                    return;
-                case "wechartBtn":
-                    alert("微信")
-                    return;
-                case "qqBtn":
-                    alert("QQ")
-                    return;
-                case "cardBtn":
-                    alert("身份证")
-                    return;
-                case "phoneBtn":
-                    alert("手机")
-                    return;
-
-            }
-        })
+    $(".nav-pills ul li").click(function(){
+        var sefont=$(this).find('a').text();
+        $(this).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
     });
 </script>
 </html>
