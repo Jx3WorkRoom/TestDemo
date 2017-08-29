@@ -33,6 +33,7 @@ function initTable() {
             var belongOf = value.BELONG_QF.replace("[","");
             belongOf = belongOf.replace("]","");
             belongOf = belongOf.split(',')[0];
+            belongOf = replace(belongOf);
             var TIXIN = value.TIXIN.replace("[","");
             TIXIN = TIXIN.replace("]","");
             TIXIN = TIXIN.split(',')[0];
@@ -57,6 +58,7 @@ function initTable() {
             var belongOf = value.BELONG_QF.replace("[","");
             belongOf = belongOf.replace("]","");
             belongOf = belongOf.split(',')[0];
+            belongOf = replace(belongOf);
             var TIXIN = value.TIXIN.replace("[","");
             TIXIN = TIXIN.replace("]","");
             TIXIN = TIXIN.split(',')[0];
@@ -79,8 +81,9 @@ function initTable() {
         $.each(table3Datas,function (i,value) {
             var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             var tixin = value.TIXIN ==null?'--':value.TIXIN;
+            var belongOf = replace(value.BELONG_QF);
             $('#table3').append("<div class=\"table-tr\">\n" +
-                "        <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 25% !important\">"+belongOf+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 20%\">"+tixin+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 25%;\">"+value.PRICE_NUM+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 30%\">"+follow+"</div>\n" +
@@ -97,8 +100,9 @@ function initTable() {
         $.each(table4Datas,function (i,value) {
             var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             var tixin = value.TIXIN ==null?'--':value.TIXIN;
+            var belongOf = replace(value.BELONG_QF);
             $('#table4').append("<div class=\"table-tr\">\n" +
-                "        <div class=\"table-td\" style=\"width: 25% !important;\">"+value.BELONG_QF+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 25% !important;\">"+belongOf+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 20%\">"+tixin+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 25%\">"+value.PRICE_NUM+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width:30%;\">"+follow+"</div>\n" +
@@ -113,8 +117,9 @@ function initTable() {
             "          </div>");
         $.each(table5Datas,function (i,value) {
             var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
+            var belongOf = replace(value.BELONG_QF);
             $('#table5').append("<div class=\"table-tr\">\n" +
-                "            <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
+                "            <div class=\"table-td\" style=\"width: 25% !important\">"+belongOf+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 20%\">"+value.PROP_NAME+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 25%;\">"+value.PRICE_NUM+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 30%\">"+follow+"</div>\n" +
@@ -129,8 +134,9 @@ function initTable() {
             "          </div>");
         $.each(table6Datas,function (i,value) {
             var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
+            var belongOf = replace(value.BELONG_QF);
             $('#table6').append("<div class=\"table-tr\">\n" +
-                "            <div class=\"table-td\" style=\"width: 25% !important\">"+value.BELONG_QF+"</div>\n" +
+                "            <div class=\"table-td\" style=\"width: 25% !important\">"+belongOf+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 20%\">"+value.PROP_NAME+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 25%;\">"+value.PRICE_NUM+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 30%\">"+follow+"</div>\n" +
@@ -141,6 +147,14 @@ function initTable() {
     }).complete(function (e) {
         layer.closeAll();
     });
-
+    function replace(str){
+        str = str.replace("电月","");
+        str = str.replace("电点","");
+        str = str.replace("网点","");
+        str = str.replace("网月","");
+        str = str.replace("双点","");
+        str = str.replace("双月","");
+        return str;
+    }
 }
 

@@ -101,11 +101,12 @@ function initTable(url,keyNum) {
                 var isSplit = value.IF_SPLIT==1?"可拆分交易":"整单交易";
                 var isValidNum = value.USER_ISVALID==null?'0':value.USER_ISVALID;
                 var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
+                var belongOf = replace(value.BELONG_QF);
                     $(".table").append(" <div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>"+value.FAVOR_DATE+"</div>\n" +
                         "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
-                        "            <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
+                        "            <div class=\"table-td\">"+belongOf+"</div>\n" +
                         "              <div class=\"table-td\">"+value.GOLD_TOTAL+"</div>\n" +
                         "              <div class=\"table-td\">"+value.UNIT_PRICE+"</div>\n" +
                         "              <div class=\"table-td\">"+isSplit+"</div>\n" +
@@ -117,6 +118,15 @@ function initTable(url,keyNum) {
                         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
                         "      </div>");
             });
+            function replace(str){
+                str = str.replace("电月","");
+                str = str.replace("电点","");
+                str = str.replace("网点","");
+                str = str.replace("网月","");
+                str = str.replace("双点","");
+                str = str.replace("双月","");
+                return str;
+            }
             //计算上架时间
             function sumTime(time) {
                 var startTime =new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
