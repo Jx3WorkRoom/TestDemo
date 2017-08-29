@@ -2,7 +2,9 @@
 $(document).ready(function(e) {
     var userRole =null;
     var username = $('#userName').text();
-    var url = 'http://127.0.0.1:8881/testDemoRest/User/userInfo?username='+encodeURI(username);
+    var start = 'http://127.0.0.1:8881';
+    start='http://101.132.64.51:8881';
+    var url = start+'/testDemoRest/User/userInfo?username='+encodeURI(username);
     $.getJSON(url,function (data) {
         userRole = data.datas[0].role;
         if(userRole.indexOf('admin')==-1){

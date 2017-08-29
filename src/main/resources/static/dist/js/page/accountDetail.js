@@ -10,7 +10,8 @@ $(function () {
 });
 
 function initDetail(favorId) {
-    var url = api+"accountDetail?favorId="+encodeURI(favorId);
+    var username = $('#userName').text();
+    var url = api+"accountDetail?favorId="+encodeURI(favorId)+'&userName='+encodeURI(username);
     var userId =null;
     var mainId =null
     var replyTime = null;
@@ -24,7 +25,17 @@ function initDetail(favorId) {
             replyTime = data.REPLY_TIME==null?"":data.REPLY_TIME;
             sourceType =data.SOURCE_TYPE==null?1:data.SOURCE_TYPE;
             userId = data.userId==null?1:data.userId;
-            $('.userIsvalid').text(data.USER_ISVALID+"人提交失效!")
+            var username = $('#userName').text();
+            var url = api+'queryHasCollected?mainId='+encodeURI(mainId)+'&username='+encodeURI(username);
+            $.getJSON(url,function (data) {
+               data =data.info[0]==null?'':data.info[0];
+               data = data.coll_type==null?0:parseInt(data.coll_type);
+               if(data!=0){
+                   $('.icon-save').addClass('cur');
+                   $('.icon-save').parent().find('label').text('已收藏');
+               }
+            });
+            $('.userIsvalid').text(data.USER_ISVALID+"人提交失效!");
             var imgSrc = data.PIC_PATH;
             imgSrc = '/testDemo/dist/css/images/jx3/game05.jpg';
             $('.bigimgs img').attr('src',imgSrc);
@@ -40,7 +51,6 @@ function initDetail(favorId) {
                     $('.scrollimg').append(imgHtml)
                 }
             }
-
             //图片轮播
             $(".scrollimg img").click(function(){
                 $(".scrollimg img").removeClass('cur');
@@ -96,24 +106,29 @@ function initDetail(favorId) {
         $('.modalBtn').unbind('click');
         $('.modalBtn').click(function () {
             if(sourceType==1){
-                $('#myModal').addClass('madalHide');
                 initTable();
             }else{
+                var username = $('#userName').text();
                 var url = api+'accountDetailSource?mainId='+encodeURI(mainId)+
                     '&sourceType='+encodeURI(sourceType)+
-                    '&userId='+encodeURI(userId);
+                    '&userId='+encodeURI(userId)+
+                    '&userName='+encodeURI(username);
                 $.getJSON(url,function (data) {
-                    if(data.datas.length<1){
-                        layer.msg('未查看用户联系方式,可能方式已缺失!');
-                    }else{
-                        $('#identifier').addClass('madalHide');
-                        data =data.datas[0].USER_QQ==null?"null":data.datas[0].USER_QQ;
-                        var $table = $('#identifier').find('table');
-                        $table.empty();
-                        $table.append("<p>用户联系方式：</p>\n" +
-                            "                    <p>QQ："+data+"</p>\n" +
-                            "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
-                            "                    <p>客服QQ：153435143</p>")
+                    if(dara.datas=='noAuth'){
+                        layer.msg('您没有查看权限,请前往用户中心充值!');
+                    }else {
+                        if (data.datas.length < 1) {
+                            layer.msg('未查到有效数据!');
+                        } else {
+                            $('#identifier').addClass('madalHide');
+                            data = data.datas[0].USER_QQ == null ? "null" : data.datas[0].USER_QQ;
+                            var $table = $('#identifier').find('table');
+                            $table.empty();
+                            $table.append("<p>用户联系方式：</p>\n" +
+                                "                    <p>QQ：" + data + "</p>\n" +
+                                "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                "                    <p>客服QQ：153435143</p>")
+                        }
                     }
                 }).error(function () {
                     layer.msg("提交到服务器失效!");
@@ -144,32 +159,43 @@ function initDetail(favorId) {
             endNum = 10;
             startNum = keyNum*10-10;
         }
+        var username = $('#userName').text();
         var url = api+'accountDetailSource?mainId='+encodeURI(mainId)+
             '&sourceType='+encodeURI(sourceType)+
             '&userId='+encodeURI(userId)+
+            '&userName='+encodeURI(username)+
             '&startNum='+encodeURI(startNum)+
             '&endNum='+encodeURI(endNum);
         $.getJSON(url,function (data) {
             var pageList = data.pageList==null?"":data.pageList;
-            data =data.datas==null?'':data.datas;
-            $('#source1').empty();
-            $('#source1').append("<tr>\n" +
-                "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">发布时间</td>\n" +
-                "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"300px\" height=\"30\">页面链接</td>\n" +
-                "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">贴吧楼层</td>\n" +
-                "                    </tr>");
-            $.each(data,function (i,value) {
-                $('#source1').append("<tr>\n" +
-                    "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">"+value.REPLY_TIME+"</td>\n" +
-                    "                        <td align=\"center\"  valign=\"middle\" width=\"300x\" height=\"30\"><a href=\""+value.PAGE_URL+"\">"+value.PAGE_URL+"</a></td>\n" +
-                    "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">"+value.BELONG_FLOOR+"</td>\n" +
-                    "                    </tr>")
-            });
-            if(pageList!=""){
-                initPage(pageList,keyNum);
-            }else{
-                $('.pagination').empty();
-                layer.msg("加载数据出错!");
+            if(data.datas=='noAuth'){
+                layer.msg("您没有查看权限,请前往用户中心充值!")
+            }else {
+                data = data.datas == null ? '' : data.datas;
+                if (data == "") {
+                    layer.msg("未查到有效数据!");
+                } else {
+                    $('#myModal').addClass('madalHide');
+                    $('#source1').empty();
+                    $('#source1').append("<tr>\n" +
+                        "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">发布时间</td>\n" +
+                        "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"300px\" height=\"30\">页面链接</td>\n" +
+                        "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">贴吧楼层</td>\n" +
+                        "                    </tr>");
+                    $.each(data, function (i, value) {
+                        $('#source1').append("<tr>\n" +
+                            "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.REPLY_TIME + "</td>\n" +
+                            "                        <td align=\"center\"  valign=\"middle\" width=\"300x\" height=\"30\"><a href=\"" + value.PAGE_URL + "\">" + value.PAGE_URL + "</a></td>\n" +
+                            "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.BELONG_FLOOR + "</td>\n" +
+                            "                    </tr>")
+                    });
+                    if (pageList != "") {
+                        initPage(pageList, keyNum);
+                    } else {
+                        $('.pagination').empty();
+                        layer.msg("加载数据出错!");
+                    }
+                }
             }
         }).error(function () {
             layer.msg("加载数据为空!");

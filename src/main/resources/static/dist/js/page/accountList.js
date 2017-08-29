@@ -106,6 +106,7 @@ function initTable(url,keyNum) {
                 var belongOf = value.BELONG_QF.replace("[","");
                 belongOf = belongOf.replace("]","");
                 belongOf = belongOf.split(',')[0];
+                belongOf = replace(belongOf);
                 var TIXIN = value.TIXIN.replace("[","");
                 TIXIN = TIXIN.replace("]","");
                 TIXIN = TIXIN.split(',')[0];
@@ -121,6 +122,15 @@ function initTable(url,keyNum) {
                     "            <div class=\"table-td\">"+time+"</div>\n" +
                     "          </div>")
             });
+            function replace(str){
+                str = str.replace("电月","");
+                str = str.replace("电点","");
+                str = str.replace("网点","");
+                str = str.replace("网月","");
+                str = str.replace("双点","");
+                str = str.replace("双月","");
+                return str;
+            }
             //计算匹配度
             function sumMatchingDegree(value) {
                 var n = $('.info').text().split('/');
