@@ -30,24 +30,24 @@
         if(typeof(this.Items[id]) == "undefined") return false;
         return true;
     };
-    function change(v){
-        var str="0";
-        for(i=0;i <v;i++){ str+=("_"+(document.getElementById(s[i]).selectedIndex-1));};
-        var ss=document.getElementById(s[v]);
-        with(ss){
-            length = 0;
-            options[0]=new Option(opt0[v],opt0[v]);
-            if(v && document.getElementById(s[v-1]).selectedIndex>0 || !v)
-            {
-                if(dsy.Exists(str)){
-                    ar = dsy.Items[str];
-                    for(i=0;i <ar.length;i++)options[length]=new Option(ar[i],ar[i]);
-                    if(v)options[1].selected = true;
+        function change(v){
+            var str="0";
+            for(i=0;i <v;i++){ str+=("_"+(document.getElementById(s[i]).selectedIndex-1));};
+            var ss=document.getElementById(s[v]);
+            with(ss){
+                length = 0;
+                options[0]=new Option(opt0[v],opt0[v]);
+                if(v && document.getElementById(s[v-1]).selectedIndex>0 || !v)
+                {
+                    if(dsy.Exists(str)){
+                        ar = dsy.Items[str];
+                        for(i=0;i <ar.length;i++)options[length]=new Option(ar[i],ar[i]);
+                        if(v)options[1].selected = true;
+                    }
                 }
+                if(++v <s.length){change(v);}
             }
-            if(++v <s.length){change(v);}
         }
-    }
     var dsy = new Dsy();
     var s=["s1","s2","s3"];
     var opt0 = ["请选择","请选择","请选择"];
@@ -148,106 +148,105 @@
         //     if (r != null) return unescape(r[2]); return null; //返回参数值
         // }
         /*if(parseInt(str)==1){
-         tradeType=1;
-         var sefont=$(".nav-pills ul li").eq(0).find('a').text();
-         $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
-         }else if(parseInt(str)==2){
-         tradeType=2;
-         var sefont=$(".nav-pills ul li").eq(1).find('a').text();
-         $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
-         }*/
+            tradeType=1;
+            var sefont=$(".nav-pills ul li").eq(0).find('a').text();
+            $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
+        }else if(parseInt(str)==2){
+            tradeType=2;
+            var sefont=$(".nav-pills ul li").eq(1).find('a').text();
+            $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
+        }*/
     }
 
-//初始欺诈类型
-function initCheatType(){
-    console.log('3333333333333333');
-}
-//初始区服下拉数据
-function initSelections(selecttions) {
-    var typeArr = [];
-    var quArr = [];
-    var areaArr = [];
-    $.each(selecttions, function (i, value) {
-        if (typeArr.indexOf(value.qufu_type) == -1) {
-            typeArr.push(value.qufu_type);
-        }
-    });
-    $.each(typeArr, function (i, value) {
-        var arrTemp = [""];
-        $.each(selecttions, function (j, value1) {
-            if (value1.qufu_type == value) {
-                if (arrTemp.indexOf(value1.qufu_qu) == -1) {
-                    arrTemp.push(value1.qufu_qu);
-                }
-            }
-        });
-        quArr.push(arrTemp);
-    });
-    $.each(quArr, function (i, value) {
-        $.each(value, function (j, value1) {
-            var arrTemp = [""];
-            $.each(selecttions, function (k, value2) {
-                if (value2.qufu_qu == value1) {
-                    if (arrTemp.indexOf(value2.qufu_fu) == -1) {
-                        arrTemp.push(value2.qufu_fu);
-                    }
-                }
-            });
-            if (areaArr.indexOf(arrTemp) == -1) {
-                areaArr.push(arrTemp);
-            }
-        });
-    });
-    //声明省
-    pres = typeArr;
-    //声明市
-    cities = quArr;
-    areas = areaArr;
-
-    dsy.add("0", pres);
-    $.each(cities,function (i,value) {
-        dsy.add("0_"+i,value);
-    });
-    var areaNum = 0;
-    $.each(areas,function (i,value) {
-        $.each(cities,function (j,value1) {
-            dsy.add("0_"+i+"_"+j,value[areaNum]);
-            areaNum++;
-        });
-    });
-
-    //先设置省的值
-    for (var i = 0; i < pres.length; i++) {
-        //声明option.<option value="pres[i]">Pres[i]</option>
-        var op = new Option(pres[i], i);
-        //添加
-        if(preEle==null){
-            preEle = document.getElementById("pre");
-        }
-        preEle.options.add(op);
+    //初始欺诈类型
+    function initCheatType(){
+        console.log('3333333333333333');
     }
-}
-//加载Form
+    //初始区服下拉数据
+    function initSelections(selecttions) {
+        var typeArr = [];
+        var quArr = [];
+        var areaArr = [];
+        $.each(selecttions, function (i, value) {
+             if (typeArr.indexOf(value.qufu_type) == -1) {
+             typeArr.push(value.qufu_type);
+             }
+         });
+         $.each(typeArr, function (i, value) {
+             var arrTemp = [""];
+             $.each(selecttions, function (j, value1) {
+             if (value1.qufu_type == value) {
+             if (arrTemp.indexOf(value1.qufu_qu) == -1) {
+             arrTemp.push(value1.qufu_qu);
+             }
+             }
+             });
+             quArr.push(arrTemp);
+         });
+         $.each(quArr, function (i, value) {
+             $.each(value, function (j, value1) {
+                 var arrTemp = [""];
+                 $.each(selecttions, function (k, value2) {
+                     if (value2.qufu_qu == value1) {
+                         if (arrTemp.indexOf(value2.qufu_fu) == -1) {
+                            arrTemp.push(value2.qufu_fu);
+                         }
+                     }
+                 });
+                 if (areaArr.indexOf(arrTemp) == -1) {
+                    areaArr.push(arrTemp);
+                 }
+             });
+         });
+         //声明省
+         pres = typeArr;
+         //声明市
+         cities = quArr;
+         areas = areaArr;
+
+         dsy.add("0", pres);
+         $.each(cities,function (i,value) {
+             dsy.add("0_"+i,value);
+         });
+         var areaNum = 0;
+         $.each(areas,function (i,value) {
+             $.each(cities,function (j,value1) {
+             dsy.add("0_"+i+"_"+j,value[areaNum]);
+                areaNum++;
+             });
+         });
+
+         //先设置省的值
+         for (var i = 0; i < pres.length; i++) {
+             //声明option.<option value="pres[i]">Pres[i]</option>
+             var op = new Option(pres[i], i);
+             //添加
+             if(preEle==null){
+                preEle = document.getElementById("pre");
+             }
+             preEle.options.add(op);
+         }
+    }
+    //加载Form
     function initForm() {
         var url = api+'accountListSelection';
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
-            /*if(selecttions!="") {
+            if(selecttions!="") {
                 initSelections(selecttions);
             }
             var tixin = data.tixin==null?"":data.tixin;
             //填充体型选择框
             if(tixin!="") {
-                initTixin(tixin);
+//                initTixin(tixin);
             }
             var info = data.info==null?"":data.info;
             if(info!=""){
-                initInfo(info);
-            }*/
+//                initInfo(info);
+            }
         }).error(function () {
         }).complete(function () {
-            console.log('2222222222222222222222');
             $('.query-l').unbind("click");
             $('.query-l').click(function () {
                     var cheatType = '';//欺诈类别
@@ -297,5 +296,4 @@ function initSelections(selecttions) {
             initTable();
         });
     }
-
 //------------------------------------Function定义 End------------------------------------

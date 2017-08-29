@@ -68,9 +68,9 @@
                 <tr>
                   <td align="right" class="wr ft1">交易类型：</td>
                   <td><ul class="nav nav-pills w250">
-                    <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 请选择 <b class="caret"></b> </a>
+                    <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">收购<b class="caret"></b> </a>
                       <ul class="dropdown-menu">
-                        <li data-filter-camera-type="all"><a data-toggle="tab" href="#"> 收购</a></li>
+                        <li data-filter-camera-type="all"><a data-toggle="tab" href="#">收购</a></li>
                         <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">出售</a></li>
                       </ul>
                     </li>
@@ -85,7 +85,7 @@
                 <tr>
                 <td align="right" class="wr ft1">区服：</td>
                   <td onLoad="setup()" style="margin:0">
-                    <form name="frm">
+                    <form name="frm" class="areaSelect">
                       <select style="width: 100px;" id="pre" onchange="chg(this);">
                         <option value="-1">请选择</option>
                       </select>
@@ -98,24 +98,24 @@
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">金币总量：</td>
-                  <td colspan="7"><input class="w250" type="text" value="" />(单位：金)</td>
+                  <td colspan="7"><input class="w250" id="goldTotal" type="text" value="" />(单位：金)</td>
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">单价：</td>
-                  <td colspan="7"><input class="w250" type="text" value="" />(单位：G/R)</td>
+                  <td colspan="7"><input class="w250" id="unitPrice" type="text" value="" />(单位：G/R)</td>
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">是否可以拆分：</td>
                   <td colspan="7"><form action="sava.php" method="post">
-                    <input type="radio" name="gender" value="是" />
+                    <input type="radio" name="ifSplit" value="1" />
                     <lable>是</lable>
-                    <input type="radio" name="gender" value="否" />
+                    <input type="radio" name="ifSplit" value="0" />
                     <lable>否</lable>
                   </form></td>
                 </tr>
                 <tr>
                  <td align="right" class="wr ft1">其他说明：</td>
-                 <td colspan="7"><textarea class="w250" rows="7" placeholder="如：电五唯满侠黑盒子3000" /></textarea></td>
+                 <td colspan="7"><textarea class="w250" id="favorInfo" rows="7" placeholder="如：电五唯满侠黑盒子3000" /></textarea></td>
                 </tr>
                 
                 
