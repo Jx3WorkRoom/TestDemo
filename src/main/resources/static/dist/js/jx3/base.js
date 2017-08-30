@@ -6,7 +6,7 @@ $(document).ready(function(e) {
     start='http://101.132.64.51:8881';
     var url = start+'/testDemoRest/User/userInfo?username='+encodeURI(username);
     $.getJSON(url,function (data) {
-        userRole = data.datas[0].role;
+        userRole = data.datas[0]==null?'':data.datas[0].role==null?'':data.datas[0].role;
         if(userRole.indexOf('admin')==-1){
             $('.menuelist').find('dt').eq(2).hide();
             $('.menuelist').find('dd').eq(12).hide();

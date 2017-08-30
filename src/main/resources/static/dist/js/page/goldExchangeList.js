@@ -152,21 +152,30 @@ function initTable(url,keyNum) {
             $('.modalBtn').click(function () {
                 var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.userId').text();
                 var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
-                var url =api+'goldExchangeSource?userId='+encodeURI(userId)+'&mainId='+encodeURI(mainId);
-                $.getJSON(url,function (data) {
-                    if(data.datas.length<1){
-                        layer.msg('未查看用户联系方式,可能方式已缺失!');
-                    }else{
-                        $('#myModal').addClass('madalHide');
-                        data =data.datas[0].user_qq==null?"null":data.datas[0].user_qq;
-                        var $table = $('#myModal').find('table');
-                        $table.empty();
-                        $table.append("<p>用户联系方式：</p>\n" +
-                            "                    <p>QQ："+data+"</p>\n" +
-                            "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
-                            "                    <p>客服QQ：153435143</p>")
-                    }
-                });
+                var username = $('#userName').text();
+                if(username==""){
+                    layer.msg("你还未登陆,请先前往用户中心登陆!");
+                }else {
+                    var url = api + 'goldExchangeSource?userId=' + encodeURI(userId) + '&userName=' + encodeURI(username) + '&mainId=' + encodeURI(mainId);
+                    $.getJSON(url, function (data) {
+                        if (data.datas == 'noAuth') {
+                            layer.msg("您没有查看权限,请前往用户中心充值!");
+                        } else {
+                            if (data.datas.length < 1) {
+                                layer.msg('未查到有效数据!');
+                            } else {
+                                $('#myModal').addClass('madalHide');
+                                data = data.datas[0].user_qq == null ? "null" : data.datas[0].user_qq;
+                                var $table = $('#myModal').find('table');
+                                $table.empty();
+                                $table.append("<p>用户联系方式：</p>\n" +
+                                    "                    <p>QQ：" + data + "</p>\n" +
+                                    "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                    "                    <p>客服QQ：153435143</p>")
+                            }
+                        }
+                    });
+                }
             });
             var colose = $('.close');
             var cancel = $('.btn-default');
@@ -202,13 +211,18 @@ function initTable(url,keyNum) {
             //提交失效
             $('.protDisable').unbind("click");
             $('.protDisable').click(function () {
-                var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
-                var url = api+"protDisable?mainId="+mainId;
-                $.getJSON(url,function (data) {
-                    layer.msg(data.info);
-                }).error(function () {
-                    layer.msg("提交失败");
-                });
+                var username = $('#userName').text();
+                if(username==""){
+                    layer.msg("你还未登陆,请先前往用户中心登陆!");
+                }else {
+                    var mainId = $(this).parent().parent().find('.main_id').text() == "" ? 1 : $(this).parent().parent().find('.main_id').text();
+                    var url = api + "protDisable?mainId=" + mainId + '&userName=' + encodeURI(username);
+                    $.getJSON(url, function (data) {
+                        layer.msg(data.info);
+                    }).error(function () {
+                        layer.msg("提交失败");
+                    });
+                }
             });
         },
         complete:function () {

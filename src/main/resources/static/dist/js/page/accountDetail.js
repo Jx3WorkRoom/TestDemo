@@ -109,31 +109,35 @@ function initDetail(favorId) {
                 initTable();
             }else{
                 var username = $('#userName').text();
-                var url = api+'accountDetailSource?mainId='+encodeURI(mainId)+
-                    '&sourceType='+encodeURI(sourceType)+
-                    '&userId='+encodeURI(userId)+
-                    '&userName='+encodeURI(username);
-                $.getJSON(url,function (data) {
-                    if(dara.datas=='noAuth'){
-                        layer.msg('您没有查看权限,请前往用户中心充值!');
-                    }else {
-                        if (data.datas.length < 1) {
-                            layer.msg('未查到有效数据!');
+                if(username==""){
+                    layer.msg("你还未登陆,请先前往用户中心登陆!");
+                }else {
+                    var url = api + 'accountDetailSource?mainId=' + encodeURI(mainId) +
+                        '&sourceType=' + encodeURI(sourceType) +
+                        '&userId=' + encodeURI(userId) +
+                        '&userName=' + encodeURI(username);
+                    $.getJSON(url, function (data) {
+                        if (dara.datas == 'noAuth') {
+                            layer.msg('您没有查看权限,请前往用户中心充值!');
                         } else {
-                            $('#identifier').addClass('madalHide');
-                            data = data.datas[0].USER_QQ == null ? "null" : data.datas[0].USER_QQ;
-                            var $table = $('#identifier').find('table');
-                            $table.empty();
-                            $table.append("<p>用户联系方式：</p>\n" +
-                                "                    <p>QQ：" + data + "</p>\n" +
-                                "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
-                                "                    <p>客服QQ：153435143</p>")
+                            if (data.datas.length < 1) {
+                                layer.msg('未查到有效数据!');
+                            } else {
+                                $('#identifier').addClass('madalHide');
+                                data = data.datas[0].USER_QQ == null ? "null" : data.datas[0].USER_QQ;
+                                var $table = $('#identifier').find('table');
+                                $table.empty();
+                                $table.append("<p>用户联系方式：</p>\n" +
+                                    "                    <p>QQ：" + data + "</p>\n" +
+                                    "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                    "                    <p>客服QQ：153435143</p>")
+                            }
                         }
-                    }
-                }).error(function () {
-                    layer.msg("提交到服务器失效!");
-                    return false;
-                });
+                    }).error(function () {
+                        layer.msg("提交到服务器失效!");
+                        return false;
+                    });
+                }
             }
         });
         var colose = $('.close');
@@ -160,46 +164,50 @@ function initDetail(favorId) {
             startNum = keyNum*10-10;
         }
         var username = $('#userName').text();
-        var url = api+'accountDetailSource?mainId='+encodeURI(mainId)+
-            '&sourceType='+encodeURI(sourceType)+
-            '&userId='+encodeURI(userId)+
-            '&userName='+encodeURI(username)+
-            '&startNum='+encodeURI(startNum)+
-            '&endNum='+encodeURI(endNum);
-        $.getJSON(url,function (data) {
-            var pageList = data.pageList==null?"":data.pageList;
-            if(data.datas=='noAuth'){
-                layer.msg("您没有查看权限,请前往用户中心充值!")
-            }else {
-                data = data.datas == null ? '' : data.datas;
-                if (data == "") {
-                    layer.msg("未查到有效数据!");
+        if(username==""){
+            layer.msg("你还未登陆,请先前往用户中心登陆!");
+        }else {
+            var url = api + 'accountDetailSource?mainId=' + encodeURI(mainId) +
+                '&sourceType=' + encodeURI(sourceType) +
+                '&userId=' + encodeURI(userId) +
+                '&userName=' + encodeURI(username) +
+                '&startNum=' + encodeURI(startNum) +
+                '&endNum=' + encodeURI(endNum);
+            $.getJSON(url, function (data) {
+                var pageList = data.pageList == null ? "" : data.pageList;
+                if (data.datas == 'noAuth') {
+                    layer.msg("您没有查看权限,请前往用户中心充值!")
                 } else {
-                    $('#myModal').addClass('madalHide');
-                    $('#source1').empty();
-                    $('#source1').append("<tr>\n" +
-                        "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">发布时间</td>\n" +
-                        "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"300px\" height=\"30\">页面链接</td>\n" +
-                        "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">贴吧楼层</td>\n" +
-                        "                    </tr>");
-                    $.each(data, function (i, value) {
-                        $('#source1').append("<tr>\n" +
-                            "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.REPLY_TIME + "</td>\n" +
-                            "                        <td align=\"center\"  valign=\"middle\" width=\"300x\" height=\"30\"><a href=\"" + value.PAGE_URL + "\">" + value.PAGE_URL + "</a></td>\n" +
-                            "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.BELONG_FLOOR + "</td>\n" +
-                            "                    </tr>")
-                    });
-                    if (pageList != "") {
-                        initPage(pageList, keyNum);
+                    data = data.datas == null ? '' : data.datas;
+                    if (data == "") {
+                        layer.msg("未查到有效数据!");
                     } else {
-                        $('.pagination').empty();
-                        layer.msg("加载数据出错!");
+                        $('#myModal').addClass('madalHide');
+                        $('#source1').empty();
+                        $('#source1').append("<tr>\n" +
+                            "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">发布时间</td>\n" +
+                            "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"300px\" height=\"30\">页面链接</td>\n" +
+                            "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">贴吧楼层</td>\n" +
+                            "                    </tr>");
+                        $.each(data, function (i, value) {
+                            $('#source1').append("<tr>\n" +
+                                "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.REPLY_TIME + "</td>\n" +
+                                "                        <td align=\"center\"  valign=\"middle\" width=\"300x\" height=\"30\"><a href=\"" + value.PAGE_URL + "\">" + value.PAGE_URL + "</a></td>\n" +
+                                "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.BELONG_FLOOR + "</td>\n" +
+                                "                    </tr>")
+                        });
+                        if (pageList != "") {
+                            initPage(pageList, keyNum);
+                        } else {
+                            $('.pagination').empty();
+                            layer.msg("加载数据出错!");
+                        }
                     }
                 }
-            }
-        }).error(function () {
-            layer.msg("加载数据为空!");
-        });
+            }).error(function () {
+                layer.msg("加载数据为空!");
+            });
+        }
     }
     function initPage(pageList,keyNum) {
         var pageDatas = pageList;

@@ -155,57 +155,61 @@ function initTable(url,keyNum) {
                 var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
                 var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.main_id').text();
                 var username = $('#userName').text();
-                if(sourceType==1){
-                    var url =api+'propSaleSource?mainId='+encodeURI(mainId)+
-                        '&sourceType='+encodeURI(sourceType)+
-                        '&userName='+encodeURI(username)+
-                        '&userId='+encodeURI(userId);
-                    $.getJSON(url,function (data) {
-                        if(data.datas=='noAuth'){
-                            layer.msg("您没有查看权限,请前往用户中心充值!");
-                        }else {
-                            data = data.datas[0] == null ? "" : data.datas[0];
-                            if (data != '') {
-                                $('#myModal').addClass('madalHide');
-                                data.REPLY_TIME = data.REPLY_TIME == null ? 'null' : data.REPLY_TIME;
-                                data.BELONG_QF = data.BELONG_QF == null ? 'null' : data.BELONG_QF;
-                                data.POST_CONTENT = data.POST_CONTENT == null ? 'null' : data.POST_CONTENT;
-                                data.PAGE_URL = data.PAGE_URL == null ? 'null' : data.PAGE_URL;
-                                data.BELONG_FLOOR = data.BELONG_FLOOR == null ? 'null' : data.BELONG_FLOOR;
-                                $('.source1').find('tr').eq(0).find('td').eq(1).text(data.REPLY_TIME);
-                                $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
-                                $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
-                                $('.source1').find('tr').eq(3).find('td').eq(1).empty();
-                                $('.source1').find('tr').eq(3).find('td').eq(1).append("<a href='" + data.PAGE_URL + "' target=\"_blank\">" + data.PAGE_URL + "</a>");
-                                $('.source1').find('tr').eq(4).find('td').eq(1).text(data.BELONG_FLOOR + '楼');
+                if(username==""){
+                    layer.msg("你还未登陆,请先前往用户中心登陆!");
+                }else {
+                    if (sourceType == 1) {
+                        var url = api + 'propSaleSource?mainId=' + encodeURI(mainId) +
+                            '&sourceType=' + encodeURI(sourceType) +
+                            '&userName=' + encodeURI(username) +
+                            '&userId=' + encodeURI(userId);
+                        $.getJSON(url, function (data) {
+                            if (data.datas == 'noAuth') {
+                                layer.msg("您没有查看权限,请前往用户中心充值!");
                             } else {
-                                layer.msg("未查到有效数据!");
+                                data = data.datas[0] == null ? "" : data.datas[0];
+                                if (data != '') {
+                                    $('#myModal').addClass('madalHide');
+                                    data.REPLY_TIME = data.REPLY_TIME == null ? 'null' : data.REPLY_TIME;
+                                    data.BELONG_QF = data.BELONG_QF == null ? 'null' : data.BELONG_QF;
+                                    data.POST_CONTENT = data.POST_CONTENT == null ? 'null' : data.POST_CONTENT;
+                                    data.PAGE_URL = data.PAGE_URL == null ? 'null' : data.PAGE_URL;
+                                    data.BELONG_FLOOR = data.BELONG_FLOOR == null ? 'null' : data.BELONG_FLOOR;
+                                    $('.source1').find('tr').eq(0).find('td').eq(1).text(data.REPLY_TIME);
+                                    $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
+                                    $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
+                                    $('.source1').find('tr').eq(3).find('td').eq(1).empty();
+                                    $('.source1').find('tr').eq(3).find('td').eq(1).append("<a href='" + data.PAGE_URL + "' target=\"_blank\">" + data.PAGE_URL + "</a>");
+                                    $('.source1').find('tr').eq(4).find('td').eq(1).text(data.BELONG_FLOOR + '楼');
+                                } else {
+                                    layer.msg("未查到有效数据!");
+                                }
                             }
-                        }
-                    });
-                }else{
-                    var url =api+'propSaleSource?mainId='+encodeURI(mainId)+
-                        '&sourceType='+encodeURI(sourceType)+
-                        '&userName='+encodeURI(username)+
-                        '&userId='+encodeURI(userId);
-                    $.getJSON(url,function (data) {
-                        if(data.datas=='noAuth'){
-                            layer.msg('您没有查看权限,请前往用户中心充值!');
-                        }else {
-                            if (data.datas.length < 1) {
-                                layer.msg('未查到有效数据!');
+                        });
+                    } else {
+                        var url = api + 'propSaleSource?mainId=' + encodeURI(mainId) +
+                            '&sourceType=' + encodeURI(sourceType) +
+                            '&userName=' + encodeURI(username) +
+                            '&userId=' + encodeURI(userId);
+                        $.getJSON(url, function (data) {
+                            if (data.datas == 'noAuth') {
+                                layer.msg('您没有查看权限,请前往用户中心充值!');
                             } else {
-                                $('#identifier').addClass('madalHide');
-                                data = data.datas[0].USER_QQ == null ? "null" : data.datas[0].USER_QQ;
-                                var $table = $('#identifier').find('table');
-                                $table.empty();
-                                $table.append("<p>用户联系方式：</p>\n" +
-                                    "                    <p>QQ：" + data + "</p>\n" +
-                                    "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
-                                    "                    <p>客服QQ：153435143</p>")
+                                if (data.datas.length < 1) {
+                                    layer.msg('未查到有效数据!');
+                                } else {
+                                    $('#identifier').addClass('madalHide');
+                                    data = data.datas[0].USER_QQ == null ? "null" : data.datas[0].USER_QQ;
+                                    var $table = $('#identifier').find('table');
+                                    $table.empty();
+                                    $table.append("<p>用户联系方式：</p>\n" +
+                                        "                    <p>QQ：" + data + "</p>\n" +
+                                        "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                        "                    <p>客服QQ：153435143</p>")
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             });
 
@@ -246,11 +250,15 @@ function initTable(url,keyNum) {
                 var username = $('#userName').text();
                 var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
                 var url = api+"protDisable?mainId="+mainId+'&userName='+encodeURI(username);
-                $.getJSON(url,function (data) {
-                    layer.msg(data.info);
-                }).error(function () {
-                    layer.msg("提交失败");
-                });
+                if(username==""){
+                    layer.msg("你还未登陆,请先前往用户中心登陆!");
+                }else {
+                    $.getJSON(url, function (data) {
+                        layer.msg(data.info);
+                    }).error(function () {
+                        layer.msg("提交失败");
+                    });
+                }
             });
         },
         complete:function () {
