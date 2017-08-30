@@ -1,5 +1,9 @@
 // JavaScript Document
 $(document).ready(function(e) {
+    var backurl = document.referrer;
+    if(backurl.indexOf('login')>-1){
+        history.go(-2);
+    }
     var userRole =null;
     var username = $('#userName').text();
     var start = 'http://127.0.0.1:8881';

@@ -98,40 +98,42 @@ function initTable(url,keyNum) {
                 var tradeType = value.TRADE_TYPE==1?"求购":"出售";
                 var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
                 var productIsvalid = value.USER_ISVALID==null?'无':value.USER_ISVALID;
-                // if(value.ISVALID==1){
-                //     $(".table").append(" <div class=\"table-tr\">\n" +
-                //         "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
-                //         "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
-                //         "        <div class=\"table-td sourceType\" style='display: none'>"+value.SOURCE_TYPE+"</div>\n" +
-                //         "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
-                //         "        <div class=\"table-td\">"+value.BELONG_QF+"</div>\n" +
-                //         "        <div class=\"table-td\">"+value.VIEW_NAME+"</div>\n" +
-                //         "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">"+value.POST_CONTENT+"</a></div>\n" +
-                //         "          <div class=\"table-td\">"+tradeType+"</div>\n" +
-                //         "        <div class=\"table-td\">"+value.PRICE_NUM+"</div>\n" +
-                //         "        <div class=\"table-td\">"+follow+"</div>\n" +
-                //         "        <div class=\"table-td\">"+time+"</div>\n" +
-                //         "        <div class=\"table-td\">正常</div>\n" +
-                //         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
-                //         "      </div>");
-                // }else {
                 var belongOf = replace(value.BELONG_QF);
+                var username = $('#userName').text();
+                console.log(value.COLL_TYPE);
+                if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
                     $(".table").append(" <div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
-                        "        <div class=\"table-td sourceType\" style='display: none'>"+value.SOURCE_TYPE+"</div>\n" +
-                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
-                        "        <div class=\"table-td\">"+belongOf+"</div>\n" +
-                        "        <div class=\"table-td\">"+value.VIEW_NAME+"</div>\n" +
-                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">"+value.POST_CONTENT+"</a></div>\n" +
-                        "          <div class=\"table-td\">"+tradeType+"</div>\n" +
-                        "        <div class=\"table-td\">"+value.PRICE_NUM+"</div>\n" +
-                        "        <div class=\"table-td\">"+follow+"</div>\n" +
-                        "        <div class=\"table-td\">"+time+"</div>\n" +
-                        "        <div class=\"table-td warn\">"+productIsvalid+"人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                        "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
+                        "        <div class=\"table-td sourceType\" style='display: none'>" + value.SOURCE_TYPE + "</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
+                        "        <div class=\"table-td\">" + belongOf + "</div>\n" +
+                        "        <div class=\"table-td\">" + value.VIEW_NAME + "</div>\n" +
+                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
+                        "          <div class=\"table-td\">" + tradeType + "</div>\n" +
+                        "        <div class=\"table-td\">" + value.PRICE_NUM + "</div>\n" +
+                        "        <div class=\"table-td\">" + follow + "</div>\n" +
+                        "        <div class=\"table-td\">" + time + "</div>\n" +
+                        "        <div class=\"table-td warn\">" + productIsvalid + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
                         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
                         "      </div>");
-                // }
+                }else{
+                    $(".table").append(" <div class=\"table-tr\">\n" +
+                        "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
+                        "        <div class=\"table-td sourceType\" style='display: none'>" + value.SOURCE_TYPE + "</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
+                        "        <div class=\"table-td\">" + belongOf + "</div>\n" +
+                        "        <div class=\"table-td\">" + value.VIEW_NAME + "</div>\n" +
+                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
+                        "          <div class=\"table-td\">" + tradeType + "</div>\n" +
+                        "        <div class=\"table-td\">" + value.PRICE_NUM + "</div>\n" +
+                        "        <div class=\"table-td\">" + follow + "</div>\n" +
+                        "        <div class=\"table-td\">" + time + "</div>\n" +
+                        "        <div class=\"table-td warn\">" + productIsvalid + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                        "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
+                        "      </div>");
+                }
             });
             //计算上架时间
             function sumTime(time) {
