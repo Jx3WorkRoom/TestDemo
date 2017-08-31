@@ -34,7 +34,7 @@ function initTable() {
                 if(value.SERVER_COST==null) {
                     $('.table1').append("<div class=\"table-tr\">\n" +
                         "     <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
-                        "     <div class=\"table-td\">"+value.MOD_ID+"</div>\n" +
+                        "     <div class=\"table-td modId\">"+value.MOD_ID+"</div>\n" +
                         "     <div class=\"table-td\">"+value.MOD_NAME+"</div>\n" +
                         "     <div class=\"table-td\">"+modType+"</div>\n" +
                         "     <div class=\"table-td\">"+visitRole+"</div>\n" +
@@ -48,7 +48,7 @@ function initTable() {
                 }else{
                     $('.table1').append("<div class=\"table-tr\">\n" +
                         "    <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
-                        "    <div class=\"table-td warn\">"+value.MOD_ID+"</div>\n" +
+                        "    <div class=\"table-td warn modId\">"+value.MOD_ID+"</div>\n" +
                         "    <div class=\"table-td warn\">"+value.MOD_NAME+"</div>\n" +
                         "    <div class=\"table-td\">"+modType+"</div>\n" +
                         "    <div class=\"table-td warn\">"+visitRole+"</div>\n" +
@@ -71,11 +71,17 @@ function initTable() {
         layer.closeAll();
         $('.editList').click(function () {
             $('#myModal').modal('show');
+
         });
         $('.codebtn').click(function () {
             $('#myModal').modal('show');
         });
         $('.delList').click(function () {
+            var modId = $(this).parent().parent().find('.modId').text();
+            var url =api+'delModel?modId='+encodeURI(modId);
+            $.getJSON(url,function (data) {
+                layer.msg(data.info);
+            });
             $(this).parent().parent().remove();
         });
     });
