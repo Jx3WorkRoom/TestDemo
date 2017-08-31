@@ -10,7 +10,7 @@ function initTable() {
     layer.load();
     $('.table1').empty();
     $('.table1').append("<div class=\"table-tr tablech1\">\n" +
-        "    <div class=\"table-th table-th3\">页面模块</div>\n" +
+        "    <div class=\"table-th\ table-th3\">页面模块</div>\n" +
         "    <div class=\"table-th\">功能ID</div>\n" +
         "    <div class=\"table-th\">功能名称</div>\n" +
         "    <div class=\"table-th\">权限类别</div>\n" +
@@ -19,6 +19,7 @@ function initTable() {
         "    <div class=\"table-th\">付费金额</div>\n" +
         "    <div class=\"table-th\">可用条数</div>\n" +
         "    <div class=\"table-th\">启用日期</div>\n" +
+        "    <div class=\"table-th\">操作</div>\n" +
         " </div>");
     $.getJSON(url,function (data) {
         data = data.datas==null?'':data.datas;
@@ -41,6 +42,7 @@ function initTable() {
                         "     <div class=\"table-td\">"+serverCost+"</div>\n" +
                         "     <div class=\"table-td\">"+serverNum+"</div>\n" +
                         "     <div class=\"table-td\">"+startDate+"</div>\n" +
+                        "     <div class=\"table-td\"><a class='editList'>修改</a>|<a class='delList'>删除</a></div>\n" +
                         "   </div>"
                     );
                 }else{
@@ -54,6 +56,7 @@ function initTable() {
                         "    <div class=\"table-td warn\">"+serverCost+"</div>\n" +
                         "    <div class=\"table-td warn\">"+serverNum+"</div>\n" +
                         "    <div class=\"table-td warn\">"+startDate+"</div>\n" +
+                        "     <div class=\"table-td\"><a class='editList'>修改</a>|<a class='delList'>删除</a></div>\n" +
                         " </div>"
                     );
                 }
@@ -66,6 +69,15 @@ function initTable() {
         layer.msg("加载数据错误!")
     }).complete(function () {
         layer.closeAll();
+        $('.editList').click(function () {
+            $('#myModal').modal('show');
+        });
+        $('.codebtn').click(function () {
+            $('#myModal').modal('show');
+        });
+        $('.delList').click(function () {
+            $(this).parent().parent().remove();
+        });
     });
 }
 
