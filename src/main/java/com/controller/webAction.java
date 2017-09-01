@@ -187,5 +187,4 @@ public class webAction {
     public String userimgsaction() {
         return "userCenter/userimgs";
     }
-
 }

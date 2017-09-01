@@ -382,7 +382,7 @@
                                             </div>
                                         </div>
                                         </br>
-                                        <td class="wr ft1" align="right"><span class="codebtn">新增</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="codebtn">修改</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="codebtn">删除</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="codebtn">保存</span></td>
+                                        <td class="wr ft1" align="right"><span class="codebtn">新增</span></td>
                                     </div>
                                     <div class="group">
                                         <div class="classifiedList3">
@@ -432,7 +432,7 @@
                                             </div>
                                         </div>
                                         </br>
-                                        <td class="wr ft1" align="right"><span class="codebtn">新增</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="codebtn">修改</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="codebtn">删除</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="codebtn">保存</span></td>
+                                        <td class="wr ft1" align="right"><span class="codebtn">新增</span></td>
                                     </div>
                                 </div>
                             </div>
@@ -448,4 +448,61 @@
     Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号 </div>
 <!-- /.modal -->
 </body>
+<div class="modal fade" id="myModal" style="top: 40px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <span class="inputtitle"></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="pop02">
+                    <div class="changecon">
+                        <table width="100%">
+                            <tr>
+                                <td class="wr ft1">页面模块：</td>
+                                <td><input type="text" placeholder="" id="BELONG_WEB"/></td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">功能ID：</td>
+                                <td><input type="text" placeholder="" id="MOD_ID"/></td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">功能名称：</td>
+                                <td><input type="text" placeholder="" id="MOD_NAME"/></td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">权限类别：</td>
+                                <td><input type="radio" name="modType" value="1" style="width:100px!important;"/>1-普通<input type="radio" name="modType" value="2" style="width:100px!important;"/>2-特许</td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">游客是否可用：</td>
+                                <td><input type="radio" name="visitRole" value="1" style="width:100px!important;"/>可用<input type="visitRole" name="people" value="0" style="width:100px!important;"/>不可用</td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">注册是否可用：</td>
+                                <td><input type="radio" name="registRole" value="1" style="width:100px!important;"/>可用<input type="radio" name="registRole" value="0" style="width:100px!important;"/>不可用</td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">付费金额：</td>
+                                <td><input type="number" placeholder="请输入可用金额" id="serverCost"/></td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">可用条数：</td>
+                                <td><input type="number" placeholder="请输入可用条数" id="serverNum"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureBtn">保存</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 </html>

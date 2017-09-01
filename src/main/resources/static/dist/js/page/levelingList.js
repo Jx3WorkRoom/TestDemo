@@ -100,19 +100,37 @@ function initTable(url,keyNum) {
                 var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
                 var isValidNum = value.USER_ISVALID==null?'0':value.USER_ISVALID;
                 var belongOf = replace(value.BELONG_QF);
+                var username = $('#userName').text();
+                console.log(value.COLL_TYPE);
+                if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
                     $(".table").append(" <div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>"+value.MAIN_ID+"</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>"+value.REPLY_TIME+"</div>\n" +
-                        "        <div class=\"table-td sourceType\" style='display: none'>"+value.NEED_TYPE+"</div>\n" +
-                        "        <div class=\"table-td userId\" style='display: none'>"+value.USER_ID+"</div>\n" +
-                        "        <div class=\"table-td\">"+belongOf+"</div>\n" +
-                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">"+value.POST_CONTENT+"</a></div>\n" +
-                        "          <div class=\"table-td\">"+tradeType+"</div>\n" +
-                        "        <div class=\"table-td\">"+follow+"</div>\n" +
-                        "        <div class=\"table-td\">"+time+"</div>\n" +
-                        "        <div class=\"table-td warn\">"+isValidNum+"人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                        "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
+                        "        <div class=\"table-td sourceType\" style='display: none'>" + value.NEED_TYPE + "</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
+                        "        <div class=\"table-td\">" + belongOf + "</div>\n" +
+                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
+                        "          <div class=\"table-td\">" + tradeType + "</div>\n" +
+                        "        <div class=\"table-td\">" + follow + "</div>\n" +
+                        "        <div class=\"table-td\">" + time + "</div>\n" +
+                        "        <div class=\"table-td warn\">" + isValidNum + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
                         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
                         "      </div>");
+                }else{
+                    $(".table").append(" <div class=\"table-tr\">\n" +
+                        "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
+                        "        <div class=\"table-td sourceType\" style='display: none'>" + value.NEED_TYPE + "</div>\n" +
+                        "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
+                        "        <div class=\"table-td\">" + belongOf + "</div>\n" +
+                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
+                        "          <div class=\"table-td\">" + tradeType + "</div>\n" +
+                        "        <div class=\"table-td\">" + follow + "</div>\n" +
+                        "        <div class=\"table-td\">" + time + "</div>\n" +
+                        "        <div class=\"table-td warn\">" + isValidNum + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                        "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
+                        "      </div>");
+                }
             });
             function replace(str){
                 str = str.replace("电月","");
@@ -150,47 +168,62 @@ function initTable(url,keyNum) {
                 var sourceType =  $(this).parent().parent().find('.sourceType').text()==""?1:$(this).parent().parent().find('.sourceType').text();
                 var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
                 var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.userId').text();
-                if(sourceType==1){
-                    $('#myModal').addClass('madalHide');
-                    var url =api+'levelingListSource?mainId='+encodeURI(mainId)+
-                        '&sourceType='+encodeURI(sourceType)+
-                        '&userId='+encodeURI(userId);
-                    $.getJSON(url,function (data) {
-                        data=data.datas[0]==null?"": data.datas[0];
-                        if(data!=''){
-                            data.REPLY_TIME=data.REPLY_TIME==null?'null':data.REPLY_TIME;
-                            data.BELONG_QF=data.BELONG_QF==null?'null':data.BELONG_QF;
-                            data.POST_CONTENT=data.POST_CONTENT==null?'null':data.POST_CONTENT;
-                            data.PAGE_URL=data.PAGE_URL==null?'null':data.PAGE_URL;
-                            data.BELONG_FLOOR=data.BELONG_FLOOR==null?'null':data.BELONG_FLOOR;
-                            $('.source1').find('tr').eq(0).find('td').eq(1).text(data.REPLY_TIME);
-                            $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
-                            $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
-                            $('.source1').find('tr').eq(3).find('td').eq(1).empty();
-                            $('.source1').find('tr').eq(3).find('td').eq(1).append("<a href='"+data.PAGE_URL+"' target=\"_blank\">"+data.PAGE_URL+"</a>");
-                            $('.source1').find('tr').eq(4).find('td').eq(1).text(data.BELONG_FLOOR+'楼');
-                        }else{
-                            layer.msg("请求数据出错!");
-                        }
-                    });
-                }else{
-                    var url =api+'levelingListSource?mainId='+encodeURI(mainId)+
-                        '&sourceType='+encodeURI(sourceType)+
-                        '&userId='+encodeURI(userId);
-                    $.getJSON(url,function (data) {
-                        if(data.datas.length<1){
-                            layer.msg('未查看用户联系方式,可能方式已缺失!');
-                        }else{
-                            $('#identifier').addClass('madalHide');
-                            data =data.datas[0].USER_QQ==null?"null":data.datas[0].USER_QQ;
-                            var $table = $('#identifier').find('table');
-                            $table.empty();
-                            $table.append("<p>用户联系方式：</p>\n" +
-                                "                    <p>QQ："+data+"</p>\n" +
-                                "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
-                                "                    <p>客服QQ：153435143</p>")
-                        }
-                    });
+                var username = $('#userName').text();
+                if(username==""){
+                    layer.msg("你还未登陆,请先前往用户中心登陆!");
+                }else {
+                    if (sourceType == 1) {
+                        var url = api + 'levelingListSource?mainId=' + encodeURI(mainId) +
+                            '&sourceType=' + encodeURI(sourceType) +
+                            '&userName=' + encodeURI(username) +
+                            '&userId=' + encodeURI(userId);
+                        $.getJSON(url, function (data) {
+                            if (data.datas == 'noAuth') {
+                                layer.msg("您没有查看权限,请前往用户中心充值!");
+                            } else {
+                                $('#myModal').addClass('madalHide');
+                                data = data.datas[0] == null ? "" : data.datas[0];
+                                if (data != '') {
+                                    data.REPLY_TIME = data.REPLY_TIME == null ? 'null' : data.REPLY_TIME;
+                                    data.BELONG_QF = data.BELONG_QF == null ? 'null' : data.BELONG_QF;
+                                    data.POST_CONTENT = data.POST_CONTENT == null ? 'null' : data.POST_CONTENT;
+                                    data.PAGE_URL = data.PAGE_URL == null ? 'null' : data.PAGE_URL;
+                                    data.BELONG_FLOOR = data.BELONG_FLOOR == null ? 'null' : data.BELONG_FLOOR;
+                                    $('.source1').find('tr').eq(0).find('td').eq(1).text(data.REPLY_TIME);
+                                    $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
+                                    $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
+                                    $('.source1').find('tr').eq(3).find('td').eq(1).empty();
+                                    $('.source1').find('tr').eq(3).find('td').eq(1).append("<a href='" + data.PAGE_URL + "' target=\"_blank\">" + data.PAGE_URL + "</a>");
+                                    $('.source1').find('tr').eq(4).find('td').eq(1).text(data.BELONG_FLOOR + '楼');
+                                } else {
+                                    layer.msg("未查到有效数据!");
+                                }
+                            }
+                        });
+                    } else {
+                        var url = api + 'levelingListSource?mainId=' + encodeURI(mainId) +
+                            '&sourceType=' + encodeURI(sourceType) +
+                            '&userName=' + encodeURI(username) +
+                            '&userId=' + encodeURI(userId);
+                        $.getJSON(url, function (data) {
+                            if (data.datas == 'noAuth') {
+                                layer.msg('您没有查看权限,请前往用户中心充值!');
+                            } else {
+                                if (data.datas.length < 1) {
+                                    layer.msg('未查到有效数据!');
+                                } else {
+                                    $('#identifier').addClass('madalHide');
+                                    data = data.datas[0].USER_QQ == null ? "null" : data.datas[0].USER_QQ;
+                                    var $table = $('#identifier').find('table');
+                                    $table.empty();
+                                    $table.append("<p>用户联系方式：</p>\n" +
+                                        "                    <p>QQ：" + data + "</p>\n" +
+                                        "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                        "                    <p>客服QQ：153435143</p>")
+                                }
+                            }
+                        });
+                    }
                 }
             });
             var colose = $('.close');
@@ -226,13 +259,18 @@ function initTable(url,keyNum) {
             //提交失效
             $('.protDisable').unbind("click");
             $('.protDisable').click(function () {
-                var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
-                var url = api+"protDisable?mainId="+mainId;
-                $.getJSON(url,function (data) {
-                    layer.msg(data.info);
-                }).error(function () {
-                    layer.msg("提交失败");
-                });
+                var username = $('#userName').text();
+                if(username==""){
+                    layer.msg("你还未登陆,请先前往用户中心登陆!");
+                }else {
+                    var mainId = $(this).parent().parent().find('.main_id').text() == "" ? 1 : $(this).parent().parent().find('.main_id').text();
+                    var url = api + "protDisable?mainId=" + mainId + '&userName=' + encodeURI(username);
+                    $.getJSON(url, function (data) {
+                        layer.msg(data.info);
+                    }).error(function () {
+                        layer.msg("提交失败");
+                    });
+                }
             });
         },
         complete:function () {
