@@ -14,6 +14,9 @@
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
     <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+        <script th:src="@{/dist/js/layer/layer.js}"></script>
+        <script th:src="@{/dist/js/page/utils.js}"></script>
+        <script th:src="@{/dist/js/page/detailRelease.js}"></script>
 </head>
 
 <body>
@@ -56,13 +59,14 @@
               <div class="title xqfb">
                 <div class="ht"><span class="cur">基本资料</span><span>外观发型</span><span>坐骑奇趣</span><span>橙色装备</span><span>珍稀挂件</span><span>奇遇奇珍</span><span>图片其他</span></div>
               </div>
+              <!-- pageView1-->
               <div class="detailGroup">
                   <div class="group">
                       <table class="mt15">
                           <tr>
                               <td align="right" class="wr ft1">所在区服：</td>
                               <td onLoad="setup()" style="margin:0">
-                                  <form name="frm">
+                                  <form name="frm" class="areaSelect">
                                       <select style="width: 100px;" id="pre" onchange="chg(this);">
                                           <option value="-1">请选择</option>
                                       </select>
@@ -75,7 +79,7 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">体型：</td>
-                              <td><input class="w250" type="text" value="" /></td>
+                              <td><input class="w250" id="tixin" type="text" value="" /></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -85,7 +89,7 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">价格：</td>
-                              <td><input class="w250" type="text" value="" /></td>
+                              <td><input class="w250" id="priceNum" type="text" value="" /></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -102,95 +106,100 @@
                       <table class="mt15">
                           <tr>
                               <td align="right" class="wr ft1">面部挂件数量：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="mbgjsl" type="text" value="" /></td>
                               <td align="right" class="wr ft1">背部挂件数量：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="bbgjsl" type="text" value="" /></td>
                               <td align="right" class="wr ft1">腰部挂件数量：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="ybgjsl" type="text" value="" /></td>
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">左肩饰数量：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="zjssl" type="text" value="" /></td>
                               <td align="right" class="wr ft1">右肩饰数量：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="yjssl" type="text" value="" /></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                           </tr>
                       </table>
                       <div class="title2">称号</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="chenghao">
                           <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
-                          其它稀有称号：<input class="w100" type="text" value="" />　<!--<span id="addicon" class="codebtn">新增</span>-->
+                          其它稀有称号：<input class="w100" id="qtxych" type="text" value="" />　<!--<span id="addicon" class="codebtn">新增</span>-->
                       </div>
                       <div class="title2">重要数据</div>
                       <table class="mt15">
                           <tr>
                               <td align="right" class="wr ft1">资历：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="zl" type="text" value="" /></td>
                               <td align="right" class="wr ft1">副本五甲：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="fbwj" type="text" value="" /></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">消费充值：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="xfcz" type="text" value="" /></td>
                               <td align="right" class="wr ft1">消费积分：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="xfjf" type="text" value="" /></td>
                               <td align="right" class="wr ft1">游戏金币：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="yxjb1" type="text" value="" /></td>
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">宠物分值：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="cwfz" type="text" value="" /></td>
                               <td align="right" class="wr ft1">建号时间：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="jhsj" type="text" value="" /></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">点卡时间：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="kdsj" type="text" value="" /></td>
                               <td align="right" class="wr ft1">通宝数量：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="tbsl" type="text" value="" /></td>
                               <td align="right" class="wr ft1">游戏金币：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="yxjb2" type="text" value="" /></td>
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">二内：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="en" type="text" value="" /></td>
                               <td align="right" class="wr ft1">三内：</td>
-                              <td><input class="w100" type="text" value="" /></td>
+                              <td><input class="w100" id="sn" type="text" value="" /></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                           </tr>
+                          <tr>
+                              <td align="right" class="wr ft1"></td>
+                              <td colspan="7"><a href="javascript:nextPage(1)" class="query-l" id="next-l1">下一步</a></td>
+                          </tr>
                       </table>
                   </div>
+                  <!-- pageView2-->
                   <div class="group">
                       <div class="title2">发型</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="fx">
                           <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
                       </div>
                       <div class="title2">披风</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="pf">
                           <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
                       </div>
                       <div class="title2">成衣-限量</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="cyxl">
                           <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
                       </div>
                       <div class="title2">成衣-限时</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="cyxs">
                           <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
                       </div>
                       <div class="title2">套装盒子</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="tzhz">
                           <span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span></div>
                       </div>
                       <div class="title2">外观拓印</div>
@@ -211,12 +220,17 @@
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                           </tr>
+                          <tr>
+                              <td align="right" class="wr ft1"></td>
+                              <td colspan="7"><a href="javascript:nextPage(2)" class="query-l" id="next-21">下一步</a>　<a href="javascript:nextPage(0)" class="query-l" id="next-22">返回</a></td>
+                          </tr>
                       </table>
                   </div>
+                  <!-- pageView3-->
                   <div class="group">
                       <div class="title2">坐骑</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="zq">
                           <span><i class="icon0"></i>赤兔</span>
                           <span><i class="icon0"></i>踏炎</span>
                           <span><i class="icon0"></i>里飞沙</span>
@@ -235,7 +249,7 @@
                       </div>
                       <div class="title2">马具</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="mj">
                           <span><i class="icon0"></i>赤兔</span>
                           <span><i class="icon0"></i>踏炎</span>
                           <span><i class="icon0"></i>里飞沙</span>
@@ -254,7 +268,7 @@
                       </div>
                       <div class="title2">马饰</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="ss">
                           <span><i class="icon0"></i>赤兔</span>
                           <span><i class="icon0"></i>踏炎</span>
                           <span><i class="icon0"></i>里飞沙</span>
@@ -273,7 +287,7 @@
                       </div>
                       <div class="title2">奇趣</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                        <div class="iconcon" id="qq">
                           <span><i class="icon0"></i>赤兔</span>
                           <span><i class="icon0"></i>踏炎</span>
                           <span><i class="icon0"></i>里飞沙</span>
@@ -288,15 +302,19 @@
                           <span><i class="icon0"></i>霸红尘</span>
                           <span><i class="icon0"></i>雷兽飞电</span>
                           <span><i class="icon0"></i>赤珠飞电</span>
+                        </div>
                       </div>
+                      <div>
+                          <a href="javascript:nextPage(3)" class="query-l" id="next-31">下一步</a>　<a href="javascript:nextPage(1)" class="query-l" id="next-32">返回</a>
                       </div>
                   </div>
+                  <!-- pageView4-->
                   <div class="group">
                       <div class="title2">橙武</div>
                       <table class="mt15">
                           <tbody><tr>
                               <td align="right" class="wr ft1">95橙武：</td>
-                              <td><input class="w250" type="text" value=""></td>
+                              <td><input class="w250" id="95cw" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -306,7 +324,7 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">90橙武：</td>
-                              <td><input class="w250" type="text" value=""></td>
+                              <td><input class="w250" id="90cw" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -316,7 +334,7 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">80橙武：</td>
-                              <td><input class="w250" type="text" value=""></td>
+                              <td><input class="w250" id="80cw" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -326,7 +344,7 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">70橙武：</td>
-                              <td><input class="w250" type="text" value=""></td>
+                              <td><input class="w250" id="70cw" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -336,7 +354,7 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">门派特效：</td>
-                              <td><input class="w250" type="text" value=""></td>
+                              <td><input class="w250" id="mptx" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -349,9 +367,9 @@
                       <table class="mt15">
                           <tbody><tr>
                               <td align="right" class="wr ft1">95玄晶：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="95xj" type="text" value=""></td>
                               <td align="right" class="wr ft1">95小铁：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="95xt" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -359,9 +377,9 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">90玄晶：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="90xj" type="text" value=""></td>
                               <td align="right" class="wr ft1">90小铁：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="90xt" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -369,9 +387,9 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">80玄晶：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="80xj" type="text" value=""></td>
                               <td align="right" class="wr ft1">80小铁：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="80xt" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -379,9 +397,9 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">70玄晶：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="70xj" type="text" value=""></td>
                               <td align="right" class="wr ft1">70小铁：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="70xt" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -392,9 +410,9 @@
                       <table class="mt15">
                           <tbody><tr>
                               <td align="right" class="wr ft1">PVP-奶装：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="pvpnz1" type="text" value=""></td>
                               <td align="right" class="wr ft1">PVE-奶装：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="pvenz" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -402,9 +420,9 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">PVP-奶装：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="pvpnz2" type="text" value=""></td>
                               <td align="right" class="wr ft1">PVE-T装：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="pvetz" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -412,9 +430,9 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">PVP-DPS-内功装：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="pvpdpsngz" type="text" value=""></td>
                               <td align="right" class="wr ft1">PVE-DPS-内功装：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="pvedpsngz1" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
@@ -422,20 +440,25 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">PVP-DPS-外功装：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="pvpdpswgz" type="text" value=""></td>
                               <td align="right" class="wr ft1">PVE-DPS-内功装：</td>
-                              <td><input class="w150" type="text" value=""></td>
+                              <td><input class="w150" id="pvedpsngz2" type="text" value=""></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                           </tr>
+                          <tr>
+                              <td align="right" class="wr ft1"></td>
+                              <td colspan="7"><a href="javascript:nextPage(4)" class="query-l" id="next-41">下一步</a>　<a href="javascript:nextPage(2)" class="query-l" id="next-42">返回</a></td>
+                          </tr>
                           </tbody></table>
                   </div>
+                  <!-- pageView5-->
                   <div class="group">
                       <div class="title2">十大珍稀挂件</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="sdzxgj">
                           <span><i class="icon0"></i>寻珍味·虎仔</span>
                           <span><i class="icon0"></i>铁血枫红旗</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -450,7 +473,7 @@
                       </div>
                       <div class="title2">重要运营挂件</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="zyyygj">
                           <span><i class="icon0"></i>寻珍味·虎仔</span>
                           <span><i class="icon0"></i>铁血枫红旗</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -465,7 +488,7 @@
                       </div>
                       <div class="title2">重要副本挂件</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="zyfjgj">
                           <span><i class="icon0"></i>寻珍味·虎仔</span>
                           <span><i class="icon0"></i>铁血枫红旗</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -480,7 +503,7 @@
                       </div>
                       <div class="title2">奇遇挂件</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="qygj">
                           <span><i class="icon0"></i>寻珍味·虎仔</span>
                           <span><i class="icon0"></i>铁血枫红旗</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -495,7 +518,7 @@
                       </div>
                       <div class="title2">JJC奖励挂件</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="jlgj">
                           <span><i class="icon0"></i>寻珍味·虎仔</span>
                           <span><i class="icon0"></i>铁血枫红旗</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -510,7 +533,7 @@
                       </div>
                       <div class="title2">重要成就挂件</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="zycjgj">
                           <span><i class="icon0"></i>寻珍味·虎仔</span>
                           <span><i class="icon0"></i>铁血枫红旗</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -525,7 +548,7 @@
                       </div>
                       <div class="title2">重要充消挂件</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="zycxgj">
                           <span><i class="icon0"></i>寻珍味·虎仔</span>
                           <span><i class="icon0"></i>铁血枫红旗</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -538,11 +561,15 @@
                           <span><i class="icon0"></i>炼狱厨神</span>
                       </div>
                       </div>
+                      <div>
+                          <a href="javascript:nextPage(6)" class="query-l" id="next-51">下一步</a>　<a href="javascript:nextPage(4)" class="query-l" id="next-52">返回</a>
+                      </div>
                   </div>
+                  <!-- pageView6-->
                   <div class="group">
                       <div class="title2">绝世奇遇</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="jsqj">
                           <span><i class="icon0"></i>三山四海</span>
                           <span><i class="icon0"></i>阴阳两界</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -557,7 +584,7 @@
                       </div>
                       <div class="title2">普通奇遇</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="ptqy">
                           <span><i class="icon0"></i>三山四海</span>
                           <span><i class="icon0"></i>阴阳两界</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -572,7 +599,7 @@
                       </div>
                       <div class="title2">江湖奇遇</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="jhqy">
                           <span><i class="icon0"></i>三山四海</span>
                           <span><i class="icon0"></i>阴阳两界</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -587,7 +614,7 @@
                       </div>
                       <div class="title2">宠物奇珍</div>
                       <div class="conlist">
-                          　<div class="iconcon">
+                          　<div class="iconcon" id="cwzq">
                           <span><i class="icon0"></i>三山四海</span>
                           <span><i class="icon0"></i>阴阳两界</span>
                           <span><i class="icon0"></i>三尺青锋</span>
@@ -600,16 +627,20 @@
                           <span><i class="icon0"></i>炼狱厨神</span>
                       </div>
                       </div>
+                      <div>
+                          <a href="javascript:nextPage(6)" class="query-l" id="next-61">下一步</a>　<a href="javascript:nextPage(4)" class="query-l" id="next-62">返回</a>
+                      </div>
                   </div>
+                  <!-- pageView7-->
                   <div class="group">
                       <div class="title2">图片上传</div>
                       <table class="mt15">
                           <tr>
                               <td align="right" class="wr ft1">补充说明：</td>
-                              <td colspan="7"><textarea class="w250" rows="7" placeholder="外观及价格，外观名和价格连写，有多个外观则换行，格式如：
-电五唯满侠黑盒子3000
-电五青盒子4000
-电点青盒子4000"></textarea></td>
+                              <td colspan="7"><textarea class="w250" id="bcsm" rows="7" placeholder="外观及价格，外观名和价格连写，有多个外观则换行，格式如：
+                            电五唯满侠黑盒子3000
+                            电五青盒子4000
+                            电点青盒子4000"></textarea></td>
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">上传图片：</td>
@@ -626,7 +657,7 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1"></td>
-                              <td colspan="7"><span class="codebtn">保存</span>　<span class="codebtn">取消</span></td>
+                              <td colspan="7"><span class="codebtn" id="save">保存</span>　<span class="codebtn" id="cancel">取消</span></td>
                           </tr>
                       </table>
                   </div>
@@ -729,9 +760,11 @@ $().ready(function(e) {
 		$(".s_top ul li").removeClass('cur');
 		$(this).addClass('cur')
 	});
+    //图片
 	$(".icon1").click(function(){
 		$(this).parents('li').remove()
 	});
+    //页签切换
 	$('.rightcon .title span').click(function(){
 		$(this).addClass('cur').siblings('span').removeClass('cur');
         var spanindex=$(this).index();
@@ -744,7 +777,7 @@ $().ready(function(e) {
 			$('.iconcon').append('<span><i class="icon0"></i>'+addft+'</span>')
 		}
 	})
-	
+
 });
 </script>
 </html>

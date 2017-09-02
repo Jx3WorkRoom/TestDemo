@@ -69,9 +69,9 @@
                 <tr>
                   <td align="right" class="wr ft1">交易类型：</td>
                   <td><ul class="nav nav-pills w250">
-                      <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 请选择 <b class="caret"></b> </a>
+                      <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">购买<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                          <li data-filter-camera-type="all"><a data-toggle="tab" href="#"> 购买</a></li>
+                          <li data-filter-camera-type="all"><a data-toggle="tab" href="#">购买</a></li>
                           <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">出售</a></li>
                         </ul>
                       </li>
@@ -86,7 +86,7 @@
                 <tr>
                   <td align="right" class="wr ft1">区服：</td>
                   <td onLoad="setup()" style="margin:0">
-                    <form name="frm">
+                    <form name="frm" class="areaSelect">
                       <select style="width: 100px;" id="pre" onchange="chg(this);">
                         <option value="-1">请选择</option>
                       </select>
@@ -96,19 +96,21 @@
                       <select style="width: 100px;" id="area">
                         <option value="-1">请选择</option>
                       </select>
+                     </form>
+                  </td>
 
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">外观名：</td>
-                  <td colspan="7"><input class="w250" type="text" value="" /></td>
+                  <td colspan="7"><input class="w250" id="viewName" type="text" value="" /></td>
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">价格预期：</td>
-                  <td colspan="7"><input class="w250" type="text" value="" /></td>
+                  <td colspan="7"><input class="w250" id="priceNum" type="text" value="" /></td>
                 </tr>
                 <tr>
                  <td align="right" class="wr ft1">其他说明：</td>
-                 <td colspan="7"><textarea class="w250" rows="7" placeholder="如：电五唯满侠黑盒子3000" /></textarea></td>
+                 <td colspan="7"><textarea class="w250" id="favorInfo" rows="7" placeholder="如：电五唯满侠黑盒子3000" /></textarea></td>
                 </tr>
                 
                 

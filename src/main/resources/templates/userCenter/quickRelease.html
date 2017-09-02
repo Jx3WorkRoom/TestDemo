@@ -14,6 +14,9 @@
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
     <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+        <script th:src="@{/dist/js/layer/layer.js}"></script>
+        <script th:src="@{/dist/js/page/utils.js}"></script>
+        <script th:src="@{/dist/js/page/quickRelease.js}"></script>
 </head>
 
 <body>
@@ -65,7 +68,7 @@
               <table class="mt15">
                   <tr>
                   <td align="right" class="wr ft1">所在区服：</td>
-                      <td onLoad="setup()" style="margin:0">
+                      <td onLoad="setup()" style="margin:0" class="areaSelect">
                           <form name="frm">
                               <select style="width: 100px;" id="pre" onchange="chg(this);">
                                   <option value="-1">请选择</option>
@@ -79,7 +82,7 @@
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">体型：</td>
-                  <td><input class="w250" type="text" value="" /></td>
+                  <td><input class="w250" id="tixin" type="text" value="" /></td>
                   <td align="right" class="wr ft1"></td>
                   <td></td>
                   <td align="right" class="wr ft1"></td>
@@ -89,7 +92,7 @@
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">价格：</td>
-                  <td><input class="w250" type="text" value="" /></td>
+                  <td><input class="w250" id="priceNum" type="text" value="" /></td>
                   <td align="right" class="wr ft1"></td>
                   <td></td>
                   <td align="right" class="wr ft1"></td>
@@ -99,7 +102,7 @@
                 </tr>
                 <tr>
                  <td align="right" class="wr ft1">账号描述：</td>
-                 <td colspan="7"><textarea class="w250" rows="7" placeholder="" /></textarea></td>
+                 <td colspan="7"><textarea class="w250" rows="7" id="accoInfo" placeholder="" /></textarea></td>
                 </tr>
                 <tr>
                  <td align="right" class="wr ft1">上传图片：</td>
@@ -116,7 +119,7 @@
                 </tr>
                 <tr>
                  <td align="right" class="wr ft1"></td>
-                 <td colspan="7"><span class="codebtn">保存</span>　<span class="codebtn">取消</span></td>
+                 <td colspan="7"><a href="javascript:void(0)" class="query-l">保存</s> <span class="codebtn">取消</span></td>
                 </tr>
               </table>
             </div>

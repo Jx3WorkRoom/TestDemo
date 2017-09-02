@@ -253,25 +253,14 @@
         }).complete(function () {
             $('.query-l').unbind("click");
             $('.query-l').click(function () {
-                    var cheatType = '1';//欺诈类别
+                    var tradeType = '1';//账号交易类别
                     var belongQf = '1'; //涉事区服
                     var tixin = $('#tixin').val();//门派体型
-                    var roleName = $('#roleName').val();//角色名
-                    var cheatIntro = $('#cheatIntro').val();//被黑经历
-                    var cheatInfo = $('#cheatInfo').val();//资料信息(网页链接地址)
-                    var pageUrl = $('#pageUrl').val();//网页链接地址
+                    var priceNum = $('#priceNum').val();//价格
+                    var accoInfo = $('#accoInfo').val();//账号资料
 
                 //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
-                    cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                    if(cheatType=="账号诈骗"){
-                        cheatType=1;
-                    }else if(cheatType=="外观诈骗"){
-                        cheatType=2;
-                    }else if(cheatType=="道具诈骗"){
-                        cheatType=3;
-                    }else if(cheatType=="金币诈骗"){
-                        cheatType=4;
-                    }
+
 
                     $('.areaSelect').find('select').each(function () {
                         var text = $(this).find('option:selected').text();
@@ -284,26 +273,21 @@
                     }else{
                         belongQf="";
                     }
-                    console.log('输出----------->'+cheatType);
+
                     console.log('输出----------->'+belongQf);
                     console.log('输出----------->'+tixin);
-                    console.log('输出----------->'+roleName);
-                    console.log('输出----------->'+cheatIntro);
-                    console.log('输出----------->'+cheatInfo);
-                    console.log('输出----------->'+pageUrl);
+                    console.log('输出----------->'+priceNum);
+                    console.log('输出----------->'+accoInfo);
                     /*if(tradeType=="求购"){
                         tradeType=1;
                     }else{
                         tradeType=2;
                     }*/
 
-                    url = reportApi + 'saveWyjbInfo?cheatType=' + encodeURI(cheatType)
-                        + '&belongQf=' + encodeURI(belongQf)
+                    url = reportApi + 'saveZhssInfo?belongQf=' + encodeURI(belongQf)
                         + '&tixin=' + encodeURI(tixin)
-                        +'&roleName=' + encodeURI(roleName)
-                        +'&cheatIntro=' + encodeURI(cheatIntro)
-                        +'&cheatInfo=' + encodeURI(cheatInfo)
-                        +'&pageUrl=' + encodeURI(pageUrl);
+                        +'&priceNum=' + encodeURI(priceNum)
+                        +'&accoInfo=' + encodeURI(accoInfo);
                     saveTable(url);
             });
 
