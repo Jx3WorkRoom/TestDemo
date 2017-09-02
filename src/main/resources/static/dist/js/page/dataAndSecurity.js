@@ -1,5 +1,7 @@
 var userId = null;
 api = api+"dataAndSecurity/";
+var id1=null;
+var id2=null;
 $(function () {
     var username = $('#userName').text();
     $('.last').text(username);
@@ -40,7 +42,7 @@ function initUserInfo(username) {
         });
     }
     function change(str) {
-        if(str==""){
+        if(str==""||str==null){
             return "--";
         }else {
             if (str.indexOf('@') > -1) {
@@ -56,7 +58,7 @@ function initUserInfo(username) {
     }
 
     function change2(str) {
-        if(str==""){
+        if(str==""||str==null){
             return "--";
         }else{
             var str1 = str.substring(0,2);
@@ -161,9 +163,17 @@ function initUserInfo(username) {
                         url: '/testDemo/message/sendMessage?tel=' + encodeURI(telphone)+'&type=2',
                         dataType:'text',
                         success:function (info) {
+                            $('#getCheckNum').hide();
+                            $('#getcodetime1').show();
+                            c=10;
+                            document.getElementById('getcodetime1').innerText=c+"S后重新获取";
+                            c=c-1;
+                            id1='#getcodetime1';
+                            id2='#getCheckNum';
+                            t=setTimeout("timedCount()",1000);
                             layer.msg(info);
                         }
-                    })
+                    });
                 }
             }else{
                 layer.msg("请输入手机号!")
@@ -193,4 +203,15 @@ function initUserInfo(username) {
             })
         }
     });
+}
+
+function timedCount() {
+    document.getElementById('getcodetime1').innerText=c+"S后重新获取";
+    c=c-1;
+    if(c>0) {
+        t = setTimeout("timedCount()", 1000);
+    }else{
+        $(id1).hide();
+        $(id2).show();
+    }
 }
