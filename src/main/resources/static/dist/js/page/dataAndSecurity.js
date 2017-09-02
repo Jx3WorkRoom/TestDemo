@@ -122,9 +122,21 @@ function initUserInfo(username) {
 
         $('.sureSubmit').unbind('click');
         $('.sureSubmit').click(function () {
-            var newValue = $('#newPassword').val();
-            url = api+"editInfo?type=3&newValue="+encodeURI(newValue)+"&userId="+encodeURI(userId);
-            editRequest(url);
+            var checkResult = $('#checkResult').text();
+            if(checkResult.indexOf("通过")>-1) {
+                var newValue = $('#newPassword').val();
+                url = api + "editInfo?type=3&newValue=" + encodeURI(newValue) + "&userId=" + encodeURI(userId);
+                editRequest(url);
+            }else{
+                layer.msg("短信验证码不合法")
+            }
+        });
+
+        $('.sureReset').unbind('click');
+        $('.sureReset').click(function () {
+            $('#telphone').val("");
+            $('#checkNum').val("");
+            $('#newPassword').val("");
         });
         function editRequest(url) {
             var info = null;
@@ -137,5 +149,48 @@ function initUserInfo(username) {
                 layer.msg(info);
             });
         }
+
+        $('#getCheckNum').click(function () {
+            var telphone = $('#telphone').val();
+            if(telphone!="") {
+                var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+                if(!myreg.test(telphone)){
+                    layer.msg("请输入有效的手机号码！")
+                }else {
+                    $.ajax({
+                        url: '/testDemo/message/sendMessage?tel=' + encodeURI(telphone)+'&type=2',
+                        dataType:'text',
+                        success:function (info) {
+                            layer.msg(info);
+                        }
+                    })
+                }
+            }else{
+                layer.msg("请输入手机号!")
+            }
+        });
+
+
     }
+
+    $('#checkNum').blur(function () {
+        var checkNum = $('#checkNum').val();
+        var telphone = $('#telphone').val();
+        if(checkNum.length!=4){
+            layer.msg("验证码位数不正确!");
+        }else{
+            $.ajax({
+                url: '/testDemo/message/checkNum?tel=' + encodeURI(telphone)+'&checkNum='+encodeURI(checkNum),
+                dataType:'text',
+                success:function (info) {
+                    if(info=='1') {
+                        $('#checkResult').text("验证通过!");
+                        $('#checkNum').attr('disabled','true');
+                    }else{
+                        $('#checkResult').text("验证码错误!");
+                    }
+                }
+            })
+        }
+    });
 }

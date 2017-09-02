@@ -56,4 +56,40 @@ function initBunding() {
             }
         });
     });
+    $('#checkNum').click(function () {
+        var telphone =$('#tel').val();
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        if(!myreg.test(telphone)){
+            layer.msg("请输入有效的手机号码！")
+        }else {
+            $.ajax({
+                url: '/testDemo/message/sendMessage?tel=' + encodeURI(telphone)+'&type=1',
+                dataType:'text',
+                success:function (info) {
+                    layer.msg(info);
+                }
+            })
+        }
+    });
+
+    $('#sureFerry').blur(function () {
+        var checkNum = $('#sureFerry').val();
+        var telphone = $('#tel').val();
+        if(checkNum.length!=4){
+            layer.msg("验证码位数不正确!");
+        }else{
+            $.ajax({
+                url: '/testDemo/message/checkNum?tel=' + encodeURI(telphone)+'&checkNum='+encodeURI(checkNum),
+                dataType:'text',
+                success:function (info) {
+                    if(info=='1') {
+                        $('#checkResult').text("验证通过!");
+                        $('#checkResult').attr('disabled','true');
+                    }else{
+                        $('#checkResult').text("验证码错误!");
+                    }
+                }
+            })
+        }
+    });
 }

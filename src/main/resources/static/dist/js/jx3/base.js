@@ -1,7 +1,8 @@
 // JavaScript Document
 $(document).ready(function(e) {
     var backurl = document.referrer;
-    if(backurl.indexOf('login')>-1){
+    var location = window.location.href;
+    if (backurl.indexOf('login') > -1&&location.indexOf('register')==-1&&location.indexOf('recover')==-1) {
         history.go(-2);
     }
     var userRole =null;
