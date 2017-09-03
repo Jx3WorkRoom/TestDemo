@@ -66,6 +66,15 @@ function initBunding() {
                 url: '/testDemo/message/sendMessage?tel=' + encodeURI(telphone)+'&type=1',
                 dataType:'text',
                 success:function (info) {
+                    $('#checkNum').hide();
+                    $('#getcodetime').show();
+                    c=60;
+                    document.getElementById('checkNum').innerText=c+"S后重新获取";
+                    c=c-1;
+                    id1='#getcodetime';
+                    id2='#checkNum';
+                    t=setTimeout("timedCount()",1000);
+                    layer.msg(info);
                     layer.msg(info);
                 }
             })
@@ -84,7 +93,7 @@ function initBunding() {
                 success:function (info) {
                     if(info=='1') {
                         $('#checkResult').text("验证通过!");
-                        $('#checkResult').attr('disabled','true');
+                        $('#sureFerry').attr('disabled','true');
                     }else{
                         $('#checkResult').text("验证码错误!");
                     }
@@ -92,4 +101,15 @@ function initBunding() {
             })
         }
     });
+}
+
+function timedCount() {
+    document.getElementById('getcodetime').innerText=c+"S后重新获取";
+    c=c-1;
+    if(c>0) {
+        t = setTimeout("timedCount()", 1000);
+    }else{
+        $(id1).hide();
+        $(id2).show();
+    }
 }

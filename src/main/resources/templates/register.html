@@ -65,12 +65,12 @@
       <tr>
        <td class="wr ft1" >手&nbsp;&nbsp;机&nbsp;&nbsp;号：</td>
        <td><input type="text" id="tel" placeholder="请输入" /></td>
-       <td class="ft2" id="checkNum"><img th:src="@{/dist/css/images/jx3/getcode.png}" /></td>
+       <td class="ft2" ><img th:src="@{/dist/css/images/jx3/getcode.png}" id="checkNum"/><span id="getcodetime"></span></td>
       </tr>
       <tr>
        <td class="wr ft1" >验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
        <td><input type="text" id="sureFerry" placeholder="请输入" /></td>
-       <td class="ft2"></td>
+       <td class="ft2" id="checkResult"></td>
       </tr>
       <tr>
        <td colspan="3">

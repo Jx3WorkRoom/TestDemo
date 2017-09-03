@@ -20,6 +20,11 @@
 </head>
 
 <body>
+<style>
+  .getcode1,.getcode2{
+    cursor: pointer;
+  }
+</style>
 <!-- top logo -->
 <div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
 <div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
@@ -195,23 +200,23 @@
      <table width="100%">
       <tr>
        <td class="wr ft1">注册手机号：</td>
-       <td><input type="password" placeholder="请输入" /></td>
-        <td class="ft2"></td>
+       <td><input type="text" placeholder="请输入" id="registerTel"/></td>
+        <td class="ft2"><img class="getcode1" th:src="@{/dist/css/images/jx3/getcode.png}" /><span id="getcodetime2"></span></td>
       </tr>
       <tr>
        <td class="wr ft1">注册手机验证码：</td>
-       <td><input type="password" placeholder="请输入" /></td>
-        <td class="ft2"><img class="getcode" th:src="@{/dist/css/images/jx3/getcode.png}" /><span class="getcodetime">30S后重新获取</span></td>
+       <td><input type="text" placeholder="请输入" id="getcodetime2Check"/></td>
+        <td class="ft2" id="getcodetime2Result"></td>
       </tr>
       <tr>
        <td class="wr ft1">新手机号：</td>
-       <td><input type="text" placeholder="请输入" /></td>
-       <td class="ft2"></td>
+       <td><input type="text" placeholder="请输入" id="registerTel2"/></td>
+        <td class="ft2"><img class="getcode2" th:src="@{/dist/css/images/jx3/getcode.png}" /><span id="getcodetime3"></span></td>
       </tr>
        <tr>
          <td class="wr ft1">新手机验证码：</td>
-         <td><input type="password" placeholder="请输入" /></td>
-         <td class="ft2"><img class="getcode" th:src="@{/dist/css/images/jx3/getcode.png}" /><span class="getcodetime">30S后重新获取</span></td>
+         <td><input type="text" placeholder="请输入" id="getcodetime3Check"/></td>
+         <td class="ft2" id="getcodetime3Result"></td>
        </tr>
      </table>
     </div>
