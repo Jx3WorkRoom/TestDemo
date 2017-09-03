@@ -325,18 +325,18 @@
                 var ybgjsl = $('#ybgjsl').val();//腰部挂件数量
                 var zjssl = $('#zjssl').val();//左肩饰数量
                 var yjssl = $('#yjssl').val();//右肩饰数量
-                var qtxych = $('#qtxych').val();//其它稀有称号
+                var qtxych = $('#qtxych').val();//其它稀有称号???
                 
                 var zl = $('#zl').val();//资历
                 var fbwj = $('#fbwj').val();//副本五甲
                 var xfcz = $('#xfcz').val();//消费充值
                 var xfjf = $('#xfjf').val();//消费积分
-                var yxjb1 = $('#yxjb1').val();//游戏金币1
+                var yxjb = $('#yxjb').val();//游戏金币
                 var cwfz = $('#cwfz').val();//宠物分值
                 var jhsj = $('#jhsj').val();//建号时间
                 var kdsj = $('#kdsj').val();//点卡时间
                 var tbsl = $('#tbsl').val();//通宝数量
-                var yxjb2 = $('#yxjb2').val();//游戏金币2
+                //var yxjb2 = $('#yxjb2').val();//游戏金币2
                 var en = $('#en').val();//二内
                 var sn = $('#sn').val();//三内
 
@@ -353,14 +353,14 @@
                 var _80xt = $('#80xt').val();//80小铁
                 var _70xj = $('#70xj').val();//70玄晶
                 var _70xt = $('#70xt').val();//70小铁
-                var pvpnz1 = $('#pvpnz1').val();//PVP-奶装1
+                var pvpnz = $('#pvpnz').val();//PVP-奶装
                 var pvenz = $('#pvenz').val();//PVE-奶装
-                var pvpnz2 = $('#pvpnz2').val();//PVP-奶装2
+                //var pvpnz2 = $('#pvpnz2').val();//PVP-奶装2
                 var pvetz = $('#pvetz').val();//PVE-T装
                 var pvpdpsngz = $('#pvpdpsngz').val();//PVP-DPS-内功装
-                var pvedpsngz1 = $('#pvedpsngz1').val();//PVE-DPS-内功装1
+                var pvedpsngz = $('#pvedpsngz').val();//PVE-DPS-内功装
                 var pvpdpswgz = $('#pvpdpswgz').val();//PVP-DPS-外功装
-                var pvedpsngz2 = $('#pvedpsngz2').val();//PVE-DPS-内功装2
+                var pvedpswgz = $('#pvedpswgz').val();//PVE-DPS-外功装
 
                 var bcsm = $('#bcsm').val();//补充说明
 
@@ -381,8 +381,50 @@
                 });
                 belongQf=trimEnd(belongQf);
 
-                console.log('输出----------->'+ch);
+                console.log('输出----------->'+fbwj);
 
+                url = reportApi + 'saveZhssxxfbInfo?belongQf=' + encodeURI(belongQf)
+                    + '&tixin=' + encodeURI(tixin)
+                    +'&priceNum=' + encodeURI(priceNum)
+                    +'&mbgjsl=' + encodeURI(mbgjsl)
+                    +'&bbgjsl=' + encodeURI(bbgjsl)
+                    +'&ybgjsl=' + encodeURI(ybgjsl)
+                    +'&zjssl=' + encodeURI(zjssl)
+                    +'&yjssl=' + encodeURI(yjssl)
+                    +'&qtxych=' + encodeURI(qtxych)
+                    +'&zl=' + encodeURI(zl)
+                    +'&fbwj=' + encodeURI(fbwj)
+                    +'&xfcz=' + encodeURI(xfcz)
+                    +'&xfjf=' + encodeURI(xfjf)
+                    +'&yxjb=' + encodeURI(yxjb)
+                    +'&cwfz=' + encodeURI(cwfz)
+                    +'&jhsj=' + encodeURI(jhsj)
+                    +'&kdsj=' + encodeURI(kdsj)
+                    +'&tbsl=' + encodeURI(tbsl)
+                    +'&en=' + encodeURI(en)
+                    +'&sn=' + encodeURI(sn)
+                    +'&_95cw=' + encodeURI(_95cw)
+                    +'&_90cw=' + encodeURI(_90cw)
+                    +'&_80cw=' + encodeURI(_80cw)
+                    +'&_70cw=' + encodeURI(_70cw)
+                    +'&mptx=' + encodeURI(mptx)
+                    +'&_95xj=' + encodeURI(_95xj)
+                    +'&_95xt=' + encodeURI(_95xt)
+                    +'&_90xj=' + encodeURI(_90xj)
+                    +'&_90xt=' + encodeURI(_90xt)
+                    +'&_80xj=' + encodeURI(_80xj)
+                    +'&_80xt=' + encodeURI(_80xt)
+                    +'&_70xj=' + encodeURI(_70xj)
+                    +'&_70xt=' + encodeURI(_70xt)
+                    +'&pvpnz=' + encodeURI(pvpnz)
+                    +'&pvenz=' + encodeURI(pvenz)
+                    +'&pvetz=' + encodeURI(pvetz)
+                    +'&pvpdpsngz=' + encodeURI(pvpdpsngz)
+                    +'&pvedpsngz=' + encodeURI(pvedpsngz)
+                    +'&pvpdpswgz=' + encodeURI(pvpdpswgz)
+                    +'&pvedpswgz=' + encodeURI(pvedpswgz)
+                    +'&bcsm=' + encodeURI(bcsm);
+                saveTable(url);
             });
             $('#cancel').unbind("click");
             $('#cancel').click(function () {
