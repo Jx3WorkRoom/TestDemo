@@ -11,7 +11,6 @@
 
     $(function () {
         initTable();
-        saveTable();
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -120,14 +119,17 @@
             url:url,
             async:false,
             success:function (data) {
-
+                layer.closeAll();
+                //跳转
+                window.location.href="/testDemo/myRelease.html";
             },
             complete:function () {
-
+                layer.closeAll();
+                //layer.msg("保存出错!")
             },
             error:function () {
-                //layer.closeAll();
-                //layer.msg("数据请求失败!")
+                layer.closeAll();
+                layer.msg("数据请求失败!")
             }
 
         });
@@ -249,6 +251,7 @@
         }).complete(function () {
             $('.query-l').unbind("click");
             $('.query-l').click(function () {
+                layer.load();
                     var cheatType = '';//欺诈类别
                     var belongQf = ''; //涉事区服
                     var viewName = $('#viewName').val();//
@@ -285,7 +288,7 @@
                      tradeType=2;
                      }*/
 
-                    url = api + 'saveWgjyInfo?cheatType=' + encodeURI(cheatType)
+                    url = reportApi + 'saveWgjyInfo?cheatType=' + encodeURI(cheatType)
                         + '&belongQf=' + encodeURI(belongQf)
                         + '&viewName=' + encodeURI(viewName)
                         +'&priceNum=' + encodeURI(priceNum)
