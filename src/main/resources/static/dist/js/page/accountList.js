@@ -63,7 +63,7 @@ function initTable(url,keyNum) {
         }else{
             areaSelection="";
         }
-        var shape = $('.tixin').val();
+        var shape = $('.tixin').find("option:selected").text();
         var info = $('.info').val();
         if(shape==""&&info==""&&areaSelection==""){
             url = api+'accountList?tradeType='+encodeURI(tradeType)+'&startNum='+encodeURI(startNum)+'&endNum='+encodeURI(endNum);
@@ -95,33 +95,60 @@ function initTable(url,keyNum) {
             dataTemp = data;
             //填充表格数据
             var tableDatas = data.datas==null?"":data.datas;
-            $.each(tableDatas,function (i,value) {
-                var time = sumTime(value.REPLY_TIME);
-                var tradeType = value.TRADE_TYPE==1?"求购":"出售";
-                var matchingDegree = "--";
-                var follow = value.USER_FOLLOW==null?"--":value.USER_FOLLOW;
-                if(clickSeachNum!=0){
-                    matchingDegree = sumMatchingDegree(value);
+            var sortArrary = [];
+            if(clickSeachNum!=0){
+                $.each(tableDatas,function (i,value) {
+                    var matchingDegree = sumMatchingDegree(value,data.segMentWordMap);
+                    sortArrary.push([matchingDegree,i]);
+                });
+                sortArrary = sortarr(sortArrary);
+                function sortarr(arr){
+                    for(i=0;i<arr.length-1;i++){
+                        for(j=0;j<arr.length-1-i;j++){
+                            if(parseInt(arr[j][0])<parseInt(arr[j+1][0])){
+                                var temp=arr[j];
+                                arr[j]=arr[j+1];
+                                arr[j+1]=temp;
+                            }
+                        }
+                    }
+                    return arr;
                 }
-                var belongOf = value.BELONG_QF.replace("[","");
-                belongOf = belongOf.replace("]","");
+                $.each(sortArrary,function (i,value) {
+                    initDiv(tableDatas[value[1]]);
+                });
+            }else {
+                $.each(tableDatas, function (i, value) {
+                    initDiv(value);
+                });
+            }
+            function initDiv(value){
+                var time = sumTime(value.REPLY_TIME);
+                var tradeType = value.TRADE_TYPE == 1 ? "求购" : "出售";
+                var follow = value.USER_FOLLOW == null ? "--" : value.USER_FOLLOW;
+                var matchingDegree = '--';
+                if (clickSeachNum != 0) {
+                    matchingDegree = sumMatchingDegree(value, data.segMentWordMap) + '%';
+                }
+                var belongOf = value.BELONG_QF.replace("[", "");
+                belongOf = belongOf.replace("]", "");
                 belongOf = belongOf.split(',')[0];
                 belongOf = replace(belongOf);
-                var TIXIN = value.TIXIN.replace("[","");
-                TIXIN = TIXIN.replace("]","");
+                var TIXIN = value.TIXIN.replace("[", "");
+                TIXIN = TIXIN.replace("]", "");
                 TIXIN = TIXIN.split(',')[0];
-                var price = value.PRICE_NUM.replace("[","").replace("]","");
+                var price = value.PRICE_NUM.replace("[", "").replace("]", "");
                 $(".table").append("<div class=\"table-tr\">\n" +
-                    "            <div class=\"table-td\">"+belongOf+"</div>\n" +
-                    "            <div class=\"table-td\">"+TIXIN+"</div>\n" +
-                    "            <div class=\"table-td table_lw\"><a href=\"accountDetail?favorId="+value.FAVOR_ID+"\"  target='view_window'>"+value.REPLY_CONTENT+"</a></div>\n" +
-                    "            <div class=\"table-td\">"+tradeType+"</div>\n" +
-                    "            <div class=\"table-td\">"+price+"</div>\n" +
-                    "            <div class=\"table-td\">"+matchingDegree+"</div>\n" +
-                    "            <div class=\"table-td\">"+follow+"</div>\n" +
-                    "            <div class=\"table-td\">"+time+"</div>\n" +
+                    "            <div class=\"table-td\">" + belongOf + "</div>\n" +
+                    "            <div class=\"table-td\">" + TIXIN + "</div>\n" +
+                    "            <div class=\"table-td table_lw\"><a href=\"accountDetail?favorId=" + value.FAVOR_ID + "\"  target='view_window'>" + value.REPLY_CONTENT + "</a></div>\n" +
+                    "            <div class=\"table-td\">" + tradeType + "</div>\n" +
+                    "            <div class=\"table-td\">" + price + "</div>\n" +
+                    "            <div class=\"table-td\">" + matchingDegree + "</div>\n" +
+                    "            <div class=\"table-td\">" + follow + "</div>\n" +
+                    "            <div class=\"table-td\">" + time + "</div>\n" +
                     "          </div>")
-            });
+            }
             function replace(str){
                 str = str.replace("电月","");
                 str = str.replace("电点","");
@@ -132,19 +159,62 @@ function initTable(url,keyNum) {
                 return str;
             }
             //计算匹配度
-            function sumMatchingDegree(value) {
-                var n = $('.info').text().split('/');
+            function sumMatchingDegree(value,map) {
                 var m = 0;
-                n = ['a','b','c','d'];
-                $.each(value,function (i,val) {
-                    for(var j=0;j<n.length;j++){
-                        if(val!=null) {
-                            if (val.toString().indexOf(n[j]) > -1)
-                                m++;
-                        }
+                var n = 0;
+                $.each(map,function (i,values) {
+                    if(i=='title'){
+                        var strs = value.TITLE_NAME;
+                        m = m+strs.length;
+                        $.each(values,function (num,obj) {
+                            m = m+values.length;
+                            if(strs.indexOf(obj)>-1){
+                                n++;
+                            }
+                        });
+                    }else if(i=='waiguan'){
+                        var strs = value.WAIGUAN_NAME;
+                        m = m+values.length;
+                        $.each(values,function (num,obj) {
+                            if(strs.indexOf(obj)>-1){
+                                n++;
+                            }
+                        });
+                    }else if(i=='horse'){
+                        var strs = value.WAIGUAN_NAME;
+                        m = m+values.length;
+                        $.each(values,function (num,obj) {
+                            if(strs.indexOf(obj)>-1){
+                                n++;
+                            }
+                        });
+                    }else if(i=='arm'){
+                        var strs = value.WAIGUAN_NAME;
+                        m = m+values.length;
+                        $.each(values,function (num,obj) {
+                            if(strs.indexOf(obj)>-1){
+                                n++;
+                            }
+                        });
+                    }else if(i=='stra'){
+                        var strs = value.WAIGUAN_NAME;
+                        m = m+strs.length;
+                        $.each(values,function (num,obj) {
+                            if(strs.indexOf(obj)>-1){
+                                n++;
+                            }
+                        });
+                    }else if(i=='pend'){
+                        var strs = value.WAIGUAN_NAME;
+                        m = m+values.length;
+                        $.each(values,function (num,obj) {
+                            if(strs.indexOf(obj)>-1){
+                                n++;
+                            }
+                        });
                     }
                 });
-                return (50+ parseInt(m/n.length))+"%";
+                return (parseInt((100 * n) / m));
             }
             //计算上架时间
             function sumTime(time) {
@@ -174,7 +244,7 @@ function initTable(url,keyNum) {
                 initPage(pageList,keyNum);
             }else{
                 $('.pagination').empty();
-                layer.msg("加载数据出错!")
+                layer.msg("未查到相关数据!")
             }
         },
         error:function () {
@@ -292,15 +362,10 @@ function initSeach() {
         if(tixin!="") {
             initTixin(tixin);
         }
-        var info = data.info==null?"":data.info;
-        if(info!=""){
-            initInfo(info);
-        }
     }).error(function () {
     }).complete(function () {
         $('.query-l').unbind("click");
         $('.query-l').click(function () {
-            clickSeachNum++;
             var tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
             if(tradeType=="求购"){
                 tradeType=1;
@@ -321,6 +386,9 @@ function initSeach() {
             }
             var shape = $('.tixin').val();
             var info = $('.info').val();
+            if(info!=""){
+                clickSeachNum++;
+            }
             if(shape==""&&info==""&&areaSelection==""){
                 initTable();
             }else {
@@ -398,12 +466,12 @@ function initSeach() {
         }
     }
 
-    function initTixin() {
-        //todo
-    }
-
-    function initInfo() {
-        //todo
+    function initTixin(data) {
+        $.each(data,function (i,value) {
+            var val1 = value.MENPAI_NAME;
+           $('.tixin').append("  <option value="+val1+">"+val1+"</option> ");
+        });
+        $(".js-example-basic-single").select2();
     }
 }
 

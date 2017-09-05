@@ -392,11 +392,6 @@ function initSeach() {
         if(selecttions!="") {
             initSelections(selecttions);
         }
-        var tixin = data.tixin==null?"":data.tixin;
-        //填充体型选择框
-        if(tixin!="") {
-            initTixin(tixin);
-        }
     }).error(function () {
     }).complete(function () {
         $('.query-l').unbind("click");
@@ -494,10 +489,6 @@ function initSeach() {
             }
             preEle.options.add(op);
         }
-    }
-
-    function initTixin() {
-        //todo
     }
 }
 

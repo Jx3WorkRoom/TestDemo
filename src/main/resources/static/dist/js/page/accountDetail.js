@@ -192,7 +192,7 @@ function initDetail(favorId) {
                         $.each(data, function (i, value) {
                             $('#source1').append("<tr>\n" +
                                 "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.REPLY_TIME + "</td>\n" +
-                                "                        <td align=\"center\"  valign=\"middle\" width=\"300x\" height=\"30\"><a href=\"" + value.PAGE_URL + "\">" + value.PAGE_URL + "</a></td>\n" +
+                                "                        <td align=\"center\"  valign=\"middle\" width=\"300x\" height=\"30\" class='sourceHref'><a href='" + value.PAGE_URL + "' target='_Blank'>" + value.PAGE_URL + "</a></td>\n" +
                                 "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.BELONG_FLOOR + "</td>\n" +
                                 "                    </tr>")
                         });
@@ -206,6 +206,15 @@ function initDetail(favorId) {
                 }
             }).error(function () {
                 layer.msg("加载数据为空!");
+            }).complete(function () {
+                $('.sourceHref').click(function () {
+                    var url = $(this).find('a').attr('href');
+                    $('#sourceIfame').attr('src',url);
+                    $('#sourceIfame').load(function () {
+                        var title = $($("#sourceIfame").context).find('title');
+                        console.log(title);
+                    });
+                });
             });
         }
     }
