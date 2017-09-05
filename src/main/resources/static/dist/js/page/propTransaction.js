@@ -11,7 +11,6 @@
 
     $(function () {
         initTable();
-        saveTable();
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -120,14 +119,17 @@
             url:url,
             async:false,
             success:function (data) {
-
+                layer.closeAll();
+                //跳转
+                window.location.href="/testDemo/myRelease.html";
             },
             complete:function () {
-
+                layer.closeAll();
+                //layer.msg("保存出错!")
             },
             error:function () {
-                //layer.closeAll();
-                //layer.msg("数据请求失败!")
+                layer.closeAll();
+                layer.msg("数据请求失败!")
             }
 
         });
@@ -253,6 +255,7 @@
         }).complete(function () {
             $('.query-l').unbind("click");
             $('.query-l').click(function () {
+                layer.load();
                 var tradeType = '1';//交易类型
                 var belongQf = '1'; //涉事区服
                 var propName = $('#propName').val();;//道具名
