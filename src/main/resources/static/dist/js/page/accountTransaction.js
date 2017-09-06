@@ -1,6 +1,6 @@
 //------------------------------------常量定义 Start------------------------------------
     reportApi = api+"iwantRelease/";
-    api = api+"accountList/";
+    pageApi = api+"accountList/";
 
     //设置一个省的公共下标
     var pIndex = 0;
@@ -8,10 +8,12 @@
     var cityEle = document.getElementById("city");
     var areaEle = document.getElementById("area");
     var clickSeachNum = 0;
+    var userId = null;
 
     $(function () {
-        initTable();
-        saveTable();
+        var username = $('#userName').text();
+        $('.last').text(username);
+        initTable(username);
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -115,25 +117,43 @@
 
 //------------------------------------Function定义 Start------------------------------------
     //保存
-function saveTable(url,keyNum) {
-    $.ajax({
-        url:url,
-        async:false,
-        success:function (data) {
-
-        },
-        complete:function () {
-
-        },
-        error:function () {
-            //layer.closeAll();
-            //layer.msg("数据请求失败!")
+    function saveTable(url,keyNum) {
+        $.ajax({
+            url:url,
+            async:false,
+            success:function (data) {
+                layer.closeAll();
+                //跳转
+                window.location.href="/testDemo/myRelease.html";
+            },
+            complete:function () {
+                layer.closeAll();
+                //layer.msg("保存出错!")
+            },
+            error:function () {
+                layer.closeAll();
+                layer.msg("数据请求失败!")
             }
 
         });
     }
 
-    function initTable(url,keyNum) {
+    function initTable(username) {
+        var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
+        console.log(url);
+        $.getJSON(url,function (data) {
+            data=data.datas[0]==null?'':data.datas[0];
+            if(data!=''){
+                userId = data.USER_ID;
+            }else{
+                layer.msg("加载用户信息错误!")
+            }
+        }).error(function () {
+            layer.msg("加载用户信息错误!")
+        }).complete(function () {
+            //initEdit();
+        });
+
         var cheatType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
         if(cheatType=="账号诈骗"){
             cheatType=1;
@@ -233,9 +253,9 @@ function saveTable(url,keyNum) {
     }
     //加载Form
     function initForm() {
-        var url = api+'accountListSelection';
-    $.getJSON(url,function (data) {
-        var selecttions = data.selecttions==null?"":data.selecttions;
+        var url = pageApi+'accountListSelection';
+        $.getJSON(url,function (data) {
+            var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
             if(selecttions!="") {
                 initSelections(selecttions);
@@ -253,6 +273,7 @@ function saveTable(url,keyNum) {
     }).complete(function () {
         $('.query-l').unbind("click");
         $('.query-l').click(function () {
+                layer.load();
                 var tradeType = '1';//交易类型
                 var belongQf = '1'; //涉事区服
                 var goldTotal = $('#goldTotal').val();;//金币总量
@@ -293,7 +314,8 @@ function saveTable(url,keyNum) {
                  tradeType=2;
                  }*/
 
-                url = api + 'saveJbjyInfo?tradeType=' + encodeURI(tradeType)
+                url = reportApi + 'saveJbjyInfo?userId=' + encodeURI(userId)
+                    + '&tradeType=' + encodeURI(tradeType)
                     + '&belongQf=' + encodeURI(belongQf)
                     + '&goldTotal=' + encodeURI(goldTotal)
                     +'&unitPrice=' + encodeURI(unitPrice)
@@ -302,7 +324,7 @@ function saveTable(url,keyNum) {
                 saveTable(url);
             });
 
-            initTable();
+            //initTable();
         });
     }
 //------------------------------------Function定义 End------------------------------------

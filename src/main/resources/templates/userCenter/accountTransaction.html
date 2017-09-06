@@ -14,8 +14,9 @@
   <script th:src="@{/dist/js/jx3/bt.js}"></script>
   <script th:src="@{/dist/js/jx3/base.js}"></script>
   <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
-  <script th:src="@{/dist/js/page/utils.js}"></script>
-  <script th:src="@{/dist/js/page/accountTransaction.js}"></script>
+    <script th:src="@{/dist/js/layer/layer.js}"></script>
+    <script th:src="@{/dist/js/page/utils.js}"></script>
+    <script th:src="@{/dist/js/page/accountTransaction.js}"></script>
 </head>
 
 <body>
@@ -107,7 +108,7 @@
                 <tr>
                   <td align="right" class="wr ft1">是否可以拆分：</td>
                   <td colspan="7"><form action="sava.php" method="post">
-                    <input type="radio" name="ifSplit" value="1" />
+                    <input type="radio" name="ifSplit" value="1" checked/>
                     <lable>是</lable>
                     <input type="radio" name="ifSplit" value="0" />
                     <lable>否</lable>

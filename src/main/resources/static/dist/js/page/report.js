@@ -1,6 +1,6 @@
 //------------------------------------常量定义 Start------------------------------------
     reportApi = api+"iwantRelease/";
-    api = api+"accountList/";
+    pageApi = api+"accountList/";
 
     //设置一个省的公共下标
     var pIndex = 0;
@@ -8,9 +8,12 @@
     var cityEle = document.getElementById("city");
     var areaEle = document.getElementById("area");
     var clickSeachNum = 0;
+    var userId = null;
 
     $(function () {
-        initTable();
+        var username = $('#userName').text();
+        $('.last').text(username);
+        initTable(username);
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -135,7 +138,22 @@
         });
     }
 
-    function initTable(url,keyNum) {
+    function initTable(username) {
+        var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
+        console.log(url);
+        $.getJSON(url,function (data) {
+            data=data.datas[0]==null?'':data.datas[0];
+            if(data!=''){
+                userId = data.USER_ID;
+            }else{
+                layer.msg("加载用户信息错误!")
+            }
+        }).error(function () {
+            layer.msg("加载用户信息错误!")
+        }).complete(function () {
+            //initEdit();
+        });
+
         var cheatType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
         if(cheatType=="账号诈骗"){
             cheatType=1;
@@ -235,7 +253,7 @@
     }
     //加载Form
     function initForm() {
-        var url = api+'accountListSelection';
+        var url = pageApi+'accountListSelection';
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
@@ -300,7 +318,8 @@
                         tradeType=2;
                     }*/
 
-                    url = reportApi + 'saveWyjbInfo?cheatType=' + encodeURI(cheatType)
+                    url = reportApi + 'saveWyjbInfo?userId=' + encodeURI(userId)
+                        + '&cheatType=' + encodeURI(cheatType)
                         + '&belongQf=' + encodeURI(belongQf)
                         + '&tixin=' + encodeURI(tixin)
                         +'&roleName=' + encodeURI(roleName)
@@ -310,7 +329,7 @@
                     saveTable(url);
             });
 
-            initTable();
+            //initTable();
         });
     }
 //------------------------------------Function定义 End------------------------------------
