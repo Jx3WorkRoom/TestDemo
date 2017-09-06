@@ -72,8 +72,8 @@
                   <td><ul class="nav nav-pills w250">
                       <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">购买<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                          <li data-filter-camera-type="all"><a data-toggle="tab" href="#">购买</a></li>
-                          <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">出售</a></li>
+                          <li data-filter-camera-type="all"><a data-toggle="tab" href="#" value="1">购买</a></li>
+                          <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#" value="2">出售</a></li>
                         </ul>
                       </li>
                     </ul></td>
@@ -221,6 +221,10 @@ $().ready(function(e) {
 	$(".icon1").click(function(){
 		$(this).parents('li').remove()
 	})
+    $(".nav-pills ul li").click(function(){
+      var sefont=$(this).find('a').text();
+      $(this).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
+    });
 });
 </script>
 </html>

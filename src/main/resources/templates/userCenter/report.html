@@ -235,13 +235,16 @@
 $().ready(function(e) {
 	var typeid=''
     $(".s_top ul li").click(function(){
-		$(".s_top ul li").removeClass('cur');
-		$(this).addClass('cur')
+        $(".s_top ul li").removeClass('cur');
+        $(this).addClass('cur')
 	})
 	$(".icon1").click(function(){
 		$(this).parents('li').remove()
 	})
-	
+    $(".nav-pills ul li").click(function(){
+        var sefont=$(this).find('a').text();
+        $(this).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
+    });
 });
 </script>
 </html>

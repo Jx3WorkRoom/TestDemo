@@ -326,7 +326,7 @@
                         +'&cheatIntro=' + encodeURI(cheatIntro)
                         +'&cheatInfo=' + encodeURI(cheatInfo)
                         +'&pageUrl=' + encodeURI(pageUrl);
-                    saveTable(url);
+//                    saveTable(url);
             });
 
             //initTable();

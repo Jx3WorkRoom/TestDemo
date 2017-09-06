@@ -282,7 +282,8 @@
 
                     //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
                     cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                    if(cheatType=="求购"){
+                alert(cheatType);
+                    if(cheatType=="购买"){
                         cheatType=1;
                     }else{
                         cheatType=2;
@@ -316,7 +317,7 @@
                         + '&viewName=' + encodeURI(viewName)
                         +'&priceNum=' + encodeURI(priceNum)
                         +'&favorInfo=' + encodeURI(favorInfo);
-                    saveTable(url);
+//                    saveTable(url);
             });
 
             //initTable();
