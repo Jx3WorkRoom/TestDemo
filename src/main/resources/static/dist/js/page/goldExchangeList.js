@@ -149,23 +149,42 @@ function initTable(url,keyNum) {
             }
             //计算上架时间
             function sumTime(time) {
-                var startTime =new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
-                time = time+" 00:00:00";
-                var reStr = null;
-                var diff = new DateUtil().diffDateTime(time,startTime)/1000;
-                var day = parseInt(diff / (24*60*60));//计算整数天数
-                var hour = parseInt(diff/(60*60));//计算整数小时数
-                var min = parseInt(diff/60);//计算整数分
-                if(day>1){
-                    reStr = day+"天前";
-                }else{
-                    var hour = parseInt(diff/(60*60));//计算整数小时数
-                    if(hour<1){
-                        hour = 1;
+                if(time!=null) {
+                    function timeStamp2String(time) {
+                        var datetime = new Date();
+                        datetime.setTime(time);
+                        var year = datetime.getFullYear();
+                        var month = datetime.getMonth() + 1;
+                        var date = datetime.getDate();
+                        if (parseInt(month) < 10) {
+                            month = '0' + month;
+                        }
+                        if (parseInt(date) < 10) {
+                            date = '0' + date;
+                        }
+                        return year + "-" + month + "-" + date;
+                    };
+                    time = timeStamp2String(time);
+                    var startTime = new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
+                    time = time + " 00:00:00";
+                    var reStr = null;
+                    var diff = new DateUtil().diffDateTime(time, startTime) / 1000;
+                    var day = parseInt(diff / (24 * 60 * 60));//计算整数天数
+                    var hour = parseInt(diff / (60 * 60));//计算整数小时数
+                    var min = parseInt(diff / 60);//计算整数分
+                    if (day > 1) {
+                        reStr = day + "天前";
+                    } else {
+                        var hour = parseInt(diff / (60 * 60));//计算整数小时数
+                        if (hour < 1) {
+                            hour = 1;
+                        }
+                        reStr = hour + "小时前";
                     }
-                    reStr = hour+"小时前";
+                    return reStr;
+                }else{
+                    return '--';
                 }
-                return reStr;
             }
 
             //弹出详情框

@@ -232,7 +232,7 @@ function initTable(url,keyNum) {
                     }
                     return year + "-" + month + "-" + date;
                 };
-                time =timeStamp2String(time)
+                time =timeStamp2String(time);
                 var startTime =new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
                 time = time+" 00:00:00";
                 var reStr = null;

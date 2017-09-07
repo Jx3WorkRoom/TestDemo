@@ -8,20 +8,37 @@ function initBunding() {
         if($(this).is('#loginName')){
             if( this.value=="" || this.value.length < 6){
                 layer.msg("账号格式不对!");
+            }else{
+                var loginName = $(this).val();
+                var url = api+'checkIsEmpty?loginName='+encodeURI(loginName);
+                $.getJSON(url,function (data) {
+                    if (data.info != "") {
+                        layer.msg(data.info);
+                    }
+                });
             }
         }
         if($(this).is('#userName')){
-            if( this.value=="" || this.value.length < 4||this.value.length>16){
-                layer.msg("昵称格式不对!");
+            var reg = /^[\u4E00-\u9FA5]+$/;
+            if(!reg.test(this.value)){
+                layer.msg("昵称必须为汉字!");
+            }else{
+                var userName = $(this).val();
+                var url = api+'checkIsEmpty?userName='+encodeURI(userName);
+                $.getJSON(url,function (data) {
+                    if (data.info != "") {
+                        layer.msg(data.info);
+                    }
+                });
             }
         }
         if($(this).is('#loginWord')){
-            if( this.value=="" || this.value.length < 4||this.value.length>16){
+            if( this.value!="" &&( this.value.length < 4||this.value.length>16)){
                 layer.msg("密码格式不对!");
             }
         }
         if($(this).is('#loginWordSure')){
-            if( this.value=="" || this.value.length < 4||this.value.length>16){
+            if( this.value!="" &&( this.value.length < 4||this.value.length>16)){
                 layer.msg("确认密码格式不对!");
             }else{
                 if(this.value!=$('#loginWord').val()){
