@@ -184,7 +184,7 @@
 
     //初始欺诈类型
     function initCheatType(){
-        console.log('3333333333333333');
+
     }
     //初始区服下拉数据
     function initSelections(selecttions) {
@@ -271,8 +271,8 @@
             }
         }).error(function () {
         }).complete(function () {
-            $('.query-l').unbind("click");
-            $('.query-l').click(function () {
+            $('#save').unbind("click");
+            $('#save').click(function () {
                 layer.load();
                     var cheatType = '';//欺诈类别
                     var belongQf = ''; //涉事区服
@@ -282,7 +282,7 @@
 
                     //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
                     cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                alert(cheatType);
+
                     if(cheatType=="购买"){
                         cheatType=1;
                     }else{
@@ -317,9 +317,14 @@
                         + '&viewName=' + encodeURI(viewName)
                         +'&priceNum=' + encodeURI(priceNum)
                         +'&favorInfo=' + encodeURI(favorInfo);
-//                    saveTable(url);
+                    saveTable(url);
             });
-
+            $('#preview').click(function () {
+                layer.msg('努力开发中……');
+            });
+            $('#cancel').click(function () {
+                layer.msg('努力开发中……');
+            });
             //initTable();
         });
     }

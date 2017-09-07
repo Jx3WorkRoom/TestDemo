@@ -184,7 +184,7 @@
 
     //初始欺诈类型
     function initCheatType(){
-        console.log('3333333333333333');
+
     }
     //初始区服下拉数据
     function initSelections(selecttions) {
@@ -271,8 +271,8 @@
             }
     }).error(function () {
     }).complete(function () {
-        $('.query-l').unbind("click");
-        $('.query-l').click(function () {
+        $('#save').unbind("click");
+        $('#save').click(function () {
                 layer.load();
                 var tradeType = '1';//交易类型
                 var belongQf = '1'; //涉事区服
@@ -282,7 +282,7 @@
                 var favorInfo = $('#favorInfo').val();;//其他说明
 
                 tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                if(tradeType=="求购"){
+                if(tradeType=="收购"){
                     tradeType=1;
                 }else{
                     tradeType=2;
@@ -323,7 +323,12 @@
                     +'&favorInfo=' + encodeURI(favorInfo);
                 saveTable(url);
             });
-
+            $('#preview').click(function () {
+                layer.msg('努力开发中……');
+            });
+            $('#cancel').click(function () {
+                layer.msg('努力开发中……');
+            });
             //initTable();
         });
     }

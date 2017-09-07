@@ -271,17 +271,18 @@
             }
         }).error(function () {
         }).complete(function () {
-            $('.query-l').unbind("click");
-            $('.query-l').click(function () {
+            $('#save').unbind("click");
+            $('#save').click(function () {
                 layer.load();
-                var tradeType = '1';//交易类型
+                var tradeType = '';//交易类型
                 var belongQf = '1'; //涉事区服
                 var propName = $('#propName').val();;//道具名
                 var priceNum = $('#priceNum').val();;//价格
                 var favorInfo = $('#favorInfo').val();;//其他说明
 
-                cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                if(tradeType=="求购"){
+                tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+
+                if(tradeType=="购买"){
                     tradeType=1;
                 }else{
                     tradeType=2;
@@ -313,7 +314,12 @@
                     +'&favorInfo=' + encodeURI(favorInfo);
                 saveTable(url);
             });
-
+            $('#preview').click(function () {
+                layer.msg('努力开发中……');
+            });
+            $('#cancel').click(function () {
+                layer.msg('努力开发中……');
+            });
             //initTable();
         });
     }

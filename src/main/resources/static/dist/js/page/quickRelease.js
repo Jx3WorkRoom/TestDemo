@@ -10,8 +10,9 @@
     var clickSeachNum = 0;
 
     $(function () {
+        var username = $('#userName').text();
+        $('.last').text(username);
         initTable();
-        saveTable();
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -120,14 +121,17 @@
             url:url,
             async:false,
             success:function (data) {
-
+                layer.closeAll();
+                //跳转
+                window.location.href="/testDemo/myRelease.html";
             },
             complete:function () {
-
+                layer.closeAll();
+                //layer.msg("保存出错!")
             },
             error:function () {
-                //layer.closeAll();
-                //layer.msg("数据请求失败!")
+                layer.closeAll();
+                layer.msg("数据请求失败!")
             }
 
         });
@@ -164,7 +168,7 @@
 
     //初始欺诈类型
     function initCheatType(){
-        console.log('3333333333333333');
+
     }
     //初始区服下拉数据
     function initSelections(selecttions) {
@@ -251,8 +255,8 @@
             }
         }).error(function () {
         }).complete(function () {
-            $('.query-l').unbind("click");
-            $('.query-l').click(function () {
+            $('#save').unbind("click");
+            $('#save').click(function () {
                     var tradeType = '1';//账号交易类别
                     var belongQf = '1'; //涉事区服
                     var tixin = $('#tixin').val();//门派体型
@@ -290,7 +294,12 @@
                         +'&accoInfo=' + encodeURI(accoInfo);
                     saveTable(url);
             });
-
+            $('#preview').click(function () {
+                layer.msg('努力开发中……');
+            });
+            $('#cancel').click(function () {
+                layer.msg('努力开发中……');
+            });
             initTable();
         });
     }

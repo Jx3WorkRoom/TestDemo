@@ -422,6 +422,7 @@ function initSeach() {
         var areaArr = []
         $.each(selecttions, function (i, value) {
             if (typeArr.indexOf(value.qufu_type) == -1) {
+                console.log(value);
                 typeArr.push(value.qufu_type);
             }
         });
