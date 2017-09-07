@@ -4,6 +4,9 @@ $(function () {
 });
 
 function initBunding() {
+    $('#loginName').blur(function () {
+
+    });
     $('#getCheckNum').click(function () {
         var telphone = $('#tel').val();
         if(telphone!="") {
@@ -48,6 +51,8 @@ function initBunding() {
         var newPassword2 = $('#newPassword2').val();
         if(newPassword!=newPassword2){
             $('#passwordCheck').text("两次密码输入不一致!");
+        }else if(newPassword==""&&newPassword2==""){
+            $('#passwordCheck').text("两次密码不能为空!");
         }else {
             $('#passwordCheck').text("密码正确!");
         }
