@@ -71,11 +71,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //注销
                 .logout()
-                .logoutSuccessUrl("/login") //退出登录后的默认网址是”/login”  ;
-                .permitAll()
-                .and()
-                .rememberMe()//登录后记住用户，下次自动登录,数据库中必须存在名为persistent_logins的表
-                .tokenValiditySeconds(1209600);
+//                .logoutSuccessUrl("/login") //退出登录后的默认网址是”/login”  ;
+                .permitAll();
+//                .and()
+//                .rememberMe()//登录后记住用户，下次自动登录,数据库中必须存在名为persistent_logins的表
+//                .tokenValiditySeconds(1209600);
         //关闭csrf 防止循环定向
         http.csrf().disable();
     }
@@ -83,8 +83,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         //不删除凭据，以便记住用户
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-        auth.eraseCredentials(false);
+//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+//        auth.eraseCredentials(false);
     }
 
     @Bean

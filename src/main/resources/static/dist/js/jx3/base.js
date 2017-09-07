@@ -2,8 +2,28 @@
 $(document).ready(function(e) {
     var userRole =null;
     var username = $('#userName').text();
-    var start = 'http://127.0.0.1:8881';
-    start='http://101.132.64.51:8881';
+    var start='http://101.132.64.51:8881';
+    if(username!=""){
+        $('.last').hide();
+        $('#userDetails').show();
+    }
+    document.getElementById("userDetails").onmousedown=function(ev){
+        $('.registerDiv').remove();
+        var oEvent=ev||event;
+        var oDiv=document.createElement('div');
+        oDiv.style.left=oEvent.clientX+'px';  // 指定创建的DIV在文档中距离左侧的位置
+        oDiv.style.top=(oEvent.clientY+10)+'px';  // 指定创建的DIV在文档中距离顶部的位置
+        oDiv.style.border='1px solid black'; // 设置边框
+        oDiv.style.backgroundColor='#fff';
+        oDiv.style.position='absolute'; // 为新创建的DIV指定绝对定位
+        oDiv.style.width='100px'; // 指定宽度
+        oDiv.style.height='40px'; // 指定高度
+        oDiv.setAttribute("class","registerDiv");
+        oDiv.innerHTML='<form th:action="@{/logout}" method="post">\n' +
+            '            <input type="submit" value="注销"/>\n' +
+            '        </form>';
+        document.body.appendChild(oDiv);
+    }
     var url = start+'/testDemoRest/User/userInfo?username='+encodeURI(username);
     $.getJSON(url,function (data) {
         userRole = data.datas[0]==null?'':data.datas[0].role==null?'':data.datas[0].role;

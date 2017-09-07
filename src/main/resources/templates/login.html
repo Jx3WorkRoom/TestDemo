@@ -81,6 +81,13 @@
           <div class="logincon logincon3">
             <form class=""  method="post" th:action="@{/login}" >
               <table width="100%">
+                <tr>
+                  <td>
+                    <div th:if="${param.logout}">
+                      您已注销成功
+                    </div>
+                  </td>
+                </tr>
               <tr>
                 <td class="wr ft1">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</td>
                 <td colspan="2"><input type="text" placeholder="请输入"  name="username"/></td>
@@ -105,7 +112,7 @@
               <tr>
                 <td class="wr ft1"><a class="btn btn-primary" id="checKCodeBtn" style="display: none;"></a></td>
                 <td colspan="2">
-                    <button th:type="submit" id="submit" href="javascript:void(0)" style="border: 0;background-color: transparent">
+                    <button th:type="submit" id="submit" href="javascript:void(0)" disabled style="border: 0;background-color: transparent">
                         <img th:src="@{/dist/css/images/jx3/login-btn.png}" />
                     </button>
                 </td>

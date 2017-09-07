@@ -75,6 +75,21 @@ function initTable(url,keyNum) {
             });
             //计算上架时间
             function sumTime(time) {
+                function timeStamp2String (time){
+                    var datetime = new Date();
+                    datetime.setTime(time);
+                    var year = datetime.getFullYear();
+                    var month = datetime.getMonth() + 1;
+                    var date = datetime.getDate();
+                    if(parseInt(month)<10){
+                        month = '0'+month;
+                    }
+                    if(parseInt(date)<10){
+                        date = '0'+date;
+                    }
+                    return year + "-" + month + "-" + date;
+                };
+                time =timeStamp2String(time);
                 var timeArr = time.trim().split('-');
                 return timeArr[0]+'年'+timeArr[1]+'月'+timeArr[2]+'日';
             }

@@ -59,7 +59,16 @@ function initTable(name,keyNum) {
                     "                  </div>");
             });
         }else{
-            layer.msg("加载收藏信息失败")
+            $('.table').empty();
+            $('.table').append("<div class=\"table-tr tablech1\">\n" +
+                "                    <div class=\"table-th table-th3\"></div>\n" +
+                "                    <div class=\"table-th\">收藏类别</div>\n" +
+                "                    <div class=\"table-th\">收藏内容资料简介</div>\n" +
+                "                    <div class=\"table-th\">状态</div>\n" +
+                "                    <div class=\"table-th\">收藏时间</div>\n" +
+                "                    <div class=\"table-th\">发布时间</div>\n" +
+                "                  </div>");
+            layer.msg("暂无收藏!");
         }
         $('.icon1').css({
             "display": "inline-block",
@@ -117,7 +126,7 @@ function initTable(name,keyNum) {
             initPage(pageList,keyNum);
         }else{
             $('.pagination').empty();
-            layer.msg("加载数据出错!");
+            layer.msg("暂无收藏!");
         }
     });
 }

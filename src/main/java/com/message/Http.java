@@ -38,10 +38,20 @@ public class Http {
         }
         String checkNum = sb.toString();
         String Text = "";
+        /*
+            type:1注册
+                 2修改密码
+                 3找回密码
+                 4修改绑定手机
+         */
         if(type==1){
             Text ="【爱剑三】尊敬的用户，本次您申请用户注册的验证码："+checkNum+"。如有疑问，请联系官网首页客服。";
-        }else{
+        }else if(type==2){
             Text ="【爱剑三】尊敬的用户，本次您申请修改密码的验证码："+checkNum+"。如有疑问，请联系官网首页客服。";
+        }else if(type==3){
+            Text ="【爱剑三】尊敬的用户，本次您申请找回密码的验证码："+checkNum+"。如有疑问，请联系官网首页客服。";
+        }else if(type==4){
+            Text ="【爱剑三】尊敬的用户，本次您申请修改绑定手机的验证码："+checkNum+"。如有疑问，请联系官网首页客服。";
         }
         String Url = "http://sh2.cshxsp.com/sms.aspx?action=send";
         HttpClient client = new HttpClient();
