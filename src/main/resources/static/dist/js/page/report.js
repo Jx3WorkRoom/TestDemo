@@ -264,7 +264,7 @@ function initForm() {
         var tixin = data.tixin==null?"":data.tixin;
         //填充体型选择框
         if(tixin!="") {
-//                initTixin(tixin);
+               initTixin(tixin);
         }
         var info = data.info==null?"":data.info;
         if(info!=""){
@@ -298,17 +298,14 @@ function initForm() {
             $('.areaSelect').find('select').each(function () {
                 var text = $(this).find('option:selected').text();
                 if(text.indexOf("请选择")==-1) {
-                    belongQf += text + ',';
+                    belongQf += text ;
                 }
             });
-            if(belongQf.length>2) {
-                belongQf = belongQf.substring(0, belongQf.length - 1);
-            }else{
-                belongQf="";
-            }
+            //belongQf=trimEnd(belongQf);
+            console.log('输出----------->'+userId);
             console.log('输出----------->'+cheatType);
             console.log('输出----------->'+belongQf);
-            console.log('输出----------->'+tixin);
+            console.log('输出tixin----------->'+tixin);
             console.log('输出----------->'+roleName);
             console.log('输出----------->'+cheatIntro);
             console.log('输出----------->'+cheatInfo);
@@ -337,5 +334,13 @@ function initForm() {
         });
         //initTable();
     });
+
+    function initTixin(data) {
+        $.each(data,function (i,value) {
+            var val1 = value.MENPAI_NAME;
+            $('.tixin').append("  <option value="+val1+">"+val1+"</option> ");
+        });
+        $(".js-example-basic-single").select2();
+    }
 }
 //------------------------------------Function定义 End------------------------------------

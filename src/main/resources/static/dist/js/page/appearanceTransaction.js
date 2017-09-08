@@ -292,14 +292,10 @@
                     $('.areaSelect').find('select').each(function () {
                         var text = $(this).find('option:selected').text();
                         if(text.indexOf("请选择")==-1) {
-                            belongQf += text + ',';
+                            belongQf += text ;
                         }
                     });
-                    if(belongQf.length>2) {
-                        belongQf = belongQf.substring(0, belongQf.length - 1);
-                    }else{
-                        belongQf="";
-                    }
+                    //belongQf=trimEnd(belongQf);
                     console.log('开始----------->'+cheatType);
                     console.log('开始----------->'+belongQf);
                     console.log('开始----------->'+viewName);

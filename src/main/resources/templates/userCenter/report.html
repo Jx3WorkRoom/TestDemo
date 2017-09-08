@@ -10,10 +10,11 @@
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/drop.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/user.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/js/jx3/select2/select2.min.css}">
     <script th:src="@{/dist/js/jx3/jquery.js}"></script>
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
-    <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+        <script th:src="@{/dist/js/jx3/select2/select2.full.min.js}"></script>
         <script th:src="@{/dist/js/layer/layer.js}"></script>
         <script th:src="@{/dist/js/page/utils.js}"></script>
         <script th:src="@{/dist/js/page/report.js}"></script>
@@ -104,7 +105,11 @@
                 </tr>
                   <tr>
                       <td align="right" class="wr ft1">门派体型：</td>
-                      <td colspan="7"><input class="w250" id="tixin" type="text" value="" /></td>
+                      <td colspan="7">
+                          <select class="js-example-basic-single tixin" id="tixin"  style="width: 200px;">
+                              <option value=""></option>
+                          </select>
+                      </td>
                   </tr>
                   <tr>
                       <td align="right" class="wr ft1">角色名：</td>
