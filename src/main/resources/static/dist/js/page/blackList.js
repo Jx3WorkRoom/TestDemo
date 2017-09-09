@@ -34,8 +34,8 @@ function initTable(url,keyNum) {
     $(".table").append("<div class=\"table-tr tablered\">\n" +
         "            <div class=\"table-th table-th1\" style=\"width: 11% !important;padding-left: 30px;\">欺诈类型</div>\n" +
         "            <div class=\"table-th\">黑鬼资料</div>\n" +
-        "            <div class=\"table-th\">涉及区服<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "            <div class=\"table-th\">上榜时间<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "            <div class=\"table-th\">涉及区服</div>\n" +
+        "            <div class=\"table-th\">上榜时间</div>\n" +
         "        <div class=\"table-th\">收藏</div>\n" +
         "          </div>");
     layer.load();

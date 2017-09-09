@@ -80,11 +80,11 @@ function initTable(url,keyNum) {
         "        <div class=\"table-th table-th1\" style=\"width: 11% !important;padding-left: 30px;\">区服</div>\n" +
         "        <div class=\"table-th\">道具名</div>\n" +
         "        <div class=\"table-th\">介绍说明</div>\n" +
-        "          <div class=\"table-th\">收/售<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "        <div class=\"table-th\">价格（元）<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "        <div class=\"table-th\">关注度<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "        <div class=\"table-th\">上架时间<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "        <div class=\"table-th\">状态报告<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "          <div class=\"table-th\">收/售</div>\n" +
+        "        <div class=\"table-th\">价格（元）</div>\n" +
+        "        <div class=\"table-th\">关注度</div>\n" +
+        "        <div class=\"table-th\">上架时间</div>\n" +
+        "        <div class=\"table-th\">状态报告</div>\n" +
         "        <div class=\"table-th\">收藏</div>\n" +
         "      </div>");
     layer.load();

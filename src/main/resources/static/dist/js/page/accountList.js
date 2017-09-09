@@ -81,11 +81,11 @@ function initTable(url,keyNum) {
         "            <div class=\"table-th table-th1\" style=\"width: 11% !important;padding-left: 30px;\">区服</div>\n" +
         "            <div class=\"table-th\">门派体型</div>\n" +
         "            <div class=\"table-th\">资料简介</div>\n" +
-        "             <div class=\"table-th\">收/售<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "            <div class=\"table-th\">价格（元）<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "            <div class=\"table-th\">匹配度<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "            <div class=\"table-th\">关注度<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "            <div class=\"table-th\">上架时间<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "             <div class=\"table-th\">收/售</div>\n" +
+        "            <div class=\"table-th\">价格（元）</div>\n" +
+        "            <div class=\"table-th\">匹配度</div>\n" +
+        "            <div class=\"table-th\">关注度</div>\n" +
+        "            <div class=\"table-th\">上架时间</div>\n" +
         "          </div>");
     var dataTemp = null;
     $.ajax({
@@ -165,7 +165,7 @@ function initTable(url,keyNum) {
                 $.each(map,function (i,values) {
                     if(i=='title'){
                         var strs = value.TITLE_NAME;
-                        m = m+strs.length;
+                        m++;
                         $.each(values,function (num,obj) {
                             m = m+values.length;
                             if(strs.indexOf(obj)>-1){
@@ -174,44 +174,49 @@ function initTable(url,keyNum) {
                         });
                     }else if(i=='waiguan'){
                         var strs = value.WAIGUAN_NAME;
-                        m = m+values.length;
+                        m++;
                         $.each(values,function (num,obj) {
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
                     }else if(i=='horse'){
-                        var strs = value.WAIGUAN_NAME;
-                        m = m+values.length;
+                        var strs = value.HORSE_NAME;
+                        m++;
                         $.each(values,function (num,obj) {
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
                     }else if(i=='arm'){
-                        var strs = value.WAIGUAN_NAME;
-                        m = m+values.length;
+                        var strs = value.ARM_NAME;
+                        m++;
                         $.each(values,function (num,obj) {
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
                     }else if(i=='stra'){
-                        var strs = value.WAIGUAN_NAME;
-                        m = m+strs.length;
+                        var strs = value.STRA_NAME;
+                        m++;
                         $.each(values,function (num,obj) {
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
                     }else if(i=='pend'){
-                        var strs = value.WAIGUAN_NAME;
-                        m = m+values.length;
+                        var strs = value.PEND_NAME;
+                        m++;
                         $.each(values,function (num,obj) {
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
+                    }else {
+                        m++;
+                        if(value.REPLY_CONTENT.indexOf(values)>-1){
+                            n++;
+                        }
                     }
                 });
                 return (parseInt((100 * n) / m));
