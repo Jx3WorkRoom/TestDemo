@@ -1,6 +1,6 @@
 //------------------------------------常量定义 Start------------------------------------
     reportApi = api+"iwantRelease/";
-    api = api+"accountList/";
+    pageApi = api+"accountList/";
 
     //设置一个省的公共下标
     var pIndex = 0;
@@ -8,10 +8,12 @@
     var cityEle = document.getElementById("city");
     var areaEle = document.getElementById("area");
     var clickSeachNum = 0;
+    var userId = null;
 
     $(function () {
-        initTable();
-        saveTable();
+        var username = $('#userName').text();
+        $('.last').text(username);
+        initTable(username);
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -133,7 +135,22 @@
         });
     }
 
-    function initTable(url,keyNum) {
+    function initTable(username) {
+        var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
+        console.log(url);
+        $.getJSON(url,function (data) {
+            data=data.datas[0]==null?'':data.datas[0];
+            if(data!=''){
+                userId = data.USER_ID;
+            }else{
+                layer.msg("加载用户信息错误!")
+            }
+        }).error(function () {
+            layer.msg("加载用户信息错误!")
+        }).complete(function () {
+            //initEdit();
+        });
+
         //1.称号
         $.ajax({
             url:url = reportApi + 'getTzc?type=5&cate=1',
@@ -743,7 +760,7 @@
     }
     //加载Form
     function initForm() {
-        var url = api+'accountListSelection';
+        var url = pageApi+'accountListSelection';
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
@@ -753,7 +770,7 @@
             var tixin = data.tixin==null?"":data.tixin;
             //填充体型选择框
             if(tixin!="") {
-//                initTixin(tixin);
+                initTixin(tixin);
             }
             var info = data.info==null?"":data.info;
             if(info!=""){
@@ -840,14 +857,15 @@
                 $('.areaSelect').find('select').each(function () {
                     var text = $(this).find('option:selected').text();
                     if(text.indexOf("请选择")==-1) {
-                        belongQf += text + ',';
+                        belongQf += text ;
                     }
                 });
-                belongQf=trimEnd(belongQf);
+                //belongQf=trimEnd(belongQf);
+                console.log('输出----------->'+userId);
+                console.log('输出tixin----------->'+tixin);
 
-                console.log('输出----------->'+fbwj);
-
-                url = reportApi + 'saveZhssxxfbInfo?belongQf=' + encodeURI(belongQf)
+                url = reportApi + 'saveZhssxxfbInfo?userId=' + encodeURI(userId)
+                    + '&belongQf=' + encodeURI(belongQf)
                     + '&tixin=' + encodeURI(tixin)
                     +'&priceNum=' + encodeURI(priceNum)
                     +'&mbgjsl=' + encodeURI(mbgjsl)
@@ -888,7 +906,7 @@
                     +'&pvpdpswgz=' + encodeURI(pvpdpswgz)
                     +'&pvedpswgz=' + encodeURI(pvedpswgz)
                     +'&bcsm=' + encodeURI(bcsm);
-                saveTable(url);
+  //              saveTable(url);
             });
             $('#cancel').unbind("click");
             $('#cancel').click(function () {
@@ -896,6 +914,14 @@
             });
             // initTable();
         });
+    }
+
+    function initTixin(data) {
+        $.each(data,function (i,value) {
+            var val1 = value.MENPAI_NAME;
+            $('.tixin').append("  <option value="+val1+">"+val1+"</option> ");
+        });
+        $(".js-example-basic-single").select2();
     }
 
     function nextPage(spanindex) {

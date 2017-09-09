@@ -8,10 +8,12 @@
     var cityEle = document.getElementById("city");
     var areaEle = document.getElementById("area");
     var clickSeachNum = 0;
+    var userId = null;
 
     $(function () {
-        initTable();
-        saveTable();
+        var username = $('#userName').text();
+        $('.last').text(username);
+        initTable(username);
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -120,20 +122,38 @@
             url:url,
             async:false,
             success:function (data) {
-
+                layer.closeAll();
+                //跳转
+                window.location.href="/testDemo/myRelease.html";
             },
             complete:function () {
-
+                layer.closeAll();
+                //layer.msg("保存出错!")
             },
             error:function () {
-                //layer.closeAll();
-                //layer.msg("数据请求失败!")
+                layer.closeAll();
+                layer.msg("数据请求失败!")
             }
 
         });
     }
 
-    function initTable(url,keyNum) {
+    function initTable(username) {
+        var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
+        console.log(url);
+        $.getJSON(url,function (data) {
+            data=data.datas[0]==null?'':data.datas[0];
+            if(data!=''){
+                userId = data.USER_ID;
+            }else{
+                layer.msg("加载用户信息错误!")
+            }
+        }).error(function () {
+            layer.msg("加载用户信息错误!")
+        }).complete(function () {
+            //initEdit();
+        });
+
         var cheatType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
         if(cheatType=="账号诈骗"){
             cheatType=1;
@@ -164,7 +184,7 @@
 
     //初始欺诈类型
     function initCheatType(){
-        console.log('3333333333333333');
+
     }
     //初始区服下拉数据
     function initSelections(selecttions) {
@@ -243,7 +263,7 @@
             var tixin = data.tixin==null?"":data.tixin;
             //填充体型选择框
             if(tixin!="") {
-//                initTixin(tixin);
+               initTixin(tixin);
             }
             var info = data.info==null?"":data.info;
             if(info!=""){
@@ -251,8 +271,8 @@
             }
         }).error(function () {
         }).complete(function () {
-            $('.query-l').unbind("click");
-            $('.query-l').click(function () {
+            $('#save').unbind("click");
+            $('#save').click(function () {
                     var tradeType = '1';//账号交易类别
                     var belongQf = '1'; //涉事区服
                     var tixin = $('#tixin').val();//门派体型
@@ -273,9 +293,9 @@
                     }else{
                         belongQf="";
                     }
-
+                    console.log('输出----------->'+userId);
                     console.log('输出----------->'+belongQf);
-                    console.log('输出----------->'+tixin);
+                    console.log('输出tixin----------->'+tixin);
                     console.log('输出----------->'+priceNum);
                     console.log('输出----------->'+accoInfo);
                     /*if(tradeType=="求购"){
@@ -284,14 +304,28 @@
                         tradeType=2;
                     }*/
 
-                    url = reportApi + 'saveZhssInfo?belongQf=' + encodeURI(belongQf)
+                    url = reportApi + 'saveZhssInfo?userId=' + encodeURI(userId)
+                        + '&belongQf=' + encodeURI(tixin)
                         + '&tixin=' + encodeURI(tixin)
                         +'&priceNum=' + encodeURI(priceNum)
                         +'&accoInfo=' + encodeURI(accoInfo);
                     saveTable(url);
             });
-
-            initTable();
+            $('#preview').click(function () {
+                layer.msg('努力开发中……');
+            });
+            $('#cancel').click(function () {
+                layer.msg('努力开发中……');
+            });
+            //initTable();
         });
+
+        function initTixin(data) {
+            $.each(data,function (i,value) {
+                var val1 = value.MENPAI_NAME;
+                $('.tixin').append("  <option value="+val1+">"+val1+"</option> ");
+            });
+            $(".js-example-basic-single").select2();
+        }
     }
 //------------------------------------Function定义 End------------------------------------

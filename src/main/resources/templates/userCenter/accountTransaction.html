@@ -71,8 +71,8 @@
                   <td><ul class="nav nav-pills w250">
                     <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">收购<b class="caret"></b> </a>
                       <ul class="dropdown-menu">
-                        <li data-filter-camera-type="all"><a data-toggle="tab" href="#">收购</a></li>
-                        <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">出售</a></li>
+                        <li data-filter-camera-type="all"><a data-toggle="tab" href="#" value="1">收购</a></li>
+                        <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#" value="2">出售</a></li>
                       </ul>
                     </li>
                   </ul></td>
@@ -122,7 +122,7 @@
                 
                 <tr>
                  <td align="right" class="wr ft1"></td>
-                 <td colspan="7"><span class="codebtn query-l">保存</span>　<span class="codebtn">预览</span>　<span class="codebtn">取消</span></td>
+                 <td colspan="7"><span id="save" class="codebtn">保存</span>　<span id="preview" class="codebtn">预览</span>　<span id="cancel" class="codebtn">取消</span></td>
                 </tr>
                 
               </table>
@@ -138,84 +138,7 @@
   Powered by 爱剑三  © 2014-2018 Inc.       鄂ICP备15009570号 </div>
 <!-- /.modal -->
 </body>
-<script>
-  //声明省
-  var pres = ["双线","电月","电点","网通"]; //直接声明Array
-  //声明市
-  var cities = [
-    ["双一","双二"],
-    ["电一","电二","电三","电四","电六","电七"],
-    ["电五","电八"],
-    ["网一"," 网三"]
-  ];
-  var areas = [
-    [
-      ["双剑合璧","天下归一","日月凌空","比翼齐飞"],
-      ["四海一家","风雷刀谷"]
-    ],
-    [
-      ["长安城","龙争虎斗"],
-      ["白帝城","相知莫问","荻花宫"],
-      ["微山书院","秀名尘身","秦王殿","金蛇漫舞"],
-      ["日月明尊","沁园春","蝶恋花"],
-      ["名扬四海","红尘寻梦","大圣归来"],
-      ["一苇渡江","仙侣情缘","情深似海"]
-    ],
-    [
-      ["乾坤一掷","剑胆琴心","千岛湖","平步青云","唯我独尊","梦江南","斗转星移","幽月轮","武林同庆","金榜题名"],
-      ["战无不胜","亢龙有悔","引仙水榭","暗香掠影","百家争鸣","绝代天骄","风骨霸刀"]
-    ],
-    [
-      ["李忘生","飞龙在天","松烟竹雾"],
-      ["破阵子","天鹅坪","雪絮金屏","飞鸢泛月"]
-    ]
-  ]
-  //设置一个省的公共下标
-  var pIndex = -1;
-  var preEle = document.getElementById("pre");
-  var cityEle = document.getElementById("city");
-  var areaEle = document.getElementById("area");
-  //先设置省的值
-  for (var i = 0; i < pres.length; i++) {
-    //声明option.<option value="pres[i]">Pres[i]</option>
-    var op = new Option(pres[i], i);
-    //添加
-    preEle.options.add(op);
-  }
-  function chg(obj) {
-    if (obj.value == -1) {
-      cityEle.options.length = 0;
-      areaEle.options.length = 0;
-    }
-    //获取值
-    var val = obj.value;
-    pIndex = obj.value;
-    //获取ctiry
-    var cs = cities[val];
-    //获取默认区
-    var as = areas[val][0];
-    //先清空市
-    cityEle.options.length = 0;
-    areaEle.options.length = 0;
-    for (var i = 0; i < cs.length; i++) {
-      var op = new Option(cs[i], i);
-      cityEle.options.add(op);
-    }
-    for (var i = 0; i < as.length; i++) {
-      var op = new Option(as[i], i);
-      areaEle.options.add(op);
-    }
-  }
-  function chg2(obj) {
-    var val = obj.selectedIndex;
-    var as = areas[pIndex][val];
-    areaEle.options.length = 0;
-    for (var i = 0; i < as.length; i++) {
-      var op = new Option(as[i], i);
-      areaEle.options.add(op);
-    }
-  }
-</script>
+
 <script type="text/javascript">
 $().ready(function(e) {
 	var typeid=''
@@ -226,7 +149,10 @@ $().ready(function(e) {
 	$(".icon1").click(function(){
 		$(this).parents('li').remove()
 	})
-	
+    $(".nav-pills ul li").click(function(){
+      var sefont=$(this).find('a').text();
+      $(this).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
+    });
 });
 </script>
 </html>

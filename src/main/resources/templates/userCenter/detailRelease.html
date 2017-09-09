@@ -10,10 +10,12 @@
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/drop.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/user.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/js/jx3/select2/select2.min.css}">
     <script th:src="@{/dist/js/jx3/jquery.js}"></script>
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
     <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+        <script th:src="@{/dist/js/jx3/select2/select2.full.min.js}"></script>
         <script th:src="@{/dist/js/layer/layer.js}"></script>
         <script th:src="@{/dist/js/page/utils.js}"></script>
         <script th:src="@{/dist/js/page/detailRelease.js}"></script>
@@ -79,7 +81,11 @@
                           </tr>
                           <tr>
                               <td align="right" class="wr ft1">体型：</td>
-                              <td><input class="w250" id="tixin" type="text" value="" /></td>
+                              <td>
+                                  <select class="js-example-basic-single tixin" id="tixin"  style="width: 200px;">
+                                      <option value=""></option>
+                                  </select>
+                              </td>
                               <td align="right" class="wr ft1"></td>
                               <td></td>
                               <td align="right" class="wr ft1"></td>
