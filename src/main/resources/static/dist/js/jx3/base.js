@@ -19,6 +19,8 @@ $(document).ready(function(e) {
             $('.menuelist').find('dd').eq(15).hide();
             $('.menuelist').find('dd').eq(16).hide();
         }
+        var name = data.userInfo[0]==null?'':data.userInfo[0].USER_NAME==null?'':data.userInfo[0].USER_NAME;
+        $('#userDetails').text(name);
     });
     // $('#userDetails').click(function () {
     //     var url ='/logout';
