@@ -118,24 +118,30 @@
 //------------------------------------Function定义 Start------------------------------------
     //保存
     function saveTable(url,keyNum) {
-        $.ajax({
-            url:url,
-            async:false,
-            success:function (data) {
-                layer.closeAll();
-                //跳转
-                window.location.href="/testDemo/myRelease.html";
-            },
-            complete:function () {
-                layer.closeAll();
-                //layer.msg("保存出错!")
-            },
-            error:function () {
-                layer.closeAll();
-                layer.msg("数据请求失败!")
-            }
+        //信息框
+        layer.msg('举报成功，剑三幸甚有你');
+        setTimeout(function () { save(); }, 3000);
 
-        });
+        function save() {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
+                    layer.closeAll();
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                },
+                complete: function () {
+                    layer.closeAll();
+                    //layer.msg("保存出错!")
+                },
+                error: function () {
+                    layer.closeAll();
+                    layer.msg("数据请求失败!")
+                }
+
+            });
+        }
     }
 
     function initTable(username) {
@@ -275,7 +281,7 @@
         $('#save').click(function () {
                 layer.load();
                 var tradeType = '1';//交易类型
-                var belongQf = '1'; //涉事区服
+                var belongQf = ''; //涉事区服
                 var goldTotal = $('#goldTotal').val();;//金币总量
                 var unitPrice = $('#unitPrice').val();;//单价
                 var ifSplit = '';//是否可以拆分

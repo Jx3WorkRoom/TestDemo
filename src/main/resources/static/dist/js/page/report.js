@@ -118,24 +118,30 @@ function chg2(obj) {
 //------------------------------------Function定义 Start------------------------------------
 //保存
 function saveTable(url,keyNum) {
-    $.ajax({
-        url:url,
-        async:false,
-        success:function (data) {
-            layer.closeAll();
-            //跳转
-            window.location.href="/testDemo/myRelease.html";
-        },
-        complete:function () {
-            layer.closeAll();
-            //layer.msg("保存出错!")
-        },
-        error:function () {
-            layer.closeAll();
-            layer.msg("数据请求失败!")
-        }
+    //信息框
+    layer.msg('举报成功，剑三幸甚有你');
+    setTimeout(function () { save(); }, 3000);
 
-    });
+    function save() {
+        $.ajax({
+            url: url,
+            async: false,
+            success: function (data) {
+                layer.closeAll();
+                //跳转
+                window.location.href = "/testDemo/myRelease.html";
+            },
+            complete: function () {
+                layer.closeAll();
+                //layer.msg("保存出错!")
+            },
+            error: function () {
+                layer.closeAll();
+                layer.msg("数据请求失败!")
+            }
+
+        });
+    }
 }
 
 function initTable(username) {
@@ -276,7 +282,7 @@ function initForm() {
         $('#save').click(function () {
             layer.load();
             var cheatType = '1';//欺诈类别
-            var belongQf = '1'; //涉事区服
+            var belongQf = ''; //涉事区服
             var tixin = $('#tixin').val();//门派体型
             var roleName = $('#roleName').val();//角色名
             var cheatIntro = $('#cheatIntro').val();//被黑经历
@@ -324,7 +330,11 @@ function initForm() {
                 +'&cheatIntro=' + encodeURI(cheatIntro)
                 +'&cheatInfo=' + encodeURI(cheatInfo)
                 +'&pageUrl=' + encodeURI(pageUrl);
+
+
             saveTable(url);
+            //setTimeout('saveTable(url)',3000);
+
         });
         $('#preview').click(function () {
             layer.msg('努力开发中……');

@@ -118,21 +118,27 @@
 //------------------------------------Function定义 Start------------------------------------
     //保存
     function saveTable(url,keyNum) {
-        $.ajax({
-            url:url,
-            async:false,
-            success:function (data) {
+        //信息框
+        layer.msg('举报成功，剑三幸甚有你');
+        setTimeout(function () { save(); }, 3000);
 
-            },
-            complete:function () {
+        function save() {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
 
-            },
-            error:function () {
-                //layer.closeAll();
-                //layer.msg("数据请求失败!")
-            }
+                },
+                complete: function () {
 
-        });
+                },
+                error: function () {
+                    //layer.closeAll();
+                    //layer.msg("数据请求失败!")
+                }
+
+            });
+        }
     }
 
     function initTable(username) {
@@ -798,7 +804,7 @@
             //绑定保存
             $('#save').unbind("click");
             $('#save').click(function () {
-                var belongQf = '1'; //涉事区服
+                var belongQf = ''; //涉事区服
                 var tixin = $('#tixin').val();//门派体型
                 var priceNum = $('#priceNum').val();//价格
                 var mbgjsl = $('#mbgjsl').val();//面部挂件数量
