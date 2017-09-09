@@ -6,23 +6,7 @@ $(document).ready(function(e) {
     if(username!=""){
         $('.last').hide();
         $('#userDetails').show();
-    }
-    document.getElementById("userDetails").onmousedown=function(ev){
-        $('.registerDiv').remove();
-        var oEvent=ev||event;
-        var oDiv=document.createElement('div');
-        oDiv.style.left=oEvent.clientX+'px';  // 指定创建的DIV在文档中距离左侧的位置
-        oDiv.style.top=(oEvent.clientY+10)+'px';  // 指定创建的DIV在文档中距离顶部的位置
-        oDiv.style.border='1px solid black'; // 设置边框
-        oDiv.style.backgroundColor='#fff';
-        oDiv.style.position='absolute'; // 为新创建的DIV指定绝对定位
-        oDiv.style.width='100px'; // 指定宽度
-        oDiv.style.height='40px'; // 指定高度
-        oDiv.setAttribute("class","registerDiv");
-        oDiv.innerHTML='<form th:action="@{/logout}" method="post">\n' +
-            '            <input type="submit" value="注销"/>\n' +
-            '        </form>';
-        document.body.appendChild(oDiv);
+        $('#exitUser').show();
     }
     var url = start+'/testDemoRest/User/userInfo?username='+encodeURI(username);
     $.getJSON(url,function (data) {
@@ -36,6 +20,12 @@ $(document).ready(function(e) {
             $('.menuelist').find('dd').eq(16).hide();
         }
     });
+    // $('#userDetails').click(function () {
+    //     var url ='/logout';
+    //     $.getJSON(url,function (data) {
+    //         console.log(data);
+    //     });
+    // });
     //当内容过少时，底部对齐
     function changeheight() {
         if (window.location.href.indexOf("/index.html") > -1) {

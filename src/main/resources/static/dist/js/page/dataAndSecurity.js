@@ -7,6 +7,7 @@ var id4=null;
 var c1 = 60;
 var c2 = 60;
 var isChecked =false;
+var editPasswordChecked = false;
 $(function () {
     var username = $('#userName').text();
     $('.last').text(username);
@@ -176,21 +177,25 @@ function initUserInfo(username) {
                 if(!myreg.test(telphone)){
                     layer.msg("请输入有效的手机号码！")
                 }else {
-                    $.ajax({
-                        url: '/testDemo/message/sendMessage?tel=' + encodeURI(telphone)+'&type=2',
-                        dataType:'text',
-                        success:function (info) {
-                            $('#getCheckNum').hide();
-                            $('#getcodetime1').show();
-                            c=60;
-                            document.getElementById('getcodetime1').innerText=c+"S后重新获取";
-                            c=c-1;
-                            id1='#getcodetime1';
-                            id2='#getCheckNum';
-                            t=setTimeout("timedCount()",1000);
-                            layer.msg(info);
-                        }
-                    });
+                    if(editPasswordChecked) {
+                        $.ajax({
+                            url: '/testDemo/message/sendMessage?tel=' + encodeURI(telphone) + '&type=2',
+                            dataType: 'text',
+                            success: function (info) {
+                                $('#getCheckNum').hide();
+                                $('#getcodetime1').show();
+                                c = 60;
+                                document.getElementById('getcodetime1').innerText = c + "S后重新获取";
+                                c = c - 1;
+                                id1 = '#getcodetime1';
+                                id2 = '#getCheckNum';
+                                t = setTimeout("timedCount()", 1000);
+                                layer.msg(info);
+                            }
+                        });
+                    }else{
+                        layer.msg("手机号与账号不匹配!");
+                    }
                 }
             }else{
                 layer.msg("请输入手机号!")
@@ -204,26 +209,33 @@ function initUserInfo(username) {
                 layer.msg('新手机和注册手机号一致,请修改!');
             }else {
                 if (registerTel != "") {
-                    var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-                    if (!myreg.test(registerTel)) {
-                        layer.msg("请输入有效的手机号码！")
-                    } else {
-                        $.ajax({
-                            url: '/testDemo/message/sendMessage?tel=' + encodeURI(registerTel) + '&type=4',
-                            dataType: 'text',
-                            success: function (info) {
-                                $('.getcode2').hide();
-                                $('#getcodetime3').show();
-                                c2 = 60;
-                                document.getElementById('getcodetime3').innerText = c2 + "S后重新获取";
-                                c2 = c2- 1;
-                                id3 = '#getcodetime3';
-                                id4 = '.getcode2';
-                                t = setTimeout("timedCount3()", 1000);
-                                layer.msg(info);
-                            }
-                        });
-                    }
+                    var url = api + 'patchUserAndTel?newtel=' + encodeURI($('#registerTel2').val());
+                    $.getJSON(url,function (data) {
+                       if(data.info != "") {
+                            layer.msg(data.info);
+                       }else{
+                           var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+                           if (!myreg.test(registerTel)) {
+                               layer.msg("请输入有效的手机号码！")
+                           } else {
+                               $.ajax({
+                                   url: '/testDemo/message/sendMessage?tel=' + encodeURI(registerTel) + '&type=4',
+                                   dataType: 'text',
+                                   success: function (info) {
+                                       $('.getcode2').hide();
+                                       $('#getcodetime3').show();
+                                       c2 = 60;
+                                       document.getElementById('getcodetime3').innerText = c2 + "S后重新获取";
+                                       c2 = c2- 1;
+                                       id3 = '#getcodetime3';
+                                       id4 = '.getcode2';
+                                       t = setTimeout("timedCount3()", 1000);
+                                       layer.msg(info);
+                                   }
+                               });
+                           }
+                       }
+                    });
                 } else {
                     layer.msg("请输入手机号!")
                 }
@@ -275,6 +287,7 @@ function initUserInfo(username) {
                 });
             }
         });
+
     }
 
     $('#checkNum').blur(function () {
@@ -337,6 +350,20 @@ function initUserInfo(username) {
                     }
                 }
             })
+        }
+    });
+
+    $('#telphone').blur(function () {
+        if($('#telphone').val()!="") {
+            var url = api + 'patchUserAndTel?loginName=' + encodeURI($('#loginName').text()) + '&tel=' + encodeURI($('#telphone').val());
+            $.getJSON(url, function (data) {
+                if (data.info != "") {
+                    editPasswordChecked=false;
+                    layer.msg("手机号与账号不匹配!");
+                }else{
+                    editPasswordChecked=true;
+                }
+            });
         }
     });
 }

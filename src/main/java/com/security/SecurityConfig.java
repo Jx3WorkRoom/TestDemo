@@ -80,16 +80,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        //不删除凭据，以便记住用户
-//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-//        auth.eraseCredentials(false);
-    }
-
-    @Bean
-    public Md5PasswordEncoder passwordEncoder() {
-        return new Md5PasswordEncoder();
-    }
-
 }
