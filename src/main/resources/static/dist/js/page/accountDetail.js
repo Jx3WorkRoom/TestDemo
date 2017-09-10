@@ -90,6 +90,24 @@ function initDetail(favorId) {
                     $(this).parent().find('label').text('收藏');
                     isValided = 0;
                 }
+                replyTime =timeStamp2String(replyTime);
+                function timeStamp2String (time){
+                        var datetime = new Date();
+                        datetime.setTime(time);
+                        var year = datetime.getFullYear();
+                        var month = datetime.getMonth() + 1;
+                        var date = datetime.getDate();
+                        var hour = datetime.getHours();
+                        var min = datetime.getMinutes();
+                        var second = datetime.getSeconds();
+                        if(parseInt(month)<10){
+                            month = '0'+month;
+                        }
+                        if(parseInt(date)<10){
+                            date = '0'+date;
+                        }
+                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
+                    };
                 var url = api+'userIsvalid?userName='+encodeURI(username)+
                     '&mainId='+encodeURI(mainId)+
                     '&isValided='+encodeURI(isValided)+
@@ -117,7 +135,7 @@ function initDetail(favorId) {
                         '&userId=' + encodeURI(userId) +
                         '&userName=' + encodeURI(username);
                     $.getJSON(url, function (data) {
-                        if (dara.datas == 'noAuth') {
+                        if (data.datas == 'noAuth') {
                             layer.msg('您没有查看权限,请前往用户中心充值!');
                         } else {
                             if (data.datas.length < 1) {

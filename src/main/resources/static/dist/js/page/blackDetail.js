@@ -10,7 +10,8 @@ $(function () {
 });
 
 function initDetail(favorId) {
-    var url = api+"blackDetail?favorId="+encodeURI(favorId);
+    var username = $('#userName').text();
+    var url = api+"blackDetail?favorId="+encodeURI(favorId)+"&username="+encodeURI(username);
     var userId =null;
     var mainId =null
     var replyTime = null;
