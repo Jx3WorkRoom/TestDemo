@@ -118,24 +118,30 @@
 //------------------------------------Function定义 Start------------------------------------
     //保存
     function saveTable(url,keyNum) {
-        $.ajax({
-            url:url,
-            async:false,
-            success:function (data) {
-                layer.closeAll();
-                //跳转
-                window.location.href="/testDemo/myRelease.html";
-            },
-            complete:function () {
-                layer.closeAll();
-                //layer.msg("保存出错!")
-            },
-            error:function () {
-                layer.closeAll();
-                layer.msg("数据请求失败!")
-            }
+        //信息框
+        layer.msg('举报成功，剑三幸甚有你');
+        setTimeout(function () { save(); }, 3000);
 
-        });
+        function save() {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
+                    layer.closeAll();
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                },
+                complete: function () {
+                    layer.closeAll();
+                    //layer.msg("保存出错!")
+                },
+                error: function () {
+                    layer.closeAll();
+                    layer.msg("数据请求失败!")
+                }
+
+            });
+        }
     }
 
     function initTable(username) {
@@ -275,8 +281,8 @@
         $('#save').click(function () {
                 layer.load();
                 var tradeType = '1';//需求类型
-                var belongQf = '1'; //涉事区服
-                var favorInfo = '1';//代练说明
+                var belongQf = ''; //涉事区服
+                var favorInfo = '';//代练说明
 
                 tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
                 if(tradeType=="接代练"){

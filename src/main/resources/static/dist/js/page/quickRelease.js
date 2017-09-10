@@ -118,24 +118,30 @@
 //------------------------------------Function定义 Start------------------------------------
     //保存
     function saveTable(url,keyNum) {
-        $.ajax({
-            url:url,
-            async:false,
-            success:function (data) {
-                layer.closeAll();
-                //跳转
-                window.location.href="/testDemo/myRelease.html";
-            },
-            complete:function () {
-                layer.closeAll();
-                //layer.msg("保存出错!")
-            },
-            error:function () {
-                layer.closeAll();
-                layer.msg("数据请求失败!")
-            }
+        //信息框
+        layer.msg('举报成功，剑三幸甚有你');
+        setTimeout(function () { save(); }, 3000);
 
-        });
+        function save() {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
+                    layer.closeAll();
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                },
+                complete: function () {
+                    layer.closeAll();
+                    //layer.msg("保存出错!")
+                },
+                error: function () {
+                    layer.closeAll();
+                    layer.msg("数据请求失败!")
+                }
+
+            });
+        }
     }
 
     function initTable(username) {
@@ -274,7 +280,7 @@
             $('#save').unbind("click");
             $('#save').click(function () {
                     var tradeType = '1';//账号交易类别
-                    var belongQf = '1'; //涉事区服
+                    var belongQf = ''; //涉事区服
                     var tixin = $('#tixin').val();//门派体型
                     var priceNum = $('#priceNum').val();//价格
                     var accoInfo = $('#accoInfo').val();//账号资料
