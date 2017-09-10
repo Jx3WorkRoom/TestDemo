@@ -22,6 +22,20 @@
 </head>
 
 <body>
+<style>
+    #fx,#pf,#cyxl,#cyxs,#tzhz{
+        margin-left: 30px;
+    }
+    #fx>span,#pf>span,#cyxl>span,#cyxs>span,#tzhz>span{
+        width: 24%!important;
+    }
+    .group>div>div{
+        margin-left: 30px;
+    }
+    .group>div>div>span{
+        width: 25%!important;
+    }
+</style>
 <!-- top logo -->
 <div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
 <div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
