@@ -174,40 +174,40 @@ function initTable(url,keyNum) {
                         });
                     }else if(i=='waiguan'){
                         var strs = value.WAIGUAN_NAME;
-                        m++;
                         $.each(values,function (num,obj) {
+                            m++;
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
                     }else if(i=='horse'){
                         var strs = value.HORSE_NAME;
-                        m++;
                         $.each(values,function (num,obj) {
+                            m++;
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
                     }else if(i=='arm'){
                         var strs = value.ARM_NAME;
-                        m++;
                         $.each(values,function (num,obj) {
+                            m++;
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
                     }else if(i=='stra'){
                         var strs = value.STRA_NAME;
-                        m++;
                         $.each(values,function (num,obj) {
+                            m++;
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
                         });
                     }else if(i=='pend'){
                         var strs = value.PEND_NAME;
-                        m++;
                         $.each(values,function (num,obj) {
+                            m++;
                             if(strs.indexOf(obj)>-1){
                                 n++;
                             }
