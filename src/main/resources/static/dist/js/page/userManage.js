@@ -32,6 +32,33 @@ function initTable() {
                 var serverCost =value.SERVER_COST==null?'':value.SERVER_COST+'元';
                 var serverNum = value.SERVER_NUM==null?'':value.SERVER_NUM+'条';
                 var startDate = value.START_DATE==null?'':value.START_DATE;
+                startDate = timeStamp2String(startDate);
+                function timeStamp2String (time){
+                    if(time!="") {
+                        var datetime = new Date();
+                        datetime.setTime(time);
+                        var year = datetime.getFullYear();
+                        var month = datetime.getMonth() + 1;
+                        var date = datetime.getDate();
+                        var hour = datetime.getHours();
+                        var min = datetime.getMinutes();
+                        if (parseInt(month) < 10) {
+                            month = '0' + month;
+                        }
+                        if (parseInt(date) < 10) {
+                            date = '0' + date;
+                        }
+                        if (parseInt(hour) < 10) {
+                            hour = '0' + hour;
+                        }
+                        if (parseInt(min) < 10) {
+                            min = '0' + min;
+                        }
+                        return year + "-" + month + "-" + date + ' ' + hour + ":" + min;
+                    }else{
+                        return "";
+                    }
+                };
                 if(value.SERVER_COST==null) {
                     $('.table1').append("<div class=\"table-tr\">\n" +
                         "     <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
