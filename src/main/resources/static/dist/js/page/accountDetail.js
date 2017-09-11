@@ -1,4 +1,3 @@
-api = api+"accountList/";
 $(function () {
     var favorId = getUrlParam('favorId');
     function getUrlParam(name) {
@@ -11,68 +10,73 @@ $(function () {
 
 function initDetail(favorId) {
     var username = $('#userName').text();
-    var url = api+"accountDetail?favorId="+encodeURI(favorId)+'&userName='+encodeURI(username);
+    var url = api+"accountList/accountDetail?favorId="+encodeURI(favorId)+'&userName='+encodeURI(username);
     var userId =null;
     var mainId =null
     var replyTime = null;
     var sourceType = null;
+    var imgLength = 0;
     $.getJSON(url,function (data) {
-        data = data.datas[0]==null?"":data.datas[0];
-        if(data!=""){
-            $('.account').empty();
-            $('.account').append(data.REPLY_CONTENT);
-            mainId = data.MAIN_ID==null?1:data.MAIN_ID;
-            replyTime = data.REPLY_TIME==null?"":data.REPLY_TIME;
-            sourceType =data.SOURCE_TYPE==null?1:data.SOURCE_TYPE;
-            userId = data.userId==null?1:data.userId;
-            var username = $('#userName').text();
-            var url = api+'queryHasCollected?mainId='+encodeURI(mainId)+'&username='+encodeURI(username);
-            $.getJSON(url,function (data) {
-               data =data.info[0]==null?'':data.info[0];
-               data = data.coll_type==null?0:parseInt(data.coll_type);
-               if(data!=0){
-                   $('.icon-save').addClass('cur');
-                   $('.icon-save').parent().find('label').text('已收藏');
-               }
-            });
-            $('.userIsvalid').text(data.USER_ISVALID+"人提交失效!");
-            var imgSrc = data.PIC_PATH;
-            imgSrc = '/testDemo/dist/css/images/jx3/game05.jpg';
-            $('.bigimgs img').attr('src',imgSrc);
+        data = data.datas==null?"":data.datas;
+        if(data!="") {
             $('.scrollimg').empty();
-            for(var i= 0;i<5;i++){
+            $.each(data, function (i, value) {
+                $('.account').empty();
+                $('.account').append(value.REPLY_CONTENT);
+                mainId = value.MAIN_ID==null?1:value.MAIN_ID;
+                replyTime = value.REPLY_TIME==null?"":value.REPLY_TIME;
+                sourceType =value.SOURCE_TYPE==null?1:value.SOURCE_TYPE;
+                userId = value.userId==null?1:value.userId;
+                var username = $('#userName').text();
+                var url = api+'accountList/queryHasCollected?mainId='+encodeURI(mainId)+'&username='+encodeURI(username);
+                $.getJSON(url,function (data) {
+                    data =data.info[0]==null?'':data.info[0];
+                    data = data.coll_type==null?0:parseInt(data.coll_type);
+                    if(data!=0){
+                        $('.icon-save').addClass('cur');
+                        $('.icon-save').parent().find('label').text('已收藏');
+                    }
+                });
+                $('.userIsvalid').text(value.USER_ISVALID+"人提交失效!");
+                var imgSrc = value.WENJIAN_PATH;
+                imgSrc = api+'uploadFile/getImage?WENJIAN_PATH='+encodeURI(imgSrc);
                 var imgHtml = "";
-                var num = parseInt(5-i);
-                if(i==0) {
-                    imgHtml = "<img class=\"moveimg cur\" src=\"/testDemo/dist/css/images/jx3/game0"+num+".jpg\" style=\"margin-left: 0px;\">";
-                    $('.scrollimg').append(imgHtml)
+                imgLength++;
+                if(value.WENJIAN_SEQ==1) {
+                    $('.bigimgs img').attr('src',imgSrc);
+                    imgHtml = "<img class=\"moveimg cur\" src='" + imgSrc + "' style=\"margin-left: 0px;\">";
+                    $('.scrollimg').append(imgHtml);
                 }else{
-                    imgHtml = "<img src=\"/testDemo/dist/css/images/jx3/game0"+num+".jpg\" style=\"margin-left: 0px;\">";
-                    $('.scrollimg').append(imgHtml)
+                    imgHtml = "<img src='"+imgSrc+"' style=\"margin-left: 0px;\">";
+                    $('.scrollimg').append(imgHtml);
                 }
-            }
-            //图片轮播
-            $(".scrollimg img").click(function(){
-                $(".scrollimg img").removeClass('cur');
-                $(this).addClass('cur');
-                $(".bigimgs img").attr("src",$(this).attr('src'));
-            });
-            var startnum=0;
-            var imglen=$(".scrollimg img").length;
-            $(".lefttg").click(function(){
-                if(startnum==0) return;
-                startnum++;
-                $('.moveimg').css("margin-left",startnum*270+"px")
-            });
-            $(".righttg").click(function(){
-                if(startnum<(4-imglen)) return;
-                startnum--;
-                $('.moveimg').css("margin-left",startnum*270+"px")
             });
         }else {
             layer.msg("请求数据有误或者数据库并未查询到相关数据!")
         }
     }).complete(function () {
+        //图片轮播
+        $(".scrollimg img").click(function(){
+            $(".scrollimg img").removeClass('cur');
+            $(this).addClass('cur');
+            $(".bigimgs img").attr("src",$(this).attr('src'));
+        });
+        var startnum=0;
+        var imglen=$(".scrollimg img").length;
+        $(".lefttg").click(function(){
+            if(startnum==0) return;
+            startnum++;
+            $('.moveimg').css("margin-left",startnum*270+"px");
+            var imgNum = Math.abs(startnum);
+            $(".bigimgs img").attr("src",$('.scrollimg img').eq(imgNum).attr('src'));
+        });
+        $(".righttg").click(function(){
+            if(startnum<(imgLength-imglen)) return;
+            startnum--;
+            $('.moveimg').css("margin-left",startnum*270+"px");
+            var imgNum = Math.abs(startnum);
+            $(".bigimgs img").attr("src",$('.scrollimg img').eq(imgNum).attr('src'));
+        });
         //收藏
         $('.icon-save').unbind('click');
         $('.icon-save').click(function(){
@@ -108,7 +112,7 @@ function initDetail(favorId) {
                         }
                         return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
                     };
-                var url = api+'userIsvalid?userName='+encodeURI(username)+
+                var url = api+'accountList/userIsvalid?userName='+encodeURI(username)+
                     '&mainId='+encodeURI(mainId)+
                     '&isValided='+encodeURI(isValided)+
                     '&replyTime='+encodeURI(replyTime);
@@ -130,7 +134,7 @@ function initDetail(favorId) {
                 if(username==""){
                     layer.msg("你还未登陆,请先前往用户中心登陆!");
                 }else {
-                    var url = api + 'accountDetailSource?mainId=' + encodeURI(mainId) +
+                    var url = api + 'accountList/accountDetailSource?mainId=' + encodeURI(mainId) +
                         '&sourceType=' + encodeURI(sourceType) +
                         '&userId=' + encodeURI(userId) +
                         '&userName=' + encodeURI(username);
@@ -168,7 +172,7 @@ function initDetail(favorId) {
         //提交失效
         $('.sumbitIsvalid').unbind('click');
         $('.sumbitIsvalid').click(function () {
-            var url =api+"accountDetailSubmitIsValid?favorId="+encodeURI(favorId);
+            var url =api+"accountList/accountDetailSubmitIsValid?favorId="+encodeURI(favorId);
             $.getJSON(url,function (data) {
                layer.msg(data.info);
             });
@@ -185,7 +189,7 @@ function initDetail(favorId) {
         if(username==""){
             layer.msg("你还未登陆,请先前往用户中心登陆!");
         }else {
-            var url = api + 'accountDetailSource?mainId=' + encodeURI(mainId) +
+            var url = api + 'accountList/accountDetailSource?mainId=' + encodeURI(mainId) +
                 '&sourceType=' + encodeURI(sourceType) +
                 '&userId=' + encodeURI(userId) +
                 '&userName=' + encodeURI(username) +

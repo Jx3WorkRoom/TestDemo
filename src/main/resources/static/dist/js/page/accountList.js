@@ -219,7 +219,11 @@ function initTable(url,keyNum) {
                         }
                     }
                 });
-                return (parseInt((100 * n) / m));
+                if(m==0){
+                    return 100
+                }else{
+                    return (parseInt((100 * n) / m));
+                }
             }
             //计算上架时间
             function sumTime(time) {
@@ -500,7 +504,7 @@ function initSeach() {
 function initPage(pageList,keyNum) {
     var pageDatas = pageList;
     pageList = pageList==null?100:pageList-1;
-    var pageNum = parseInt(pageList/20)+1;
+    var pageNum = parseInt(pageList/10)+1;
     $('.pagination').empty();
     if(keyNum==null) {
         if (pageNum > 6) {
