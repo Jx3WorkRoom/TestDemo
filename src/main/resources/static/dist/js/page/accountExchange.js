@@ -119,8 +119,8 @@
     //保存
     function saveTable(url,keyNum) {
         //信息框
-        layer.msg('举报成功，剑三幸甚有你');
-        setTimeout(function () { save(); }, 3000);
+        layer.msg('代练交易发布成功！');
+        setTimeout(function () { save(); }, 2000);
 
         function save() {
             $.ajax({
@@ -282,7 +282,7 @@
                 layer.load();
                 var tradeType = '1';//需求类型
                 var belongQf = ''; //涉事区服
-                var favorInfo = '';//代练说明
+                var favorInfo = $('#favorInfo').val();;//代练说明
 
                 tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
                 if(tradeType=="接代练"){
@@ -294,14 +294,14 @@
                 $('.areaSelect').find('select').each(function () {
                     var text = $(this).find('option:selected').text();
                     if(text.indexOf("请选择")==-1) {
-                        belongQf += text + ',';
+                        belongQf += text;
                     }
                 });
-                if(belongQf.length>2) {
+                /*if(belongQf.length>2) {
                     belongQf = belongQf.substring(0, belongQf.length - 1);
                 }else{
                     belongQf="";
-                }
+                }*/
 
                 console.log('输出----------->'+tradeType);
                 console.log('输出----------->'+belongQf);

@@ -119,8 +119,8 @@ function chg2(obj) {
 //保存
 function saveTable(url,keyNum) {
     //信息框
-    layer.msg('举报成功，剑三幸甚有你');
-    setTimeout(function () { save(); }, 3000);
+    layer.msg('举报成功，剑三幸甚有你！');
+    setTimeout(function () { save(); }, 2000);
 
     function save() {
         $.ajax({
@@ -286,7 +286,7 @@ function initForm() {
             var tixin = $('#tixin').val();//门派体型
             var roleName = $('#roleName').val();//角色名
             var cheatIntro = $('#cheatIntro').val();//被黑经历
-            var cheatInfo = $('#cheatInfo').val();//资料信息(网页链接地址)
+            var cheatInfo = $('#cheatInfo').val();//资料信息
             var pageUrl = $('#pageUrl').val();//网页链接地址
 
             //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
@@ -322,6 +322,32 @@ function initForm() {
              tradeType=2;
              }*/
 
+            //验证
+            var submit=true;
+            if($.trim(cheatIntro)==''){
+                $('#msg1').text("* 本项不可为空!");
+                submit=false;
+            }else{
+                $('#msg1').text("*");
+            }
+            if($.trim(cheatInfo)==''){
+                $('#msg2').text("* 本项不可为空!");
+                submit=false;
+            }else{
+                $('#msg2').text("*");
+            }
+            if(pageUrl.length>0){
+                var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+                if (!reg.test(pageUrl)) {
+                    $('#msg3').text("网址不正确，请检查!");
+                    submit=false;
+                }else{
+                    $('#msg3').text("");
+                }
+            }else{
+                $('#msg3').text("");
+            }
+
             url = reportApi + 'saveWyjbInfo?userId=' + encodeURI(userId)
                 + '&cheatType=' + encodeURI(cheatType)
                 + '&belongQf=' + encodeURI(belongQf)
@@ -331,10 +357,11 @@ function initForm() {
                 +'&cheatInfo=' + encodeURI(cheatInfo)
                 +'&pageUrl=' + encodeURI(pageUrl);
 
-
-            saveTable(url);
-            //setTimeout('saveTable(url)',3000);
-
+            if(submit){
+                saveTable(url);
+            }else{
+                layer.closeAll();
+            }
         });
         $('#preview').click(function () {
             layer.msg('努力开发中……');
@@ -346,6 +373,7 @@ function initForm() {
     });
 
     function initTixin(data) {
+        //门派体型初始数据
         $.each(data,function (i,value) {
             var val1 = value.MENPAI_NAME;
             $('.tixin').append("  <option value="+val1+">"+val1+"</option> ");

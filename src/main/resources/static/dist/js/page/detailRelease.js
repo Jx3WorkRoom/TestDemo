@@ -120,7 +120,7 @@
     function saveTable(url,keyNum) {
         //信息框
         layer.msg('举报成功，剑三幸甚有你');
-        setTimeout(function () { save(); }, 3000);
+        setTimeout(function () { save(); }, 2000);
 
         function save() {
             $.ajax({
