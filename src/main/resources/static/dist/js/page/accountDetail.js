@@ -24,6 +24,9 @@ function initDetail(favorId) {
                 $('.account').empty();
                 $('.account').append(value.REPLY_CONTENT);
                 mainId = value.MAIN_ID==null?1:value.MAIN_ID;
+                if(mainId==1){
+                    window.location.reload();
+                }
                 replyTime = value.REPLY_TIME==null?"":value.REPLY_TIME;
                 sourceType =value.SOURCE_TYPE==null?1:value.SOURCE_TYPE;
                 userId = value.userId==null?1:value.userId;

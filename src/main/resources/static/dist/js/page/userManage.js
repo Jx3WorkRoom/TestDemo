@@ -70,7 +70,9 @@ function initTable() {
                         "     <div class=\"table-td\">"+serverCost+"</div>\n" +
                         "     <div class=\"table-td\">"+serverNum+"</div>\n" +
                         "     <div class=\"table-td\">"+startDate+"</div>\n" +
-                        "     <div class=\"table-td\"><a class='editList'>修改</a>|<a class='delList'>删除</a></div>\n" +
+                        "     <div class=\"table-td\"><a class='editList'>修改</a>" +
+                        // "|<a class='delList'>删除</a>" +
+                        "</div>\n" +
                         "   </div>"
                     );
                 }else{
@@ -84,7 +86,9 @@ function initTable() {
                         "    <div class=\"table-td warn\">"+serverCost+"</div>\n" +
                         "    <div class=\"table-td warn\">"+serverNum+"</div>\n" +
                         "    <div class=\"table-td warn\">"+startDate+"</div>\n" +
-                        "     <div class=\"table-td\"><a class='editList'>修改</a>|<a class='delList'>删除</a></div>\n" +
+                        "     <div class=\"table-td\"><a class='editList'>修改</a>" +
+                        // "|<a class='delList'>删除</a>" +
+                        "</div>\n" +
                         " </div>"
                     );
                 }

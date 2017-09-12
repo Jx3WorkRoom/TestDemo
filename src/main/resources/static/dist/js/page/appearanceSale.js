@@ -176,7 +176,7 @@ function initTable(url,keyNum) {
             $('.modalBtn').click(function () {
                 var sourceType =  $(this).parent().parent().find('.sourceType').text()==""?1:$(this).parent().parent().find('.sourceType').text();
                 var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
-                var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.main_id').text();
+                var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.userId').text();
                 var username = $('#userName').text();
                 if(username==""){
                     layer.msg("你还未登陆,请先前往用户中心登陆!");
@@ -224,7 +224,7 @@ function initTable(url,keyNum) {
                                     layer.msg('未查到有效信息!');
                                 } else {
                                     $('#identifier').addClass('madalHide');
-                                    data = data.datas[0].USER_QQ == null ? "null" : data.datas[0].USER_QQ;
+                                    data = data.datas[0].user_qq == null ? "null" : data.datas[0].user_qq;
                                     var $table = $('#identifier').find('table');
                                     $table.empty();
                                     $table.append("<p>用户联系方式：</p>\n" +
