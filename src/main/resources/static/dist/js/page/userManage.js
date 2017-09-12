@@ -16,9 +16,9 @@ function initTable() {
         "    <div class=\"table-th\">权限类别</div>\n" +
         "    <div class=\"table-th\">游客是否可用</div>\n" +
         "    <div class=\"table-th\">注册是否可用</div>\n" +
-        "    <div class=\"table-th\">付费金额</div>\n" +
-        "    <div class=\"table-th\">可用条数</div>\n" +
-        "    <div class=\"table-th\">启用日期</div>\n" +
+        // "    <div class=\"table-th\">付费金额</div>\n" +
+        // "    <div class=\"table-th\">可用条数</div>\n" +
+        // "    <div class=\"table-th\">启用日期</div>\n" +
         "    <div class=\"table-th\">操作</div>\n" +
         " </div>");
     $.getJSON(url,function (data) {
@@ -59,7 +59,6 @@ function initTable() {
                         return "";
                     }
                 };
-                if(value.SERVER_COST==null) {
                     $('.table1').append("<div class=\"table-tr\">\n" +
                         "     <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
                         "     <div class=\"table-td modId\">"+value.MOD_ID+"</div>\n" +
@@ -67,31 +66,14 @@ function initTable() {
                         "     <div class=\"table-td\">"+modType+"</div>\n" +
                         "     <div class=\"table-td\">"+visitRole+"</div>\n" +
                         "     <div class=\"table-td\">"+registRole+"</div>\n" +
-                        "     <div class=\"table-td\">"+serverCost+"</div>\n" +
-                        "     <div class=\"table-td\">"+serverNum+"</div>\n" +
-                        "     <div class=\"table-td\">"+startDate+"</div>\n" +
+                        // "     <div class=\"table-td\">"+serverCost+"</div>\n" +
+                        // "     <div class=\"table-td\">"+serverNum+"</div>\n" +
+                        // "     <div class=\"table-td\">"+startDate+"</div>\n" +
                         "     <div class=\"table-td\"><a class='editList'>修改</a>" +
-                        // "|<a class='delList'>删除</a>" +
+                        "|<a class='delList'>删除</a>" +
                         "</div>\n" +
                         "   </div>"
                     );
-                }else{
-                    $('.table1').append("<div class=\"table-tr\">\n" +
-                        "    <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
-                        "    <div class=\"table-td warn modId\">"+value.MOD_ID+"</div>\n" +
-                        "    <div class=\"table-td warn\">"+value.MOD_NAME+"</div>\n" +
-                        "    <div class=\"table-td\">"+modType+"</div>\n" +
-                        "    <div class=\"table-td warn\">"+visitRole+"</div>\n" +
-                        "    <div class=\"table-td warn\">"+registRole+"</div>\n" +
-                        "    <div class=\"table-td warn\">"+serverCost+"</div>\n" +
-                        "    <div class=\"table-td warn\">"+serverNum+"</div>\n" +
-                        "    <div class=\"table-td warn\">"+startDate+"</div>\n" +
-                        "     <div class=\"table-td\"><a class='editList'>修改</a>" +
-                        // "|<a class='delList'>删除</a>" +
-                        "</div>\n" +
-                        " </div>"
-                    );
-                }
             });
         }else{
             layer.msg("没有加载到有用数据!")
@@ -177,9 +159,7 @@ function initTable() {
                         '&MOD_NAME=' + encodeURI(MOD_NAME) +
                         '&modType=' + encodeURI(modType) +
                         '&visitRole=' + encodeURI(visitRole) +
-                        '&registRole=' + encodeURI(registRole) +
-                        '&serverCost=' + encodeURI(serverCost) +
-                        '&serverNum=' + encodeURI(serverNum);
+                        '&registRole=' + encodeURI(registRole);
                     $.getJSON(url, function (data) {
                         $('#myModal').modal('hide');
                         layer.msg(data.info);
@@ -205,6 +185,77 @@ function initTable() {
             }else{
                 layer.msg("页面模块名或功能ID或功能名称或权限类别或游客是否可用或注册是否可以不能为空!")
             }
+        });
+        $('.modId').click(function () {
+            var modId= $(this).text();
+            var url = api+'modDetail?modId='+encodeURI(modId);
+            $.getJSON(url,function (data) {
+                data = data.datas==null?"":data.datas;
+                if(data!=""){
+                    $('#modDetail').modal('show');
+                    $('.modal-title').text("模块详情");
+                    $('.table2').empty();
+                    $('.table2').append("<div class=\"table-tr tablech1\">\n" +
+                        "                                        <div class=\"table-th table-th3\">页面模块</div>\n" +
+                        "                                        <div class=\"table-th\">功能ID</div>\n" +
+                        "                                        <div class=\"table-th\">功能名称</div>\n" +
+                        "                                        <div class=\"table-th\">付费金额</div>\n" +
+                        "                                        <div class=\"table-th\">可用条数</div>\n" +
+                        "                                        <div class=\"table-th\">启用日期</div>\n" +
+                        "                                        <div class=\"table-th\">操作</div>\n" +
+                        "                                    </div>");
+                    $.each(data,function (i,value) {
+                        var serverCost =value.SERVER_COST==null?'':value.SERVER_COST+'元';
+                        var serverNum = value.SERVER_NUM==null?'':value.SERVER_NUM+'条';
+                        var startDate = value.START_DATE==null?'':value.START_DATE;
+                        startDate = timeStamp2String(startDate);
+                        function timeStamp2String (time){
+                            if(time!="") {
+                                var datetime = new Date();
+                                datetime.setTime(time);
+                                var year = datetime.getFullYear();
+                                var month = datetime.getMonth() + 1;
+                                var date = datetime.getDate();
+                                var hour = datetime.getHours();
+                                var min = datetime.getMinutes();
+                                if (parseInt(month) < 10) {
+                                    month = '0' + month;
+                                }
+                                if (parseInt(date) < 10) {
+                                    date = '0' + date;
+                                }
+                                if (parseInt(hour) < 10) {
+                                    hour = '0' + hour;
+                                }
+                                if (parseInt(min) < 10) {
+                                    min = '0' + min;
+                                }
+                                return year + "-" + month + "-" + date + ' ' + hour + ":" + min;
+                            }else{
+                                return "";
+                            }
+                        };
+                       $('.table2').append("<div class=\"table-tr\">\n" +
+                           "     <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
+                           "     <div class=\"table-td\">"+value.MOD_ID+"</div>\n" +
+                           "     <div class=\"table-td\">"+value.MOD_NAME+"</div>\n" +
+                           "     <div class=\"table-td\">"+serverCost+"</div>\n" +
+                           "     <div class=\"table-td\">"+serverNum+"</div>\n" +
+                           "     <div class=\"table-td\">"+startDate+"</div>\n" +
+                           "     <div class=\"table-td\"><a class='editDetail'>修改</a>" +
+                           "|    <a class='delDetail'>删除</a></div>" +
+                           "                                    </div>")
+                    });
+                }else{
+                    layer.msg("未查到有效数据!");
+                }
+            }).error(function () {
+                layer.msg("未查到有效数据!");
+            }).complete(function () {
+                $('.delDetail').unbind('click');
+                $('.delDetail').click(function () {
+                });
+            });
         });
     });
 }

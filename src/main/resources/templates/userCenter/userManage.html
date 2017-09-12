@@ -20,6 +20,25 @@
 </head>
 
 <body>
+<style>
+    .modId{
+        color: blue;
+        text-decoration: underline;
+    }
+    .moreDetail{
+        float: right;
+        border-radius: 6px;
+        background: #fc8453;
+        cursor: pointer;
+        font-size: 12px;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 15px;
+        text-align: center;
+        color: #fff;
+        display: inline-block;
+    }
+</style>
 <!-- top logo -->
 <div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
 <div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
@@ -388,46 +407,22 @@
                                         <div class="classifiedList3">
                                             <div class="table table2">
                                                 <div class="table-tr tablech1">
-                                                    <div class="table-th table-th3">服务类别</div>
-                                                    <div class="table-th">服务ID</div>
+                                                    <div class="table-th table-th3">页面模块</div>
+                                                    <div class="table-th">功能ID</div>
+                                                    <div class="table-th">功能名称</div>
                                                     <div class="table-th">付费金额</div>
                                                     <div class="table-th">可用条数</div>
                                                     <div class="table-th">启用日期</div>
+                                                    <div class="table-th">操作</div>
                                                 </div>
                                                 <div class="table-tr">
-                                                    <div class="table-td">账号信息定制</div>
-                                                    <div class="table-td">1</div>
-                                                    <div class="table-td">10元</div>
-                                                    <div class="table-td">50条</div>
-                                                    <div class="table-td">2017-8-1</div>
-                                                </div>
-                                                <div class="table-tr">
-                                                    <div class="table-td">外观信息定制</div>
-                                                    <div class="table-td">1</div>
-                                                    <div class="table-td">10元</div>
-                                                    <div class="table-td">50条</div>
-                                                    <div class="table-td">2017-8-1</div>
-                                                </div>
-                                                <div class="table-tr">
-                                                    <div class="table-td">道具信息定制</div>
-                                                    <div class="table-td">1</div>
-                                                    <div class="table-td">10元</div>
-                                                    <div class="table-td">50条</div>
-                                                    <div class="table-td">2017-8-1</div>
-                                                </div>
-                                                <div class="table-tr">
-                                                    <div class="table-td">金币信息定制</div>
-                                                    <div class="table-td">1</div>
-                                                    <div class="table-td">10元</div>
-                                                    <div class="table-td">50条</div>
-                                                    <div class="table-td">2017-8-1</div>
-                                                </div>
-                                                <div class="table-tr">
-                                                    <div class="table-td">代练信息定制</div>
-                                                    <div class="table-td">1</div>
-                                                    <div class="table-td">10元</div>
-                                                    <div class="table-td">50条</div>
-                                                    <div class="table-td">2017-8-1</div>
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td"></div>
+                                                    <div class="table-td"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -482,14 +477,6 @@
                                 <td class="wr ft1">注册是否可用：</td>
                                 <td><input type="radio" name="registRole" value="1" style="width:100px!important;"/>可用<input type="radio" name="registRole" value="0" style="width:100px!important;"/>不可用</td>
                             </tr>
-                            <tr>
-                                <td class="wr ft1">付费金额：</td>
-                                <td><input type="number" placeholder="请输入可用金额" id="serverCost"/></td>
-                            </tr>
-                            <tr>
-                                <td class="wr ft1">可用条数：</td>
-                                <td><input type="number" placeholder="请输入可用条数" id="serverNum"/></td>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -497,6 +484,55 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="sureBtn">保存</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modDetail" style="top: 40px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <span class="inputtitle"></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">模块详情</h4>
+            </div>
+            <div class="modal-body">
+                <span class="moreDetail">新增</span>
+                <div class="pop02" style="margin-top: 40px;">
+                    <div class="changecon">
+                        <div class="group">
+                            <div class="classifiedList3">
+                                <div class="table table2">
+                                    <div class="table-tr tablech1">
+                                        <div class="table-th table-th3">页面模块</div>
+                                        <div class="table-th">功能ID</div>
+                                        <div class="table-th">功能名称</div>
+                                        <div class="table-th">付费金额</div>
+                                        <div class="table-th">可用条数</div>
+                                        <div class="table-th">启用日期</div>
+                                        <div class="table-th">操作</div>
+                                    </div>
+                                    <div class="table-tr">
+                                        <div class="table-td"></div>
+                                        <div class="table-td"></div>
+                                        <div class="table-td"></div>
+                                        <div class="table-td"></div>
+                                        <div class="table-td"></div>
+                                        <div class="table-td"></div>
+                                        <div class="table-td"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            </br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureBtn2">保存</button>
             </div>
         </div>
         <!-- /.modal-content -->

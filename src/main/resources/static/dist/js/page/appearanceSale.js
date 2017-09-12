@@ -194,11 +194,29 @@ function initTable(url,keyNum) {
                                 if (data != '') {
                                     $('#myModal').addClass('madalHide');
                                     data.REPLY_TIME = data.REPLY_TIME == null ? 'null' : data.REPLY_TIME;
+                                    var time = timeStamp2String(data.REPLY_TIME);
+                                    function timeStamp2String (time){
+                                        var datetime = new Date();
+                                        datetime.setTime(time);
+                                        var year = datetime.getFullYear();
+                                        var month = datetime.getMonth() + 1;
+                                        var date = datetime.getDate();
+                                        var hour = datetime.getHours();
+                                        var min = datetime.getMinutes();
+                                        var second = datetime.getSeconds();
+                                        if(parseInt(month)<10){
+                                            month = '0'+month;
+                                        }
+                                        if(parseInt(date)<10){
+                                            date = '0'+date;
+                                        }
+                                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
+                                    };
                                     data.BELONG_QF = data.BELONG_QF == null ? 'null' : data.BELONG_QF;
                                     data.POST_CONTENT = data.POST_CONTENT == null ? 'null' : data.POST_CONTENT;
                                     data.PAGE_URL = data.PAGE_URL == null ? 'null' : data.PAGE_URL;
                                     data.BELONG_FLOOR = data.BELONG_FLOOR == null ? 'null' : data.BELONG_FLOOR;
-                                    $('.source1').find('tr').eq(0).find('td').eq(1).text(data.REPLY_TIME);
+                                    $('.source1').find('tr').eq(0).find('td').eq(1).text(time);
                                     $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
                                     $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
                                     $('.source1').find('tr').eq(3).find('td').eq(1).empty();
