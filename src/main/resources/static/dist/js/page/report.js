@@ -118,24 +118,30 @@ function chg2(obj) {
 //------------------------------------Function定义 Start------------------------------------
 //保存
 function saveTable(url,keyNum) {
-    $.ajax({
-        url:url,
-        async:false,
-        success:function (data) {
-            layer.closeAll();
-            //跳转
-            window.location.href="/testDemo/myRelease.html";
-        },
-        complete:function () {
-            layer.closeAll();
-            //layer.msg("保存出错!")
-        },
-        error:function () {
-            layer.closeAll();
-            layer.msg("数据请求失败!")
-        }
+    //信息框
+    layer.msg('举报成功，剑三幸甚有你！');
+    setTimeout(function () { save(); }, 2000);
 
-    });
+    function save() {
+        $.ajax({
+            url: url,
+            async: false,
+            success: function (data) {
+                layer.closeAll();
+                //跳转
+                window.location.href = "/testDemo/myRelease.html";
+            },
+            complete: function () {
+                layer.closeAll();
+                //layer.msg("保存出错!")
+            },
+            error: function () {
+                layer.closeAll();
+                layer.msg("数据请求失败!")
+            }
+
+        });
+    }
 }
 
 function initTable(username) {
@@ -264,7 +270,7 @@ function initForm() {
         var tixin = data.tixin==null?"":data.tixin;
         //填充体型选择框
         if(tixin!="") {
-//                initTixin(tixin);
+               initTixin(tixin);
         }
         var info = data.info==null?"":data.info;
         if(info!=""){
@@ -276,11 +282,11 @@ function initForm() {
         $('#save').click(function () {
             layer.load();
             var cheatType = '1';//欺诈类别
-            var belongQf = '1'; //涉事区服
+            var belongQf = ''; //涉事区服
             var tixin = $('#tixin').val();//门派体型
             var roleName = $('#roleName').val();//角色名
             var cheatIntro = $('#cheatIntro').val();//被黑经历
-            var cheatInfo = $('#cheatInfo').val();//资料信息(网页链接地址)
+            var cheatInfo = $('#cheatInfo').val();//资料信息
             var pageUrl = $('#pageUrl').val();//网页链接地址
 
             //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
@@ -298,17 +304,14 @@ function initForm() {
             $('.areaSelect').find('select').each(function () {
                 var text = $(this).find('option:selected').text();
                 if(text.indexOf("请选择")==-1) {
-                    belongQf += text + ',';
+                    belongQf += text ;
                 }
             });
-            if(belongQf.length>2) {
-                belongQf = belongQf.substring(0, belongQf.length - 1);
-            }else{
-                belongQf="";
-            }
+            //belongQf=trimEnd(belongQf);
+            console.log('输出----------->'+userId);
             console.log('输出----------->'+cheatType);
             console.log('输出----------->'+belongQf);
-            console.log('输出----------->'+tixin);
+            console.log('输出tixin----------->'+tixin);
             console.log('输出----------->'+roleName);
             console.log('输出----------->'+cheatIntro);
             console.log('输出----------->'+cheatInfo);
@@ -319,6 +322,32 @@ function initForm() {
              tradeType=2;
              }*/
 
+            //验证
+            var submit=true;
+            if($.trim(cheatIntro)==''){
+                $('#msg1').text("* 本项不可为空!");
+                submit=false;
+            }else{
+                $('#msg1').text("*");
+            }
+            if($.trim(cheatInfo)==''){
+                $('#msg2').text("* 本项不可为空!");
+                submit=false;
+            }else{
+                $('#msg2').text("*");
+            }
+            if(pageUrl.length>0){
+                var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+                if (!reg.test(pageUrl)) {
+                    $('#msg3').text("网址不正确，请检查!");
+                    submit=false;
+                }else{
+                    $('#msg3').text("");
+                }
+            }else{
+                $('#msg3').text("");
+            }
+
             url = reportApi + 'saveWyjbInfo?userId=' + encodeURI(userId)
                 + '&cheatType=' + encodeURI(cheatType)
                 + '&belongQf=' + encodeURI(belongQf)
@@ -327,7 +356,12 @@ function initForm() {
                 +'&cheatIntro=' + encodeURI(cheatIntro)
                 +'&cheatInfo=' + encodeURI(cheatInfo)
                 +'&pageUrl=' + encodeURI(pageUrl);
-            saveTable(url);
+
+            if(submit){
+                saveTable(url);
+            }else{
+                layer.closeAll();
+            }
         });
         $('#preview').click(function () {
             layer.msg('努力开发中……');
@@ -337,5 +371,14 @@ function initForm() {
         });
         //initTable();
     });
+
+    function initTixin(data) {
+        //门派体型初始数据
+        $.each(data,function (i,value) {
+            var val1 = value.MENPAI_NAME;
+            $('.tixin').append("  <option value="+val1+">"+val1+"</option> ");
+        });
+        $(".js-example-basic-single").select2();
+    }
 }
 //------------------------------------Function定义 End------------------------------------

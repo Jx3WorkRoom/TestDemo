@@ -118,24 +118,30 @@
 //------------------------------------Function定义 Start------------------------------------
     //保存
     function saveTable(url,keyNum) {
-        $.ajax({
-            url:url,
-            async:false,
-            success:function (data) {
-                layer.closeAll();
-                //跳转
-                window.location.href="/testDemo/myRelease.html";
-            },
-            complete:function () {
-                layer.closeAll();
-                //layer.msg("保存出错!")
-            },
-            error:function () {
-                layer.closeAll();
-                layer.msg("数据请求失败!")
-            }
+        //信息框
+        layer.msg('代练交易发布成功！');
+        setTimeout(function () { save(); }, 2000);
 
-        });
+        function save() {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
+                    layer.closeAll();
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                },
+                complete: function () {
+                    layer.closeAll();
+                    //layer.msg("保存出错!")
+                },
+                error: function () {
+                    layer.closeAll();
+                    layer.msg("数据请求失败!")
+                }
+
+            });
+        }
     }
 
     function initTable(username) {
@@ -275,8 +281,8 @@
         $('#save').click(function () {
                 layer.load();
                 var tradeType = '1';//需求类型
-                var belongQf = '1'; //涉事区服
-                var favorInfo = '1';//代练说明
+                var belongQf = ''; //涉事区服
+                var favorInfo = $('#favorInfo').val();;//代练说明
 
                 tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
                 if(tradeType=="接代练"){
@@ -288,14 +294,14 @@
                 $('.areaSelect').find('select').each(function () {
                     var text = $(this).find('option:selected').text();
                     if(text.indexOf("请选择")==-1) {
-                        belongQf += text + ',';
+                        belongQf += text;
                     }
                 });
-                if(belongQf.length>2) {
+                /*if(belongQf.length>2) {
                     belongQf = belongQf.substring(0, belongQf.length - 1);
                 }else{
                     belongQf="";
-                }
+                }*/
 
                 console.log('输出----------->'+tradeType);
                 console.log('输出----------->'+belongQf);

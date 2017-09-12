@@ -12,6 +12,7 @@
 <script th:src="@{/dist/js/jx3/jquery.js}"></script>
 <script th:src="@{/dist/js/jx3/bt.js}"></script>
 <script th:src="@{/dist/js/jx3/base.js}"></script>
+<script th:src="@{/dist/js/layer/layer.js}"></script>
 <script th:src="@{/dist/js/jx3/js.KinerCode.js}"></script>
 </head>
 <body>
@@ -51,7 +52,7 @@
     <a href="blackList">剑三黑榜</a>
     <a href="dataAndSecurity">用户中心</a>
     <a class="last cur" href="login">登录 / 注册</a>
-    <img class="gift" th:src="@{/dist/css/images/jx3/gift.png}">
+    <a href="javascript:void(0)" id="exitUser" style="display: none;">            <form th:action="@{/logout}" method="post">                <input type="submit" class="btn btn-primary exit" value="退出"/>            </form>        </a>        <img class="gift" th:src="@{/dist/css/images/jx3/gift.png}">
   </div>
 </div>
 <div id="maincontent">
@@ -111,7 +112,7 @@
               </tr>
               <tr>
                 <td class="wr ft1"><a class="btn btn-primary" id="checKCodeBtn" style="display: none;"></a></td>
-                <td colspan="2">
+                <td colspan="2" id="checkCode">
                     <button th:type="submit" id="submit" href="javascript:void(0)" disabled style="border: 0;background-color: transparent">
                         <img th:src="@{/dist/css/images/jx3/login-btn.png}" />
                     </button>
@@ -206,16 +207,18 @@ var c = new KinerCode({
         $('.codeCheckResult').show();
         if(result){
             $('.codeCheckResult').html("验证通过!");
-            $('#submit').removeClass('btn-bray');
-            $('#submit').addClass('btn-primary');
             $('#submit').removeAttr('disabled');
         }else{
             $('.codeCheckResult').html("验证失败!");
-            $('#submit').removeClass('btn-primary');
-            $('#submit').addClass('btn-bray');
             $('#submit').attr('disabled','disabled');
         }
     }
+});
+$('#checkCode').click(function () {
+  if($('.codeCheckResult').text().indexOf("通过")==-1){
+      $('.code').val("请输入验证码!");
+      $('.code').css("border","1px solid red");
+  }
 });
 </script>
 </body>

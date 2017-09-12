@@ -47,7 +47,7 @@ html {font-size: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;
 .topLogo{ width:1000px; margin:0 auto; padding:15px 0; text-align:left}
 .topLogo img{ height:71px;}
 .navCon{ background:url(../images/jx3/navbg.png) repeat; height:34px;}
-.navCon .nav{ width:1050px; margin:0 auto;  position:relative;}
+.navCon .nav{ width:1140px; margin:0 auto;  position:relative;}
 .navCon .nav .gift{ position:absolute; top:-15px; right:0; cursor:pointer}
 .navCon .nav a{ display:inline-block; color:#fff; font-size:14px; height:34px;-webkit-transition:all ease 200ms;transition:all ease 200ms; line-height:34px; padding:0 28px; background:url(../images/jx3/navbgline.png) right no-repeat;}
 .navCon .nav a.last{ background:none;}
@@ -159,4 +159,8 @@ html {font-size: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;
 /*07/22*/
 .logincon td {
     padding: 6px;
+}
+.exit{
+    height: 30px;
+    margin-bottom: 2px!important;
 }

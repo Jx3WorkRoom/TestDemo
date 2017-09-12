@@ -79,11 +79,11 @@ function initTable(url,keyNum) {
     $(".table").append("<div class=\"table-tr tablered\">\n" +
         "        <div class=\"table-th table-th1\" style=\"width: 11% !important;padding-left: 30px;\">区服</div>\n" +
         "        <div class=\"table-th\">代练代打代清介绍</div>\n" +
-        "        <div class=\"table-th\">接或找<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "        <div class=\"table-th\">关注度<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "        <div class=\"table-th\">上架时间<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "        <div class=\"table-th\">状态报告<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
-        "        <div class=\"table-th\">收藏<div class=\"sort\"><p class=\"top00\"></p><p class=\"down00\"></p></div></div>\n" +
+        "        <div class=\"table-th\">接或找</div>\n" +
+        "        <div class=\"table-th\">关注度</div>\n" +
+        "        <div class=\"table-th\">上架时间</div>\n" +
+        "        <div class=\"table-th\">状态报告</div>\n" +
+        "        <div class=\"table-th\">收藏</div>\n" +
         "      </div>");
     layer.load();
     var dataTemp = null;
@@ -262,6 +262,24 @@ function initTable(url,keyNum) {
                         $(this).addClass('cur');
                         isValided = 1;
                     }
+                    replyTime =timeStamp2String(replyTime);
+                    function timeStamp2String (time){
+                        var datetime = new Date();
+                        datetime.setTime(time);
+                        var year = datetime.getFullYear();
+                        var month = datetime.getMonth() + 1;
+                        var date = datetime.getDate();
+                        var hour = datetime.getHours();
+                        var min = datetime.getMinutes();
+                        var second = datetime.getSeconds();
+                        if(parseInt(month)<10){
+                            month = '0'+month;
+                        }
+                        if(parseInt(date)<10){
+                            date = '0'+date;
+                        }
+                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
+                    };
                     var url = api+'userIsvalid?userName='+encodeURI(username)+
                         '&mainId='+encodeURI(mainId)+
                         '&isValided='+encodeURI(isValided)+

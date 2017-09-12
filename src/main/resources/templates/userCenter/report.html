@@ -10,10 +10,11 @@
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/drop.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/user.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/js/jx3/select2/select2.min.css}">
     <script th:src="@{/dist/js/jx3/jquery.js}"></script>
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
-    <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
+        <script th:src="@{/dist/js/jx3/select2/select2.full.min.js}"></script>
         <script th:src="@{/dist/js/layer/layer.js}"></script>
         <script th:src="@{/dist/js/page/utils.js}"></script>
         <script th:src="@{/dist/js/page/report.js}"></script>
@@ -25,7 +26,7 @@
 <div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <!-- navigation -->
 <div class="navCon">
-    <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">登录 / 注册</a><a id="userDetails" href="javascript:void(0)" style="display: none">[[${#httpServletRequest.remoteUser}]]</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
+    <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">登录 / 注册</a><a id="userDetails" href="javascript:void(0)" style="display: none">[[${#httpServletRequest.remoteUser}]]</a><a href="javascript:void(0)" id="exitUser" style="display: none;">            <form th:action="@{/logout}" method="post">                <input type="submit" class="btn btn-primary exit" value="退出"/>            </form>        </a>        <img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
 </div>
 
 <div id="maincontent">
@@ -104,7 +105,11 @@
                 </tr>
                   <tr>
                       <td align="right" class="wr ft1">门派体型：</td>
-                      <td colspan="7"><input class="w250" id="tixin" type="text" value="" /></td>
+                      <td colspan="7">
+                          <select class="js-example-basic-single tixin" id="tixin"  style="width: 200px;">
+                              <option value=""></option>
+                          </select>
+                      </td>
                   </tr>
                   <tr>
                       <td align="right" class="wr ft1">角色名：</td>
@@ -112,15 +117,15 @@
                   </tr>
                 <tr>
                  <td align="right" class="wr ft1">被黑经历：</td>
-                 <td colspan="7"><textarea class="w250" id="cheatIntro" rows="3" placeholder="如：（参与如下格式或内容）2017年3月10日，电五双梦纯阳XXXX，说要交易外观，结果收钱跑路，被骗3000R" /></textarea></td>
+                 <td colspan="7"><textarea class="w250" id="cheatIntro" rows="3" placeholder="如：（参与如下格式或内容）2017年3月10日，电五双梦纯阳XXXX，说要交易外观，结果收钱跑路，被骗3000R" /></textarea>&nbsp;&nbsp;&nbsp;<font size="3" id="msg1" color="red">*</font></td>
                 </tr>
                 <tr>
                  <td align="right" class="wr ft1">资料信息：</td>
-                 <td colspan="7"><textarea class="w250" id="cheatInfo" rows="7" placeholder="黑鬼资料：（参与如下格式或内容）&#10 身份证：450845199101012323&#10支付宝：abcdeae@163.com&#10手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585&#10YY号：844412" /></textarea></td>
+                 <td colspan="7"><textarea class="w250" id="cheatInfo" rows="7" placeholder="黑鬼资料：（参与如下格式或内容）&#10 身份证：450845199101012323&#10支付宝：abcdeae@163.com&#10手机号：15454513214&#10微信号：115715_aqc&#10QQ号：7874677585&#10YY号：844412" /></textarea>&nbsp;&nbsp;&nbsp;<font size="3" id="msg2" color="red">*</font></td>
                 </tr>
                   <tr>
                       <td align="right" class="wr ft1">网页链接地址：</td>
-                      <td colspan="7"><input class="w250" id="pageUrl" type="text" value="" /></td>
+                      <td colspan="7"><input class="w250" id="pageUrl" type="text" value="" />&nbsp;&nbsp;&nbsp;<font size="3" id="msg3" color="red"></font></td>
                   </tr>
                 <tr>
                  <td align="right" class="wr ft1">上传图片：</td>

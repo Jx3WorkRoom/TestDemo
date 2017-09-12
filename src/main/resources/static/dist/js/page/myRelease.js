@@ -32,10 +32,10 @@ function initTable(name,keyNum) {
                 var collectType = "";
                 if(parseInt(value.FAVOR_TYPE)==1){
                     pageValueEdit = 'quickRelease?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '账号快速发布';
+                    collectType = '账号简报';
                 }else if(parseInt(value.FAVOR_TYPE)==2){
                     pageValueEdit = 'detailRelease?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '账号详细发布';
+                    collectType = '账号详报';
                 }else if(parseInt(value.FAVOR_TYPE)==3){
                     pageValueEdit = 'appearanceTransaction?mainId='+encodeURI(value.MAIN_ID);
                     collectType = '外观交易';
@@ -50,7 +50,7 @@ function initTable(name,keyNum) {
                     collectType = '代练代打';
                 }else if(parseInt(value.FAVOR_TYPE)==7){
                     pageValueEdit = 'report?mainId='+encodeURI(value.MAIN_ID);
-                    collectType = '我要举报';
+                    collectType = '黑鬼举报';
                 }
                 var cont = value.COLLECT_CONT.replace(':','');
                 cont = cont.replace("BELONG_QF","");
@@ -61,14 +61,37 @@ function initTable(name,keyNum) {
                 cont = cont.replace("ARM_NAME","");
                 cont = cont.replace("STRA_NAME","");
                 cont = cont.replace("PEND_NAME","");
+                var time = timeStamp2String(value.FAVOR_DATE);
                 $('.table').append("<div class=\"table-tr\">\n" +
                     "                    <div class=\"table-td\"><i class=\"icon1\"></i></div>\n" +
                     "                    <div class=\"table-td recordId\" style='display: none'>"+value.RECORD_ID+"</div>\n" +
                     "                    <div class=\"table-td\">"+collectType+"</div>\n" +
-                    "                    <div class=\"table-td table_lw\"><a href='"+pageValueEdit+"'> 2k</a></div>\n" +
+                    "                    <div class=\"table-td table_lw\"><a href='"+pageValueEdit+"'>"+cont+"</a></div>\n" +
                     "                    <div class=\"table-td\">"+value.COLLECT_STUSTA+"人报告失效</div>\n" +
-                    "                    <div class=\"table-td\">"+value.FAVOR_DATE+"</div>\n" +
+                    "                    <div class=\"table-td\">"+time+"</div>\n" +
                     "                  </div>");
+                function timeStamp2String (time){
+                        var datetime = new Date();
+                        datetime.setTime(time);
+                        var year = datetime.getFullYear();
+                        var month = datetime.getMonth() + 1;
+                        var date = datetime.getDate();
+                        var hour =datetime.getHours();
+                        var min = datetime.getMinutes();
+                        if(parseInt(month)<10){
+                            month = '0'+month;
+                        }
+                        if(parseInt(date)<10){
+                            date = '0'+date;
+                        }
+                        if(parseInt(hour)<10){
+                            hour = '0'+hour;
+                        }
+                        if(parseInt(min)<10){
+                            min = '0'+min;
+                        }
+                        return year + "-" + month + "-" + date+' '+hour+":"+min;
+                    };
             });
         }else{
             layer.msg("加载收藏信息失败")

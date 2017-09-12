@@ -1,6 +1,6 @@
 //------------------------------------常量定义 Start------------------------------------
     reportApi = api+"iwantRelease/";
-    api = api+"accountList/";
+    pageApi = api+"accountList/";
 
     //设置一个省的公共下标
     var pIndex = 0;
@@ -8,11 +8,12 @@
     var cityEle = document.getElementById("city");
     var areaEle = document.getElementById("area");
     var clickSeachNum = 0;
+    var userId = null;
 
     $(function () {
         var username = $('#userName').text();
         $('.last').text(username);
-        initTable();
+        initTable(username);
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -117,27 +118,48 @@
 //------------------------------------Function定义 Start------------------------------------
     //保存
     function saveTable(url,keyNum) {
-        $.ajax({
-            url:url,
-            async:false,
-            success:function (data) {
-                layer.closeAll();
-                //跳转
-                window.location.href="/testDemo/myRelease.html";
-            },
-            complete:function () {
-                layer.closeAll();
-                //layer.msg("保存出错!")
-            },
-            error:function () {
-                layer.closeAll();
-                layer.msg("数据请求失败!")
-            }
+        //信息框
+        layer.msg('账号收售发布成功！');
+        setTimeout(function () { save(); }, 3000);
 
-        });
+        function save() {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
+                    layer.closeAll();
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                },
+                complete: function () {
+                    layer.closeAll();
+                    //layer.msg("保存出错!")
+                },
+                error: function () {
+                    layer.closeAll();
+                    layer.msg("数据请求失败!")
+                }
+
+            });
+        }
     }
 
-    function initTable(url,keyNum) {
+    function initTable(username) {
+        var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
+        console.log(url);
+        $.getJSON(url,function (data) {
+            data=data.datas[0]==null?'':data.datas[0];
+            if(data!=''){
+                userId = data.USER_ID;
+            }else{
+                layer.msg("加载用户信息错误!")
+            }
+        }).error(function () {
+            layer.msg("加载用户信息错误!")
+        }).complete(function () {
+            //initEdit();
+        });
+
         var cheatType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
         if(cheatType=="账号诈骗"){
             cheatType=1;
@@ -237,7 +259,7 @@
     }
     //加载Form
     function initForm() {
-        var url = api+'accountListSelection';
+        var url = pageApi+'accountListSelection';
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
@@ -247,7 +269,7 @@
             var tixin = data.tixin==null?"":data.tixin;
             //填充体型选择框
             if(tixin!="") {
-//                initTixin(tixin);
+               initTixin(tixin);
             }
             var info = data.info==null?"":data.info;
             if(info!=""){
@@ -258,7 +280,7 @@
             $('#save').unbind("click");
             $('#save').click(function () {
                     var tradeType = '1';//账号交易类别
-                    var belongQf = '1'; //涉事区服
+                    var belongQf = ''; //涉事区服
                     var tixin = $('#tixin').val();//门派体型
                     var priceNum = $('#priceNum').val();//价格
                     var accoInfo = $('#accoInfo').val();//账号资料
@@ -269,17 +291,17 @@
                     $('.areaSelect').find('select').each(function () {
                         var text = $(this).find('option:selected').text();
                         if(text.indexOf("请选择")==-1) {
-                            belongQf += text + ',';
+                            belongQf += text;
                         }
                     });
-                    if(belongQf.length>2) {
+                    /*if(belongQf.length>2) {
                         belongQf = belongQf.substring(0, belongQf.length - 1);
                     }else{
                         belongQf="";
-                    }
-
+                    }*/
+                    console.log('输出----------->'+userId);
                     console.log('输出----------->'+belongQf);
-                    console.log('输出----------->'+tixin);
+                    console.log('输出tixin----------->'+tixin);
                     console.log('输出----------->'+priceNum);
                     console.log('输出----------->'+accoInfo);
                     /*if(tradeType=="求购"){
@@ -288,11 +310,32 @@
                         tradeType=2;
                     }*/
 
-                    url = reportApi + 'saveZhssInfo?belongQf=' + encodeURI(belongQf)
+                    //验证
+                    var submit=true;
+                    if($.trim(priceNum).length>0) {
+                        var reg = /^[0-9]*$/;
+                        if(!reg.test(priceNum)){
+                            $('#msg1').text("* 请输入正整数!");
+                            submit=false;
+                        }else{
+                            $('#msg1').text("*");
+                        }
+                    }else{
+                        $('#msg1').text("* 本项不可为空!");
+                        submit=false;
+                    }
+
+                    url = reportApi + 'saveZhssInfo?userId=' + encodeURI(userId)
+                        + '&belongQf=' + encodeURI(tixin)
                         + '&tixin=' + encodeURI(tixin)
                         +'&priceNum=' + encodeURI(priceNum)
                         +'&accoInfo=' + encodeURI(accoInfo);
-                    saveTable(url);
+
+                    if(submit){
+                        saveTable(url);
+                    }else{
+                        layer.closeAll();
+                    }
             });
             $('#preview').click(function () {
                 layer.msg('努力开发中……');
@@ -300,7 +343,15 @@
             $('#cancel').click(function () {
                 layer.msg('努力开发中……');
             });
-            initTable();
+            //initTable();
         });
+
+        function initTixin(data) {
+            $.each(data,function (i,value) {
+                var val1 = value.MENPAI_NAME;
+                $('.tixin').append("  <option value="+val1+">"+val1+"</option> ");
+            });
+            $(".js-example-basic-single").select2();
+        }
     }
 //------------------------------------Function定义 End------------------------------------

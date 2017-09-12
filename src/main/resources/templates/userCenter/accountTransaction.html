@@ -25,7 +25,7 @@
 <div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <!-- navigation -->
 <div class="navCon">
-  <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">登录 / 注册</a><a id="userDetails" href="javascript:void(0)" style="display: none">[[${#httpServletRequest.remoteUser}]]</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
+  <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="dataAndSecurity">登录 / 注册</a><a id="userDetails" href="javascript:void(0)" style="display: none">[[${#httpServletRequest.remoteUser}]]</a><a href="javascript:void(0)" id="exitUser" style="display: none;">            <form th:action="@{/logout}" method="post">                <input type="submit" class="btn btn-primary exit" value="退出"/>            </form>        </a>        <img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
 </div>
 <div id="maincontent">
   <div id="mcon"> 
@@ -99,11 +99,11 @@
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">金币总量：</td>
-                  <td colspan="7"><input class="w250" id="goldTotal" type="text" value="" />(单位：金)</td>
+                  <td colspan="7"><input class="w250" id="goldTotal" type="text" value="" />(单位：金)&nbsp;&nbsp;&nbsp;<font size="3" id="msg1" color="red">*</font></td>
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">单价：</td>
-                  <td colspan="7"><input class="w250" id="unitPrice" type="text" value="" />(单位：G/R)</td>
+                  <td colspan="7"><input class="w250" id="unitPrice" type="text" value="" />(单位：G/R)&nbsp;&nbsp;&nbsp;<font size="3" id="msg2" color="red">*</font></td>
                 </tr>
                 <tr>
                   <td align="right" class="wr ft1">是否可以拆分：</td>

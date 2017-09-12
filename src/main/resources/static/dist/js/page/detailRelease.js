@@ -1,6 +1,6 @@
 //------------------------------------常量定义 Start------------------------------------
     reportApi = api+"iwantRelease/";
-    api = api+"accountList/";
+    pageApi = api+"accountList/";
 
     //设置一个省的公共下标
     var pIndex = 0;
@@ -8,10 +8,12 @@
     var cityEle = document.getElementById("city");
     var areaEle = document.getElementById("area");
     var clickSeachNum = 0;
+    var userId = null;
 
     $(function () {
-        initTable();
-        saveTable();
+        var username = $('#userName').text();
+        $('.last').text(username);
+        initTable(username);
         initForm();    //初始化Form
     });
 //------------------------------------常量定义 Start------------------------------------
@@ -116,24 +118,45 @@
 //------------------------------------Function定义 Start------------------------------------
     //保存
     function saveTable(url,keyNum) {
-        $.ajax({
-            url:url,
-            async:false,
-            success:function (data) {
+        //信息框
+        layer.msg('举报成功，剑三幸甚有你');
+        setTimeout(function () { save(); }, 2000);
 
-            },
-            complete:function () {
+        function save() {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
 
-            },
-            error:function () {
-                //layer.closeAll();
-                //layer.msg("数据请求失败!")
-            }
+                },
+                complete: function () {
 
-        });
+                },
+                error: function () {
+                    //layer.closeAll();
+                    //layer.msg("数据请求失败!")
+                }
+
+            });
+        }
     }
 
-    function initTable(url,keyNum) {
+    function initTable(username) {
+        var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
+        console.log(url);
+        $.getJSON(url,function (data) {
+            data=data.datas[0]==null?'':data.datas[0];
+            if(data!=''){
+                userId = data.USER_ID;
+            }else{
+                layer.msg("加载用户信息错误!")
+            }
+        }).error(function () {
+            layer.msg("加载用户信息错误!")
+        }).complete(function () {
+            //initEdit();
+        });
+
         //1.称号
         $.ajax({
             url:url = reportApi + 'getTzc?type=5&cate=1',
@@ -155,13 +178,22 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#chenghao").append("<input type='checkbox' name='ch' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#chenghao").append("<span><i class='icon0' name='ch' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
                 //$("#chenghao").html('<span><input type="checkbox" name="ch" value="1" />济世菩萨<input type="checkbox" name="ch" value="2" />红尘<input type="checkbox" name="ch" value="3" />济世菩萨');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -181,13 +213,22 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#fx").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#fx").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
+
                 });
 
-                //$("#fx").html('<span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -206,13 +247,21 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#pf").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#pf").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
-                //$("#pf").html('<span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -231,13 +280,21 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#cyxl").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
-                });
+                    $("#cyxl").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
 
-                //$("#cyxl").html('<span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span>');
+                });
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -256,13 +313,20 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#cyxs").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#cyxs").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#cyxs").html('<span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -281,13 +345,21 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#tzhz").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#tzhz").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
-                //$("#tzhz").html('<span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span><span><i class="icon0"></i>济世菩萨</span><span><i class="icon0"></i>红尘</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -306,13 +378,21 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#zq").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#zq").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
-                //$("#tzhz").html('<span><i class="icon0"></i>赤兔</span><span><i class="icon0"></i>踏炎</span><span><i class="icon0"></i>里飞沙</span><span><i class="icon0"></i>绝尘</span><span><i class="icon0"></i>霸红尘</span><span><i class="icon0"></i>雷兽飞电</span><span><i class="icon0"></i>赤珠飞电</span><span><i class="icon0"></i>赤兔</span><span><i class="icon0"></i>踏炎</span><span><i class="icon0"></i>里飞沙</span><span><i class="icon0"></i>绝尘</span><span><i class="icon0"></i>霸红尘</span><span><i class="icon0"></i>雷兽飞电</span><span><i class="icon0"></i>赤珠飞电</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -331,13 +411,21 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#mj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#mj").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
-                //$("#mj").html('<span><i class="icon0"></i>赤兔</span><span><i class="icon0"></i>踏炎</span><span><i class="icon0"></i>里飞沙</span><span><i class="icon0"></i>绝尘</span><span><i class="icon0"></i>霸红尘</span><span><i class="icon0"></i>雷兽飞电</span><span><i class="icon0"></i>赤珠飞电</span><span><i class="icon0"></i>赤兔</span><span><i class="icon0"></i>踏炎</span><span><i class="icon0"></i>里飞沙</span><span><i class="icon0"></i>绝尘</span><span><i class="icon0"></i>霸红尘</span><span><i class="icon0"></i>雷兽飞电</span><span><i class="icon0"></i>赤珠飞电</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -356,13 +444,20 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#ms").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#ms").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#ms").html('<span><i class="icon0"></i>赤兔</span><span><i class="icon0"></i>踏炎</span><span><i class="icon0"></i>里飞沙</span><span><i class="icon0"></i>绝尘</span><span><i class="icon0"></i>霸红尘</span><span><i class="icon0"></i>雷兽飞电</span><span><i class="icon0"></i>赤珠飞电</span><span><i class="icon0"></i>赤兔</span><span><i class="icon0"></i>踏炎</span><span><i class="icon0"></i>里飞沙</span><span><i class="icon0"></i>绝尘</span><span><i class="icon0"></i>霸红尘</span><span><i class="icon0"></i>雷兽飞电</span><span><i class="icon0"></i>赤珠飞电</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -381,13 +476,21 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#qq").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#qq").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
-                //$("#qq").html('<span><i class="icon0"></i>赤兔</span><span><i class="icon0"></i>踏炎</span><span><i class="icon0"></i>里飞沙</span><span><i class="icon0"></i>绝尘</span><span><i class="icon0"></i>霸红尘</span><span><i class="icon0"></i>雷兽飞电</span><span><i class="icon0"></i>赤珠飞电</span><span><i class="icon0"></i>赤兔</span><span><i class="icon0"></i>踏炎</span><span><i class="icon0"></i>里飞沙</span><span><i class="icon0"></i>绝尘</span><span><i class="icon0"></i>霸红尘</span><span><i class="icon0"></i>雷兽飞电</span><span><i class="icon0"></i>赤珠飞电</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -406,13 +509,20 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#sdzxgj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#sdzxgj").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#sdzxgj").html('<span><i class="icon0"></i>寻珍味·虎仔</span><span><i class="icon0"></i>铁血枫红旗</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -431,13 +541,20 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#zyyygj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#zyyygj").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#zyyygj").html('<span><i class="icon0"></i>寻珍味·虎仔</span><span><i class="icon0"></i>铁血枫红旗</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -456,13 +573,20 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#zyfjgj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#zyfjgj").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#zyfjgj").html('<span><i class="icon0"></i>寻珍味·虎仔</span><span><i class="icon0"></i>铁血枫红旗</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -481,13 +605,20 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#qygj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#qygj").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#qygj").html('<span><i class="icon0"></i>寻珍味·虎仔</span><span><i class="icon0"></i>铁血枫红旗</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -506,13 +637,20 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#jlgj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#jlgj").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#jlgj").html('<span><i class="icon0"></i>寻珍味·虎仔</span><span><i class="icon0"></i>铁血枫红旗</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -526,18 +664,25 @@
             async:false,
             success:function (data) {
                 //清空称号
-                $("#jlgj").empty();
+                $("#zycjgj").empty();
                 //填充checkbox
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#jlgj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#zycjgj").append("<span><i class='icon0' name='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#jlgj").html('<span><i class="icon0"></i>寻珍味·虎仔</span><span><i class="icon0"></i>铁血枫红旗</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -556,13 +701,20 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#zycxgj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#zycxgj").append("<span><i class='icon0' nam e='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
-
-                //$("#zycxgj").html('<span><i class="icon0"></i>寻珍味·虎仔</span><span><i class="icon0"></i>铁血枫红旗</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -581,13 +733,22 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#jsqj").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#jsqj").append("<span><i class='icon0' nam e='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
                 //$("#jsqj").html('<span><i class="icon0"></i>三山四海</span><span><i class="icon0"></i>阴阳两界</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -606,13 +767,21 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#ptqy").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#ptqy").append("<span><i class='icon0' nam e='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
-                //$("#ptqy").html('<span><i class="icon0"></i>三山四海</span><span><i class="icon0"></i>阴阳两界</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -631,13 +800,22 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#jhqy").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#jhqy").append("<span><i class='icon0' nam e='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
                 //$("#jhqy").html('<span><i class="icon0"></i>三山四海</span><span><i class="icon0"></i>阴阳两界</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -656,13 +834,22 @@
                 var tableDatas = data.datas==null?"":data.datas;
                 $.each(tableDatas,function (i,value) {
                     var name = value.name;
-                    $("#cwzq").append("<input type='checkbox' name='fx' value='"+i+"' name='header'/>"+name+"</span>");
+                    $("#cwzq").append("<span><i class='icon0' nam e='fx' value='"+i+"' name='header'/></i>"+name+"</span>");
                 });
 
                 //$("#cwzq").html('<span><i class="icon0"></i>三山四海</span><span><i class="icon0"></i>阴阳两界</span><span><i class="icon0"></i>三尺青锋</span><span><i class="icon0"></i>塞外宝驹</span><span><i class="icon0"></i>清风捕王</span><span><i class="icon0"></i>黑白路</span><span><i class="icon0"></i>少年行</span><span><i class="icon0"></i>茶馆奇缘</span><span><i class="icon0"></i>生死判</span><span><i class="icon0"></i>炼狱厨神</span>');
             },
             complete:function () {
-
+                $(".icon0").unbind('click');
+                $(".icon0").click(function() {
+                    if($(this).attr('class').indexOf('cur')>-1){
+                        $(this).removeClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se0.png) no-repeat")
+                    }else{
+                        $(this).addClass('cur');
+                        $(this).css("background","url(./dist/css/images/jx3/se.png) no-repeat")
+                    }
+                });
             },
             error:function () {
                 layer.closeAll();
@@ -743,7 +930,7 @@
     }
     //加载Form
     function initForm() {
-        var url = api+'accountListSelection';
+        var url = pageApi+'accountListSelection';
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
@@ -753,7 +940,7 @@
             var tixin = data.tixin==null?"":data.tixin;
             //填充体型选择框
             if(tixin!="") {
-//                initTixin(tixin);
+                initTixin(tixin);
             }
             var info = data.info==null?"":data.info;
             if(info!=""){
@@ -781,7 +968,7 @@
             //绑定保存
             $('#save').unbind("click");
             $('#save').click(function () {
-                var belongQf = '1'; //涉事区服
+                var belongQf = ''; //涉事区服
                 var tixin = $('#tixin').val();//门派体型
                 var priceNum = $('#priceNum').val();//价格
                 var mbgjsl = $('#mbgjsl').val();//面部挂件数量
@@ -840,14 +1027,15 @@
                 $('.areaSelect').find('select').each(function () {
                     var text = $(this).find('option:selected').text();
                     if(text.indexOf("请选择")==-1) {
-                        belongQf += text + ',';
+                        belongQf += text ;
                     }
                 });
-                belongQf=trimEnd(belongQf);
+                //belongQf=trimEnd(belongQf);
+                console.log('输出----------->'+userId);
+                console.log('输出tixin----------->'+tixin);
 
-                console.log('输出----------->'+fbwj);
-
-                url = reportApi + 'saveZhssxxfbInfo?belongQf=' + encodeURI(belongQf)
+                url = reportApi + 'saveZhssxxfbInfo?userId=' + encodeURI(userId)
+                    + '&belongQf=' + encodeURI(belongQf)
                     + '&tixin=' + encodeURI(tixin)
                     +'&priceNum=' + encodeURI(priceNum)
                     +'&mbgjsl=' + encodeURI(mbgjsl)
@@ -888,7 +1076,7 @@
                     +'&pvpdpswgz=' + encodeURI(pvpdpswgz)
                     +'&pvedpswgz=' + encodeURI(pvedpswgz)
                     +'&bcsm=' + encodeURI(bcsm);
-                saveTable(url);
+  //              saveTable(url);
             });
             $('#cancel').unbind("click");
             $('#cancel').click(function () {
@@ -896,6 +1084,14 @@
             });
             // initTable();
         });
+    }
+
+    function initTixin(data) {
+        $.each(data,function (i,value) {
+            var val1 = value.MENPAI_NAME;
+            $('.tixin').append("  <option value="+val1+">"+val1+"</option> ");
+        });
+        $(".js-example-basic-single").select2();
     }
 
     function nextPage(spanindex) {

@@ -50,7 +50,16 @@
 <div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <!-- navigation -->
 <div class="navCon">
-    <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="login">登录 / 注册</a><a id="userDetails" href="javascript:void(0)" style="display: none">[[${#httpServletRequest.remoteUser}]]</a><img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
+    <div class="nav"><a href="index">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale" class="cur">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="login">登录 / 注册</a>
+        <a id="userDetails" href="javascript:void(0)" style="display: none"><label>[[${#httpServletRequest.remoteUser}]]</label>
+        </a>
+        <a href="javascript:void(0)" id="exitUser" style="display: none;">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" class="btn btn-primary exit" value="退出"/>
+            </form>
+        </a>
+        <img class="gift" th:src="@{/dist/css/images/jx3/gift.png}">
+    </div>
 </div>
 
 <div id="maincontent">
@@ -74,7 +83,7 @@
               <td align="right" class="wr ft1">收售：</td>
               <td>
                   <ul class="nav nav-pills">
-                      <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 求购 <b class="caret"></b> </a>
+                      <li class="dropdown all-camera-dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 出售 <b class="caret"></b> </a>
                           <ul class="dropdown-menu">
                               <li data-filter-camera-type="all"><a data-toggle="tab" href="javascript:void(0)" value="1">求购</a></li>
                               <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="javascript:void(0)" value="2">出售</a></li>
@@ -110,7 +119,7 @@
           </tr>
           <tr>
            <td align="right" class="wr ft1">资料：</td>
-           <td><textarea class="info" role="3" rows="3" placeholder="如：五红/资历5万/PVP装2W1/三山四海/渊微指玄/14阶（多个搜索条件用/分隔）"></textarea></td>
+           <td><textarea class="info" role="3" rows="3" placeholder="外观、稀有坐骑、奇趣、橙武、奇遇、珍稀挂件以及其他账号资料词。"></textarea></td>
           </tr>
           <tr>
            <td class="wr ft1"></td>

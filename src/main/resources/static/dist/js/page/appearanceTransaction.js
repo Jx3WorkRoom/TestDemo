@@ -118,24 +118,30 @@
 //------------------------------------Function定义 Start------------------------------------
     //保存
     function saveTable(url,keyNum) {
-        $.ajax({
-            url:url,
-            async:false,
-            success:function (data) {
-                layer.closeAll();
-                //跳转
-                window.location.href="/testDemo/myRelease.html";
-            },
-            complete:function () {
-                layer.closeAll();
-                //layer.msg("保存出错!")
-            },
-            error:function () {
-                layer.closeAll();
-                layer.msg("数据请求失败!")
-            }
+        //信息框
+        layer.msg('外观交易发布成功！');
+        setTimeout(function () { save(); }, 2000);
 
-        });
+        function save() {
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
+                    layer.closeAll();
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                },
+                complete: function () {
+                    layer.closeAll();
+                    //layer.msg("保存出错!")
+                },
+                error: function () {
+                    layer.closeAll();
+                    layer.msg("数据请求失败!")
+                }
+
+            });
+        }
     }
 
     function initTable(username) {
@@ -253,17 +259,17 @@
     }
     //加载Form
     function initForm() {
-        var url = pageApi+'accountListSelection';
+        var url = reportApi+'selectionList?type=1';
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
             if(selecttions!="") {
                 initSelections(selecttions);
             }
-            var tixin = data.tixin==null?"":data.tixin;
-            //填充体型选择框
-            if(tixin!="") {
-//                initTixin(tixin);
+            var resultList = data.resultList==null?"":data.resultList;
+            //填充外观选择框
+            if(resultList!="") {
+                initViewName(resultList);
             }
             var info = data.info==null?"":data.info;
             if(info!=""){
@@ -276,9 +282,9 @@
                 layer.load();
                     var cheatType = '';//欺诈类别
                     var belongQf = ''; //涉事区服
-                    var viewName = $('#viewName').val();//
-                    var priceNum = $('#priceNum').val();//
-                    var favorInfo = $('#favorInfo').val();//
+                    var viewName = $('#viewName').val();//外观名
+                    var priceNum = $('#priceNum').val();//价格预期
+                    var favorInfo = $('#favorInfo').val();//其他说明
 
                     //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
                     cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
@@ -292,14 +298,10 @@
                     $('.areaSelect').find('select').each(function () {
                         var text = $(this).find('option:selected').text();
                         if(text.indexOf("请选择")==-1) {
-                            belongQf += text + ',';
+                            belongQf += text ;
                         }
                     });
-                    if(belongQf.length>2) {
-                        belongQf = belongQf.substring(0, belongQf.length - 1);
-                    }else{
-                        belongQf="";
-                    }
+                    //belongQf=trimEnd(belongQf);
                     console.log('开始----------->'+cheatType);
                     console.log('开始----------->'+belongQf);
                     console.log('开始----------->'+viewName);
@@ -311,13 +313,34 @@
                      tradeType=2;
                      }*/
 
+                    //验证
+                    var submit=true;
+                    if($.trim(priceNum).length>0) {
+                        var reg = /^[0-9]*$/;
+                        if(!reg.test(priceNum)){
+                            $('#msg1').text("* 请输入正整数!");
+                            submit=false;
+                        }else{
+                            $('#msg1').text("*");
+                        }
+                    }else{
+                        $('#msg1').text("* 本项不可为空!");
+                        submit=false;
+                    }
+
                     url = reportApi + 'saveWgjyInfo?userId=' + encodeURI(userId)
                         + '&cheatType=' + encodeURI(cheatType)
                         + '&belongQf=' + encodeURI(belongQf)
                         + '&viewName=' + encodeURI(viewName)
                         +'&priceNum=' + encodeURI(priceNum)
                         +'&favorInfo=' + encodeURI(favorInfo);
+
+                if(submit){
                     saveTable(url);
+                }else{
+                    layer.closeAll();
+                }
+
             });
             $('#preview').click(function () {
                 layer.msg('努力开发中……');
@@ -327,5 +350,14 @@
             });
             //initTable();
         });
+
+        function initViewName(data) {
+            //外观名初始数据
+            $.each(data,function (i,value) {
+                var val1 = value.KEYWORD_NAME;
+                $('.viewName').append("  <option value="+val1+">"+val1+"</option> ");
+            });
+            $(".js-example-basic-single").select2();
+        }
     }
 //------------------------------------Function定义 End------------------------------------

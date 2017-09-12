@@ -46,6 +46,29 @@ function initTable(name,keyNum) {
                 }else if(parseInt(value.COLLECT_TYPE)==8){
                     collectType = '代练代打';
                 }
+                var time =timeStamp2String(value.FAVOR_DATE);
+                function timeStamp2String (time){
+                        var datetime = new Date();
+                        datetime.setTime(time);
+                        var year = datetime.getFullYear();
+                        var month = datetime.getMonth() + 1;
+                        var date = datetime.getDate();
+                        var hour =datetime.getHours();
+                        var min = datetime.getMinutes();
+                        if(parseInt(month)<10){
+                            month = '0'+month;
+                        }
+                        if(parseInt(date)<10){
+                            date = '0'+date;
+                        }
+                        if(parseInt(hour)<10){
+                            hour = '0'+hour;
+                        }
+                        if(parseInt(min)<10){
+                            min = '0'+min;
+                        }
+                        return year + "-" + month + "-" + date+' '+hour+":"+min;
+                    };
                 var cont = value.COLLECT_CONT.split('[').join('');
                 cont = cont.split('').join('');
                 $('.table').append("<div class=\"table-tr\">\n" +
@@ -55,7 +78,7 @@ function initTable(name,keyNum) {
                     "                    <div class=\"table-td table_lw\">"+cont+"</div>\n" +
                     "                    <div class=\"table-td warn\">"+value.COLLECT_STUSTA+"人报告失效</div>\n" +
                     "                    <div class=\"table-td\">"+value.COLLECT_DATE+"</div>\n" +
-                    "                    <div class=\"table-td\">"+value.FAVOR_DATE+"</div>\n" +
+                    "                    <div class=\"table-td\">"+time+"</div>\n" +
                     "                  </div>");
             });
         }else{
