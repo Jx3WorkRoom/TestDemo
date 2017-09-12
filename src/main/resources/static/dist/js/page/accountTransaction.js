@@ -330,6 +330,10 @@
                     }else{
                         $('#msg1').text("*");
                     }
+                    if(goldTotal>1000000){
+                        $('#msg1').text("* 金币总量不能超过100万!");
+                        submit=false;
+                    }
                 }else{
                     $('#msg1').text("* 本项不可为空!");
                 }

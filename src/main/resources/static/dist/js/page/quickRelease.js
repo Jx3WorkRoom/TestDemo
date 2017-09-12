@@ -285,8 +285,14 @@
                     var priceNum = $('#priceNum').val();//价格
                     var accoInfo = $('#accoInfo').val();//账号资料
 
-                //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
-
+                    tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                    if(tradeType=="买号"){
+                        tradeType=1;
+                    }else if(tradeType=="卖号"){
+                        tradeType=2;
+                    }else{
+                        tradeType=3;
+                    }
 
                     $('.areaSelect').find('select').each(function () {
                         var text = $(this).find('option:selected').text();
@@ -299,16 +305,12 @@
                     }else{
                         belongQf="";
                     }*/
+                    console.log('开始tradeType----------->'+tradeType);
                     console.log('输出----------->'+userId);
                     console.log('输出----------->'+belongQf);
                     console.log('输出tixin----------->'+tixin);
                     console.log('输出----------->'+priceNum);
                     console.log('输出----------->'+accoInfo);
-                    /*if(tradeType=="求购"){
-                        tradeType=1;
-                    }else{
-                        tradeType=2;
-                    }*/
 
                     //验证
                     var submit=true;
@@ -326,7 +328,8 @@
                     }
 
                     url = reportApi + 'saveZhssInfo?userId=' + encodeURI(userId)
-                        + '&belongQf=' + encodeURI(tixin)
+                        + '&tradeType=' + encodeURI(tradeType)
+                        + '&belongQf=' + encodeURI(belongQf)
                         + '&tixin=' + encodeURI(tixin)
                         +'&priceNum=' + encodeURI(priceNum)
                         +'&accoInfo=' + encodeURI(accoInfo);
