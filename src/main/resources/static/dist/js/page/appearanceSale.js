@@ -143,13 +143,25 @@ function initTable(url,keyNum) {
                     var year = datetime.getFullYear();
                     var month = datetime.getMonth() + 1;
                     var date = datetime.getDate();
+                    var hour = datetime.getHours();
+                    var min = datetime.getMinutes();
+                    var second = datetime.getSeconds();
                     if(parseInt(month)<10){
                         month = '0'+month;
                     }
                     if(parseInt(date)<10){
                         date = '0'+date;
                     }
-                    return year + "-" + month + "-" + date;
+                    if(parseInt(hour)<10){
+                        hour = '0'+hour;
+                    }
+                    if(parseInt(min)<10){
+                        min = '0'+min;
+                    }
+                    if(parseInt(month)<10){
+                        second = '0'+second;
+                    }
+                    return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
                 };
                 time =timeStamp2String(time);
                 var startTime =new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
