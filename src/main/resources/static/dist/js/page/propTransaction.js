@@ -146,7 +146,6 @@
 
     function initTable(username) {
         var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
-        console.log(url);
         $.getJSON(url,function (data) {
             data=data.datas[0]==null?'':data.datas[0];
             if(data!=''){
@@ -188,9 +187,29 @@
         }*/
     }
 
-    //初始欺诈类型
-    function initCheatType(){
-        console.log('3333333333333333');
+    //设置编辑数据
+    function setInfo(info){
+        var dataObj=eval(info);//转换为json对象
+        var obj=eval(dataObj[0]);
+        //var obj = {"datas":[{"RECORD_ID":"f8ed8e53-78b3-4229-b9c6-f9d557b75766","CREATETIME":1505312033000,"UPDATETIME":1505312033000,"ISVALID":1,"FAVOR_ID":122,"USER_ID":4548486,"TRADE_TYPE":1,"BELONG_QF":"[1电点电五梦江南]","PROP_NAME":"大铁瑰石","PRICE_NUM":20000,"FAVOR_INFO":"不刀不刀就不刀","FAVOR_DATE":1505312033000}]}
+
+        var tradeType=obj.TRADE_TYPE;
+        if(tradeType=="1"){
+            tradeType="购买";
+        }else if(tradeType=="2"){
+            tradeType="出售";
+        }
+        $(".nav-pills ul li").parents('.nav-pills').find('.dropdown-toggle').html(tradeType+'<b class="caret"></b>');//欺诈类型
+        $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
+        $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
+        $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
+        //$("#tixin").find("option:selected").text('abc');
+        //$('#tixin').val('abc');//门派体型
+        //alert(obj.TIXIN);
+        //alert( $('#tixin').val(obj.TIXIN));
+        //$(".js-example-basic-single").select2();
+        $('#priceNum').val(obj.PRICE_NUM);//价格预期
+        $('#favorInfo').val(obj.FAVOR_INFO);//其他说明
     }
     //初始区服下拉数据
     function initSelections(selecttions) {
@@ -259,7 +278,8 @@
     }
     //加载Form
     function initForm() {
-        var url = reportApi+'selectionList?type=2';
+        //var url = reportApi+'selectionList?type=2';
+        var url = reportApi+'propTransactionListSelection?type=2&mainId='+getUrlParam('mainId');
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
@@ -272,16 +292,17 @@
                 initPropName(resultList);
             }
             var info = data.info==null?"":data.info;
+
             if(info!=""){
-//                initInfo(info);
+                setInfo(info);
             }
         }).error(function () {
         }).complete(function () {
             $('#save').unbind("click");
             $('#save').click(function () {
                 layer.load();
-                var tradeType = '';//交易类型
-                var belongQf = '1'; //涉事区服
+                var tradeType = '1';//交易类型
+                var belongQf = ''; //涉事区服
                 var propName = $('#propName').val();;//道具名
                 var priceNum = $('#priceNum').val();;//价格
                 var favorInfo = $('#favorInfo').val();;//其他说明
@@ -327,13 +348,78 @@
                     submit=false;
                 }
 
-                url = reportApi + 'saveDjjyInfo?userId=' + encodeURI(userId)
+                url = reportApi + 'saveDjjyInfo?operate=save&userId=' + encodeURI(userId)
                     + '&tradeType=' + encodeURI(tradeType)
                     + '&belongQf=' + encodeURI(belongQf)
                     + '&propName=' + encodeURI(propName)
                     +'&priceNum=' + encodeURI(priceNum)
                     +'&favorInfo=' + encodeURI(favorInfo);
                 
+                if(submit){
+                    saveTable(url);
+                }else{
+                    layer.closeAll();
+                }
+            });
+            $('#upedit').unbind("click");
+            $('#upedit').click(function () {
+                layer.load();
+                var recordId = getUrlParam('mainId');
+                var tradeType = '1';//交易类型
+                var belongQf = ''; //涉事区服
+                var propName = $('#propName').val();;//道具名
+                var priceNum = $('#priceNum').val();;//价格
+                var favorInfo = $('#favorInfo').val();;//其他说明
+
+                tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+
+                if(tradeType=="购买"){
+                    tradeType=1;
+                }else{
+                    tradeType=2;
+                }
+
+                $('.areaSelect').find('select').each(function () {
+                    var text = $(this).find('option:selected').text();
+                    if(text.indexOf("请选择")==-1) {
+                        belongQf += text;
+                    }
+                });
+                /*if(belongQf.length>2) {
+                 belongQf = belongQf.substring(0, belongQf.length - 1);
+                 }else{
+                 belongQf="";
+                 }*/
+                console.log('修改----------->'+recordId);
+                console.log('开始----------->'+tradeType);
+                console.log('开始----------->'+belongQf);
+                console.log('开始----------->'+propName);
+                console.log('开始----------->'+priceNum);
+                console.log('开始----------->'+favorInfo);
+
+                //验证
+                var submit=true;
+                if($.trim(priceNum).length>0) {
+                    var reg = /^[0-9]*$/;
+                    if(!reg.test(priceNum)){
+                        $('#msg1').text("* 请输入正整数!");
+                        submit=false;
+                    }else{
+                        $('#msg1').text("*");
+                    }
+                }else{
+                    $('#msg1').text("* 本项不可为空!");
+                    submit=false;
+                }
+
+                url = reportApi + 'saveDjjyInfo?operate=upedit&userId=' + encodeURI(userId)
+                    + '&favorId=' + getUrlParam('mainId')
+                    + '&tradeType=' + encodeURI(tradeType)
+                    + '&belongQf=' + encodeURI(belongQf)
+                    + '&propName=' + encodeURI(propName)
+                    +'&priceNum=' + encodeURI(priceNum)
+                    +'&favorInfo=' + encodeURI(favorInfo);
+
                 if(submit){
                     saveTable(url);
                 }else{
@@ -358,5 +444,12 @@
             });
             $(".js-example-basic-single").select2();
         }
+    }
+
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
     }
 //------------------------------------Function定义 End------------------------------------

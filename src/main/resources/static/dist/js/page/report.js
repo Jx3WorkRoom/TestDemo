@@ -171,7 +171,7 @@ function initTable(username) {
         cheatType=4;
     }
     //var str = getUrlParam('cheatType');
-    console.log('initTable()----------->'+cheatType);
+
     // function getUrlParam(name) {
     //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
     //     var r = window.location.search.substr(1).match(reg); //匹配目标参数
@@ -188,9 +188,50 @@ function initTable(username) {
      }*/
 }
 
-//初始欺诈类型
-function initCheatType(){
+//设置编辑数据
+function setInfo(info){
+    var dataObj=eval(info);//转换为json对象
+    var obj=eval(dataObj[0]);
+    //var obj = {"datas":[{"RECORD_ID":"dda18db4-b2dd-47cd-83b9-a4a8030244ff","CREATETIME":1505234120000,"UPDATETIME":1505234120000,"ISVALID":1,"FAVOR_ID":99,"USER_ID":4548444,"FAVOR_DATE":1505234120000,"CHEAT_TYPE":3,"BELONG_QF":"[网点网一李忘生]","TIXIN":"[少林]","ROLE_NAME":"aaa","CHEAT_INTRO":"bbb","CHEAT_INFO":"ccc","PAGE_URL":""}]};
+    //alert(eval(dataObj[0]).RECORD_ID);
 
+    //$.each(info.datas, function(k, v){
+    // $.each(dataObj, function(k, v){
+    //         //alert("k=" + k);
+    //         //alert("v=" + v);
+    //
+    //         var temp = "";
+    //        for (var i in v) { //用javascript的for/in循环遍历对象的属性
+    //               temp += i + ":" + v[i] + "\n";
+    //                }
+    //            //alert(obj);  //结果：[object Object]
+    //           //console.log(obj);  //使用firebug查看结果
+    //           alert(temp);   //结果：cid:C0 \n ctext:区县
+    //     });
+
+    var sefont=obj.CHEAT_TYPE;
+    if(sefont=="1"){
+         sefont="账号诈骗";
+    }else if(sefont=="2"){
+         sefont="外观诈骗";
+    }else if(sefont=="3"){
+         sefont="道具诈骗";
+    }else if(sefont=="4"){
+         sefont="金币诈骗";
+    }
+    $(".nav-pills ul li").parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>');//欺诈类型
+    $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
+    $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
+    $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
+    //$("#tixin").find("option:selected").text('abc');
+    //$('#tixin').val('abc');//门派体型
+    //alert(obj.TIXIN);
+    //alert( $('#tixin').val(obj.TIXIN));
+    $(".js-example-basic-single").select2();
+    $('#roleName').val(obj.ROLE_NAME);//角色名
+    $('#cheatIntro').val(obj.CHEAT_INTRO);//被黑经历
+    $('#cheatInfo').val(obj.CHEAT_INFO);//资料信息
+    $('#pageUrl').val(obj.PAGE_URL);//网页链接地址
 }
 //初始区服下拉数据
 function initSelections(selecttions) {
@@ -199,7 +240,6 @@ function initSelections(selecttions) {
     var areaArr = [];
     $.each(selecttions, function (i, value) {
         if (typeArr.indexOf(value.qufu_type) == -1) {
-            console.log(value);
             typeArr.push(value.qufu_type);
         }
     });
@@ -260,21 +300,25 @@ function initSelections(selecttions) {
 }
 //加载Form
 function initForm() {
-    var url = pageApi+'accountListSelection';
+    //var url = pageApi+'accountListSelection';
+    //alert(getUrlParam('mainId'));
+    var url = reportApi+'reportListSelection?mainId='+getUrlParam('mainId');
+
     $.getJSON(url,function (data) {
         var selecttions = data.selecttions==null?"":data.selecttions;
         //填充区域选择框
         if(selecttions!="") {
             initSelections(selecttions);
         }
-        var tixin = data.tixin==null?"":data.tixin;
         //填充体型选择框
-        if(tixin!="") {
-               initTixin(tixin);
+        var tixinList = data.tixinList==null?"":data.tixinList;
+        if(tixinList!="") {
+           initTixin(tixinList);
         }
+        //填充Form
         var info = data.info==null?"":data.info;
         if(info!=""){
-//                initInfo(info);
+            setInfo(info);
         }
     }).error(function () {
     }).complete(function () {
@@ -348,7 +392,95 @@ function initForm() {
                 $('#msg3').text("");
             }
 
-            url = reportApi + 'saveWyjbInfo?userId=' + encodeURI(userId)
+            url = reportApi + 'saveWyjbInfo?operate=save&userId=' + encodeURI(userId)
+                + '&cheatType=' + encodeURI(cheatType)
+                + '&belongQf=' + encodeURI(belongQf)
+                + '&tixin=' + encodeURI(tixin)
+                +'&roleName=' + encodeURI(roleName)
+                +'&cheatIntro=' + encodeURI(cheatIntro)
+                +'&cheatInfo=' + encodeURI(cheatInfo)
+                +'&pageUrl=' + encodeURI(pageUrl);
+
+            if(submit){
+                saveTable(url);
+            }else{
+                layer.closeAll();
+            }
+        });
+        $('#upedit').unbind("click");
+        $('#upedit').click(function () {
+            layer.load();
+            var recordId = getUrlParam('mainId');
+            var cheatType = '1';//欺诈类别
+            var belongQf = ''; //涉事区服
+            var tixin = $('#tixin').val();//门派体型
+            var roleName = $('#roleName').val();//角色名
+            var cheatIntro = $('#cheatIntro').val();//被黑经历
+            var cheatInfo = $('#cheatInfo').val();//资料信息
+            var pageUrl = $('#pageUrl').val();//网页链接地址
+
+            //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
+            cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+            if(cheatType=="账号诈骗"){
+                cheatType=1;
+            }else if(cheatType=="外观诈骗"){
+                cheatType=2;
+            }else if(cheatType=="道具诈骗"){
+                cheatType=3;
+            }else if(cheatType=="金币诈骗"){
+                cheatType=4;
+            }
+
+            $('.areaSelect').find('select').each(function () {
+                var text = $(this).find('option:selected').text();
+                if(text.indexOf("请选择")==-1) {
+                    belongQf += text ;
+                }
+            });
+            //belongQf=trimEnd(belongQf);
+            console.log('修改----------->'+recordId);
+            console.log('输出----------->'+userId);
+            console.log('输出----------->'+cheatType);
+            console.log('输出----------->'+belongQf);
+            console.log('输出tixin----------->'+tixin);
+            console.log('输出----------->'+roleName);
+            console.log('输出----------->'+cheatIntro);
+            console.log('输出----------->'+cheatInfo);
+            console.log('输出----------->'+pageUrl);
+            /*if(tradeType=="求购"){
+             tradeType=1;
+             }else{
+             tradeType=2;
+             }*/
+
+            //验证
+            var submit=true;
+            if($.trim(cheatIntro)==''){
+                $('#msg1').text("* 本项不可为空!");
+                submit=false;
+            }else{
+                $('#msg1').text("*");
+            }
+            if($.trim(cheatInfo)==''){
+                $('#msg2').text("* 本项不可为空!");
+                submit=false;
+            }else{
+                $('#msg2').text("*");
+            }
+            if(pageUrl.length>0){
+                var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+                if (!reg.test(pageUrl)) {
+                    $('#msg3').text("网址不正确，请检查!");
+                    submit=false;
+                }else{
+                    $('#msg3').text("");
+                }
+            }else{
+                $('#msg3').text("");
+            }
+
+            url = reportApi + 'saveWyjbInfo?operate=upedit&userId=' + encodeURI(userId)
+                + '&favorId=' + getUrlParam('mainId')
                 + '&cheatType=' + encodeURI(cheatType)
                 + '&belongQf=' + encodeURI(belongQf)
                 + '&tixin=' + encodeURI(tixin)
@@ -381,4 +513,12 @@ function initForm() {
         $(".js-example-basic-single").select2();
     }
 }
+
+//获取url中的参数
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg); //匹配目标参数
+    if (r != null) return unescape(r[2]); return null; //返回参数值
+}
+
 //------------------------------------Function定义 End------------------------------------
