@@ -58,6 +58,12 @@ function initDetail(favorId) {
             layer.msg("请求数据有误或者数据库并未查询到相关数据!")
         }
     }).complete(function () {
+        //图片加载 失败处理
+        $(".scrollimg img").each(function(){
+            $(this).error(function () {
+                $(this).attr('src', './dist/css/images/nopicture.jpg');
+            });
+        });
         //图片轮播
         $(".scrollimg img").click(function(){
             $(".scrollimg img").removeClass('cur');

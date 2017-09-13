@@ -188,78 +188,150 @@ function initTable() {
         });
         $('.modId').click(function () {
             var modId= $(this).text();
-            var url = api+'modDetail?modId='+encodeURI(modId);
-            $.getJSON(url,function (data) {
-                data = data.datas==null?"":data.datas;
-                if(data!=""){
-                    $('#modDetail').modal('show');
-                    $('.modal-title').text("模块详情");
-                    $('.table2').empty();
-                    $('.table2').append("<div class=\"table-tr tablech1\">\n" +
-                        "                                        <div class=\"table-th table-th3\">页面模块</div>\n" +
-                        "                                        <div class=\"table-th\">功能ID</div>\n" +
-                        "                                        <div class=\"table-th\">功能名称</div>\n" +
-                        "                                        <div class=\"table-th\">付费金额</div>\n" +
-                        "                                        <div class=\"table-th\">可用条数</div>\n" +
-                        "                                        <div class=\"table-th\">启用日期</div>\n" +
-                        "                                        <div class=\"table-th\">操作</div>\n" +
-                        "                                    </div>");
-                    $.each(data,function (i,value) {
-                        var serverCost =value.SERVER_COST==null?'':value.SERVER_COST+'元';
-                        var serverNum = value.SERVER_NUM==null?'':value.SERVER_NUM+'条';
-                        var startDate = value.START_DATE==null?'':value.START_DATE;
-                        startDate = timeStamp2String(startDate);
-                        function timeStamp2String (time){
-                            if(time!="") {
-                                var datetime = new Date();
-                                datetime.setTime(time);
-                                var year = datetime.getFullYear();
-                                var month = datetime.getMonth() + 1;
-                                var date = datetime.getDate();
-                                var hour = datetime.getHours();
-                                var min = datetime.getMinutes();
-                                if (parseInt(month) < 10) {
-                                    month = '0' + month;
-                                }
-                                if (parseInt(date) < 10) {
-                                    date = '0' + date;
-                                }
-                                if (parseInt(hour) < 10) {
-                                    hour = '0' + hour;
-                                }
-                                if (parseInt(min) < 10) {
-                                    min = '0' + min;
-                                }
-                                return year + "-" + month + "-" + date + ' ' + hour + ":" + min;
-                            }else{
-                                return "";
-                            }
-                        };
-                       $('.table2').append("<div class=\"table-tr\">\n" +
-                           "     <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
-                           "     <div class=\"table-td\">"+value.MOD_ID+"</div>\n" +
-                           "     <div class=\"table-td\">"+value.MOD_NAME+"</div>\n" +
-                           "     <div class=\"table-td\">"+serverCost+"</div>\n" +
-                           "     <div class=\"table-td\">"+serverNum+"</div>\n" +
-                           "     <div class=\"table-td\">"+startDate+"</div>\n" +
-                           "     <div class=\"table-td\"><a class='editDetail'>修改</a>" +
-                           "|    <a class='delDetail'>删除</a></div>" +
-                           "                                    </div>")
-                    });
-                }else{
-                    layer.msg("未查到有效数据!");
-                }
-            }).error(function () {
-                layer.msg("未查到有效数据!");
-            }).complete(function () {
-                $('.delDetail').unbind('click');
-                $('.delDetail').click(function () {
-                });
-            });
+            initModDetail(modId);
         });
     });
 }
 
+function initModDetail(modId) {
+    var url = api+'modDetail?modId='+encodeURI(modId);
+    $.getJSON(url,function (data) {
+        data = data.datas==null?"":data.datas;
+        if(data!=""){
+            $('#modDetail').modal('show');
+            $('.modal-title').text("模块详情");
+            $('.table2').empty();
+            $('.table2').append("<div class=\"table-tr tablech1\">\n" +
+                "      <div class=\"table-th table-th3\">页面模块</div>\n" +
+                "      <div class=\"table-th\">功能ID</div>\n" +
+                "      <div class=\"table-th\">功能名称</div>\n" +
+                "      <div class=\"table-th\">付费金额</div>\n" +
+                "      <div class=\"table-th\">可用条数</div>\n" +
+                "      <div class=\"table-th\">启用日期</div>\n" +
+                "      <div class=\"table-th\">操作</div>\n" +
+                "  </div>");
+            $.each(data,function (i,value) {
+                var serverCost =value.SERVER_COST==null?'':value.SERVER_COST+'元';
+                var serverNum = value.SERVER_NUM==null?'':value.SERVER_NUM+'条';
+                var startDate = value.START_DATE==null?'':value.START_DATE;
+                startDate = timeStamp2String(startDate);
+                function timeStamp2String (time){
+                    if(time!="") {
+                        var datetime = new Date();
+                        datetime.setTime(time);
+                        var year = datetime.getFullYear();
+                        var month = datetime.getMonth() + 1;
+                        var date = datetime.getDate();
+                        var hour = datetime.getHours();
+                        var min = datetime.getMinutes();
+                        if (parseInt(month) < 10) {
+                            month = '0' + month;
+                        }
+                        if (parseInt(date) < 10) {
+                            date = '0' + date;
+                        }
+                        if (parseInt(hour) < 10) {
+                            hour = '0' + hour;
+                        }
+                        if (parseInt(min) < 10) {
+                            min = '0' + min;
+                        }
+                        return year + "-" + month + "-" + date + ' ' + hour + ":" + min;
+                    }else{
+                        return "";
+                    }
+                };
+                $('.table2').append("<div class=\"table-tr\">\n" +
+                    "     <div class=\"table-td recordId\" style='display: none'>"+value.RECORD_ID+"</div>\n" +
+                    "     <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
+                    "     <div class=\"table-td\">"+value.MOD_ID+"</div>\n" +
+                    "     <div class=\"table-td\">"+value.MOD_NAME+"</div>\n" +
+                    "     <div class=\"table-td\">"+serverCost+"</div>\n" +
+                    "     <div class=\"table-td\">"+serverNum+"</div>\n" +
+                    "     <div class=\"table-td\">"+startDate+"</div>\n" +
+                    "     <div class=\"table-td\"><a class='editDetail'>修改</a>" +
+                    "|    <a class='delDetail'>删除</a></div>" +
+                    "                                    </div>")
+            });
+        }else{
+            layer.msg("未查到有效数据!");
+        }
+    }).error(function () {
+        layer.msg("未查到有效数据!");
+    }).complete(function () {
+        $('.delDetail').unbind('click');
+        $('.delDetail').click(function () {
+            var recordId = $(this).parent().parent().find('.recordId').text();
+            var url = api+'delMolDetail?recordId='+encodeURI(recordId);
+            $.getJSON(url,function (data) {
+                layer.msg(data.info)
+            }).complete(function () {
+                initModDetail(modId);
+            });
+        });
+        $('.editDetail').unbind('click');;
+        $('.editDetail').click(function () {
+            var recordId = $(this).parent().parent().find('.recordId').text();
+            var th1  = $(this).parent().parent().find('.table-td').eq(1).text();
+            var th2  = $(this).parent().parent().find('.table-td').eq(2).text();
+            var th3  = $(this).parent().parent().find('.table-td').eq(3).text();
+            var th4  = $(this).parent().parent().find('.table-td').eq(4).text();
+            var th5  = $(this).parent().parent().find('.table-td').eq(5).text();
+            $('#addModDetail').modal('show');
+            $('.modal-title3').text("修改模块详情");
+            $('#recordId').text(recordId);
+            $('#BELONG_WEB2').val(th1);
+            $('#MOD_ID2').val(th2);
+            $('#MOD_NAME2').val(th3);
+            $('#costNum').val(parseInt(th4.replace("元","")));
+            $('#canNum').val(parseInt(th5.replace("条","")));
+        });
+
+        $('.moreDetail').unbind('click');
+        $('.moreDetail').click(function () {
+            $('#addModDetail').modal('show');
+            $('.modal-title3').text("新增模块详情");
+            $('#recordId').text("");
+            $('#BELONG_WEB2').val("");
+            $('#MOD_ID2').val("");
+            $('#MOD_NAME2').val("");
+            $('#costNum').val("");
+            $('#canNum').val("");
+        });
+
+        $('#sureBtn2').click(function () {
+            /*
+            * 1:新增
+            * 2:修改
+            */
+            var type = $('.modal-title3').text().indexOf('修改')>-1?2:1;
+            var recordId = $('#recordId').text();
+            var belondWeb = $('#BELONG_WEB2').val();
+            var modId = $('#MOD_ID2').val();
+            var modName = $('#MOD_NAME2').val();
+            var costNum = $('#costNum').val();
+            var canNum = $('#canNum').val();
+            var url = api+'newModDetail?recordId='+encodeURI(recordId)+
+                        '&belondWeb='+encodeURI(belondWeb)+
+                        '&modId='+encodeURI(modId)+
+                        '&modName='+encodeURI(modName)+
+                        '&costNum='+encodeURI(costNum)+
+                        '&canNum='+encodeURI(canNum)+
+                        '&type='+encodeURI(type);
+            $.getJSON(url,function (data) {
+                if(data.info!="") {
+                    layer.msg(data.info)
+                }else{
+                    layer.msg("处理异常!");
+                }
+            }).complete(function () {
+                $('#addModDetail').modal('hide');
+                $('#modDetail').modal('hide');
+            });
+
+        });
+    });
+}
 function initTable1() {
     var url = api+'userManageInfo2';
     layer.load();

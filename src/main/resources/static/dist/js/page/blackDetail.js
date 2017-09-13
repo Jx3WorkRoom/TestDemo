@@ -66,6 +66,12 @@ function initDetail(favorId) {
             }
         });
     }).complete(function () {
+        //图片加载 失败处理
+        $(".scrollimg img").each(function(){
+            $(this).error(function () {
+                $(this).attr('src', './dist/css/images/nopicture.jpg');
+            });
+        });
         //图片轮播
         $(".scrollimg img").click(function(){
             $(".scrollimg img").removeClass('cur');

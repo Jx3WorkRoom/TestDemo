@@ -62,12 +62,13 @@ function initTable(name,keyNum) {
                 cont = cont.replace("STRA_NAME","");
                 cont = cont.replace("PEND_NAME","");
                 var time = timeStamp2String(value.FAVOR_DATE);
+                var stusta =value.COLLECT_STUSTA ==1?"正常":"下架";
                 $('.table').append("<div class=\"table-tr\">\n" +
                     "                    <div class=\"table-td\"><i class=\"icon1\"></i></div>\n" +
                     "                    <div class=\"table-td recordId\" style='display: none'>"+value.RECORD_ID+"</div>\n" +
                     "                    <div class=\"table-td\">"+collectType+"</div>\n" +
-                    "                    <div class=\"table-td table_lw\"><a href='"+pageValueEdit+"'>"+cont+"</a></div>\n" +
-                    "                    <div class=\"table-td\">"+value.COLLECT_STUSTA+"人报告失效</div>\n" +
+                        "                    <div class=\"table-td table_lw\"><a href='"+pageValueEdit+"'>"+cont+"</a></div>\n" +
+                    "                    <div class=\"table-td\">"+stusta+"</div>\n" +
                     "                    <div class=\"table-td\">"+time+"</div>\n" +
                     "                  </div>");
                 function timeStamp2String (time){

@@ -65,7 +65,7 @@
                             <dd><a href="appearanceTransaction.html">外观交易</a></dd>
                             <dd><a href="propTransaction.html">道具交易</a></dd>
                             <dd><a href="accountTransaction.html">金币交易</a></dd>
-                            <dd><a href="accountExchange.html">代练交易</a></dd>
+                            <dd><a href="accountExchange.html">代练代打</a></dd>
                             <dd><a href="quickRelease.html">账号收售快速发布</a></dd>
                             <dd><a href="detailRelease.html">账号收售详细发布</a></dd>
                             <dt>后台管理</dt>
@@ -530,6 +530,51 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade" id="addModDetail" style="top: 40px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <span class="inputtitle"></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title3">新增模块详情</h4>
+            </div>
+            <div class="modal-body">
+                <div class="pop02">
+                    <div class="changecon">
+                        <table width="100%">
+                            <tr>
+                                <td id="recordId" style="display: none;"></td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">页面模块：</td>
+                                <td><input type="text" placeholder="" id="BELONG_WEB2"/></td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">功能ID：</td>
+                                <td><input type="text" placeholder="" id="MOD_ID2"/></td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">功能名称：</td>
+                                <td><input type="text" placeholder="" id="MOD_NAME2"/></td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">付费金额：</td>
+                                <td><input type="number" placeholder="" id="costNum"/>元</td>
+                            </tr>
+                            <tr>
+                                <td class="wr ft1">可用条数：</td>
+                                <td><input type="number" placeholder="" id="canNum"/>条</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="sureBtn2">保存</button>
@@ -539,5 +584,4 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-
 </html>
