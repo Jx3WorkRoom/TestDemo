@@ -13,7 +13,7 @@
     $(function () {
         var username = $('#userName').text();
         $('.last').text(username);
-        initUploader();
+        //initUploader();
         initTable(username);
         initForm();    //初始化Form
     });
@@ -147,7 +147,7 @@
 
     function initTable(username) {
         var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
-        console.log(url);
+
         $.getJSON(url,function (data) {
             data=data.datas[0]==null?'':data.datas[0];
             if(data!=''){
@@ -189,10 +189,30 @@
         }*/
     }
 
-    //初始欺诈类型
-    function initCheatType(){
+//设置编辑数据
+function setInfo(info){
+    var dataObj=eval(info);//转换为json对象
+    var obj=eval(dataObj[0]);
+    //var obj = {"datas":[{"RECORD_ID":"2f6637cc-9e6e-4b76-8ef4-3ce255305afb","CREATETIME":1505375864000,"UPDATETIME":1505375864000,"ISVALID":1,"FAVOR_ID":136,"USER_ID":4548444,"NEED_TYPE":1,"BELONG_QF":"[]","FAVOR_INFO":"","FAVOR_DATE":1505375864000}]};
 
+    var needtype=obj.NEED_TYPE;
+    if(needtype=="1"){
+        needtype="接代练";
+    }else if(needtype=="2"){
+        needtype="找代练";
     }
+    $(".nav-pills ul li").parents('.nav-pills').find('.dropdown-toggle').html(needtype+'<b class="caret"></b>');//欺诈类型
+    $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
+    $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
+    $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
+    //$("#tixin").find("option:selected").text('abc');
+    //$('#tixin').val('abc');//门派体型
+    //alert(obj.TIXIN);
+    //alert( $('#tixin').val(obj.TIXIN));
+    //$(".js-example-basic-single").select2();
+    $('#favorInfo').val(obj.FAVOR_INFO);//代练说明
+}
+
     //初始区服下拉数据
     function initSelections(selecttions) {
         var typeArr = [];
@@ -260,7 +280,9 @@
     }
     //加载Form
     function initForm() {
-        var url = pageApi+'accountListSelection';
+        //var url = pageApi+'accountListSelection';
+        var url = reportApi+'accountExchangeListSelection?mainId='+getUrlParam('mainId');
+
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
@@ -269,18 +291,72 @@
             }
             var tixin = data.tixin==null?"":data.tixin;
             //填充体型选择框
-            if(tixin!="") {
-//                initTixin(tixin);
-            }
+            /*var tixinList = data.tixinList==null?"":data.tixinList;
+            if(tixinList!="") {
+                initTixin(tixinList);
+            }*/
             var info = data.info==null?"":data.info;
             if(info!=""){
-//                initInfo(info);
+                setInfo(info);
             }
     }).error(function () {
     }).complete(function () {
-        $('#save').unbind("click");
-        $('#save').click(function () {
+            $('#save').unbind("click");
+            $('#save').click(function () {
                 layer.load();
+                var needtype = '1';//需求类型
+                var belongQf = ''; //涉事区服
+                var favorInfo = $('#favorInfo').val();;//代练说明
+
+                needtype =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                if(needtype=="接代练"){
+                    needtype=1;
+                }else{
+                    needtype=2;
+                }
+
+                $('.areaSelect').find('select').each(function () {
+                    var text = $(this).find('option:selected').text();
+                    if(text.indexOf("请选择")==-1) {
+                        belongQf += text;
+                    }
+                });
+                /*if(belongQf.length>2) {
+                    belongQf = belongQf.substring(0, belongQf.length - 1);
+                }else{
+                    belongQf="";
+                }*/
+
+                console.log('输出----------->'+needtype);
+                console.log('输出----------->'+belongQf);
+                console.log('输出----------->'+favorInfo);
+
+                //验证
+                var submit=true;
+                if($.trim(favorInfo)==''){
+                    $('#msg1').text("* 本项不可为空!");
+                    submit=false;
+                }else{
+                    $('#msg1').text("*");
+                }
+
+                url = reportApi + 'saveDlddInfo?operate=save&userId=' + encodeURI(userId)
+                    + '&favorId=-1'
+                    + '&needtype=' + encodeURI(needtype)
+                    + '&belongQf=' + encodeURI(belongQf)
+                    + '&favorInfo=' + encodeURI(favorInfo);
+
+                if(submit){
+                    saveTable(url);
+                    uploader.upload();
+                }else{
+                    layer.closeAll();
+                }
+            });
+            $('#upedit').unbind("click");
+            $('#upedit').click(function () {
+                layer.load();
+                var recordId = getUrlParam('mainId');
                 var tradeType = '1';//需求类型
                 var belongQf = ''; //涉事区服
                 var favorInfo = $('#favorInfo').val();;//代练说明
@@ -299,20 +375,36 @@
                     }
                 });
                 /*if(belongQf.length>2) {
-                    belongQf = belongQf.substring(0, belongQf.length - 1);
-                }else{
-                    belongQf="";
-                }*/
+                 belongQf = belongQf.substring(0, belongQf.length - 1);
+                 }else{
+                 belongQf="";
+                 }*/
 
                 console.log('输出----------->'+tradeType);
                 console.log('输出----------->'+belongQf);
                 console.log('输出----------->'+favorInfo);
 
-                url = reportApi + 'saveDlddInfo?userId=' + encodeURI(userId)
+                //验证
+                var submit=true;
+                if($.trim(favorInfo)==''){
+                    $('#msg1').text("* 本项不可为空!");
+                    submit=false;
+                }else{
+                    $('#msg1').text("*");
+                }
+                
+                url = reportApi + 'saveDlddInfo?operate=upedit&userId=' + encodeURI(userId)
+                    + '&favorId=' + getUrlParam('mainId')
                     + '&tradeType=' + encodeURI(tradeType)
                     + '&belongQf=' + encodeURI(belongQf)
                     + '&favorInfo=' + encodeURI(favorInfo);
-                saveTable(url);
+
+                if(submit){
+                    saveTable(url);
+                    uploader.upload();
+                }else{
+                    layer.closeAll();
+                }
             });
             $('#preview').click(function () {
                 layer.msg('努力开发中……');
@@ -323,20 +415,19 @@
             //initTable();
         });
     }
-//------------------------------------Function定义 End------------------------------------
 
-function initUploader() {
+    //------------------------------------上传 Start------------------------------------
     //uploader
     // 初始化Web Uploader
     var $list = $('#fileList'),
-        // 优化retina, 在retina下这个值是2
+    // 优化retina, 在retina下这个值是2
         ratio = window.devicePixelRatio || 1,
 
-        // 缩略图大小
+    // 缩略图大小
         thumbnailWidth = 167 * ratio,
         thumbnailHeight = 99 * ratio,
 
-        // Web Uploader实例
+    // Web Uploader实例
         uploader;
 
     // 初始化Web Uploader
@@ -361,9 +452,9 @@ function initUploader() {
     // 当有文件添加进来的时候
     uploader.on( 'fileQueued', function( file ) {
         var $li = $(
-            '<div id="' + file.id + '" class="file-item thumbnail">' +
-            '<img>' +
-            '</div>'
+                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '</div>'
             ),
             $img = $li.find('img');
 
@@ -423,4 +514,14 @@ function initUploader() {
     $('.uploaderImgs').click(function () {
         uploader.upload();
     });
-}
+
+    //------------------------------------上传 End------------------------------------
+
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+//------------------------------------Function定义 End------------------------------------
+

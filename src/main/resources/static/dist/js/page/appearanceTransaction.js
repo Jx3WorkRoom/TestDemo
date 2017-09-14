@@ -355,6 +355,7 @@ function setInfo(info){
                 }
 
                 url = reportApi + 'saveWgjyInfo?operate=save&userId=' + encodeURI(userId)
+                    + '&favorId=-1'
                     + '&cheatType=' + encodeURI(cheatType)
                     + '&belongQf=' + encodeURI(belongQf)
                     + '&viewName=' + encodeURI(viewName)

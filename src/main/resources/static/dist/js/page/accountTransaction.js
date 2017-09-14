@@ -146,7 +146,7 @@
 
     function initTable(username) {
         var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
-        console.log(url);
+
         $.getJSON(url,function (data) {
             data=data.datas[0]==null?'':data.datas[0];
             if(data!=''){
@@ -171,7 +171,7 @@
             cheatType=4;
         }
         //var str = getUrlParam('cheatType');
-        console.log('initTable()----------->'+cheatType);
+
         // function getUrlParam(name) {
         //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         //     var r = window.location.search.substr(1).match(reg); //匹配目标参数
@@ -188,9 +188,33 @@
         }*/
     }
 
-    //初始欺诈类型
-    function initCheatType(){
+    //设置编辑数据
+    function setInfo(info){
+        var dataObj=eval(info);//转换为json对象
+        var obj=eval(dataObj[0]);
+        //var obj = {"datas":[{"RECORD_ID":"82ff120a-5789-4915-ac9a-af3af3b5aa09","CREATETIME":1505400011000,"UPDATETIME":1505400011000,"ISVALID":1,"FAVOR_ID":137,"USER_ID":4548444,"FAVOR_DATE":1505400011000,"TRADE_TYPE":1,"BELONG_QF":"[电月电二相知莫问]","GOLD_TOTAL":12,"UNIT_PRICE":34,"IF_SPLIT":1,"FAVOR_INFO":"ggg"}]};
+        //alert(eval(dataObj[0]).RECORD_ID);
 
+        var tradeType=obj.TRADE_TYPE;
+        if(tradeType=="1"){
+            tradeType="购买";
+        }else if(tradeType=="2"){
+            tradeType="出售";
+        }
+        $(".nav-pills ul li").parents('.nav-pills').find('.dropdown-toggle').html(tradeType+'<b class="caret"></b>');//欺诈类型
+        $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
+        $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
+        $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
+        //$("#tixin").find("option:selected").text('abc');
+        //$('#tixin').val('abc');//门派体型
+        //alert(obj.TIXIN);
+        //alert( $('#tixin').val(obj.TIXIN));
+        //$(".js-example-basic-single").select2();
+        var ifSplit = obj.IF_SPLIT;
+        $("input[name='ifSplit']:eq("+ifSplit+")").attr("checked",'checked');
+        $('#goldTotal').val(obj.GOLD_TOTAL);//金币总量
+        $('#unitPrice').val(obj.UNIT_PRICE);//单价
+        $('#favorInfo').val(obj.FAVOR_INFO);//其他说明
     }
     //初始区服下拉数据
     function initSelections(selecttions) {
@@ -259,7 +283,9 @@
     }
     //加载Form
     function initForm() {
-        var url = pageApi+'accountListSelection';
+        //var url = pageApi+'accountListSelection';
+
+        var url = reportApi+'accountTransactionListSelection?mainId='+getUrlParam('mainId');
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
@@ -268,12 +294,13 @@
             }
             var tixin = data.tixin==null?"":data.tixin;
             //填充体型选择框
-            if(tixin!="") {
-//                initTixin(tixin);
-            }
+            /*var tixinList = data.tixinList==null?"":data.tixinList;
+            if(tixinList!="") {
+                initTixin(tixinList);
+            }*/
             var info = data.info==null?"":data.info;
             if(info!=""){
-//                initInfo(info);
+                setInfo(info);
             }
     }).error(function () {
     }).complete(function () {
@@ -350,7 +377,97 @@
                     submit=false;
                 }
 
-                url = reportApi + 'saveJbjyInfo?userId=' + encodeURI(userId)
+                url = reportApi + 'saveJbjyInfo?operate=save&userId=' + encodeURI(userId)
+                    + '&favorId=-1'
+                    + '&tradeType=' + encodeURI(tradeType)
+                    + '&belongQf=' + encodeURI(belongQf)
+                    + '&goldTotal=' + encodeURI(goldTotal)
+                    +'&unitPrice=' + encodeURI(unitPrice)
+                    +'&ifSplit=' + encodeURI(ifSplit)
+                    +'&favorInfo=' + encodeURI(favorInfo);
+
+                if(submit){
+                    saveTable(url);
+                }else{
+                    layer.closeAll();
+                }
+            });
+            $('#upedit').unbind("click");
+            $('#upedit').click(function () {
+                layer.load();
+                var recordId = getUrlParam('mainId');
+                var tradeType = '1';//交易类型
+                var belongQf = ''; //涉事区服
+                var goldTotal = $('#goldTotal').val();;//金币总量
+                var unitPrice = $('#unitPrice').val();;//单价
+                var ifSplit = '';//是否可以拆分
+                var favorInfo = $('#favorInfo').val();;//其他说明
+
+                tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                if(tradeType=="收购"){
+                    tradeType=1;
+                }else{
+                    tradeType=2;
+                }
+
+                $('.areaSelect').find('select').each(function () {
+                    var text = $(this).find('option:selected').text();
+                    if(text.indexOf("请选择")==-1) {
+                        belongQf += text;
+                    }
+                });
+                /*if(belongQf.length>2) {
+                 belongQf = belongQf.substring(0, belongQf.length - 1);
+                 }else{
+                 belongQf="";
+                 }*/
+
+                ifSplit = $('input:radio[name="ifSplit"]:checked').val();
+
+                console.log('开始----------->'+tradeType);
+                console.log('开始----------->'+belongQf);
+                console.log('开始----------->'+goldTotal);
+                console.log('开始----------->'+unitPrice);
+                console.log('开始----------->'+ifSplit);
+                console.log('开始----------->'+favorInfo);
+                /*if(tradeType=="求购"){
+                 tradeType=1;
+                 }else{
+                 tradeType=2;
+                 }*/
+
+                //验证
+                var submit=true;
+                if($.trim(goldTotal).length>0) {
+                    var reg = /^[0-9]*$/;
+                    if(!reg.test(goldTotal)){
+                        $('#msg1').text("* 请输入正整数!");
+                        submit=false;
+                    }else{
+                        $('#msg1').text("*");
+                    }
+                    if(goldTotal>1000000){
+                        $('#msg1').text("* 金币总量不能超过100万!");
+                        submit=false;
+                    }
+                }else{
+                    $('#msg1').text("* 本项不可为空!");
+                }
+                if($.trim(unitPrice).length>0) {
+                    var reg = /^[0-9]*$/;
+                    if(!reg.test(unitPrice)){
+                        $('#msg2').text("* 请输入正整数!");
+                        submit=false;
+                    }else{
+                        $('#msg2').text("*");
+                    }
+                }else{
+                    $('#msg2').text("* 本项不可为空!");
+                    submit=false;
+                }
+
+                url = reportApi + 'saveJbjyInfo?operate=upedit&userId=' + encodeURI(userId)
+                    + '&favorId=' + getUrlParam('mainId')
                     + '&tradeType=' + encodeURI(tradeType)
                     + '&belongQf=' + encodeURI(belongQf)
                     + '&goldTotal=' + encodeURI(goldTotal)
@@ -372,5 +489,12 @@
             });
             //initTable();
         });
+    }
+
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
     }
 //------------------------------------Function定义 End------------------------------------

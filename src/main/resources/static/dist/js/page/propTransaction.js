@@ -349,6 +349,7 @@
                 }
 
                 url = reportApi + 'saveDjjyInfo?operate=save&userId=' + encodeURI(userId)
+                    + '&favorId=-1'
                     + '&tradeType=' + encodeURI(tradeType)
                     + '&belongQf=' + encodeURI(belongQf)
                     + '&propName=' + encodeURI(propName)
