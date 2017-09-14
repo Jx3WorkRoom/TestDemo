@@ -98,7 +98,10 @@ function initTable(url,keyNum) {
                 var tradeType = value.TRADE_TYPE==1?"求购":"出售";
                 var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
                 var productIsvalid = value.USER_ISVALID==null?'无':value.USER_ISVALID;
-                var belongOf = replace(value.BELONG_QF);
+                var belongOf = value.BELONG_QF.replace("[", "");
+                belongOf = belongOf.replace("]", "");
+                belongOf = belongOf.split(',')[0];
+                belongOf = replace(belongOf);
                 var username = $('#userName').text();
                 console.log(value.COLL_TYPE);
                 if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {

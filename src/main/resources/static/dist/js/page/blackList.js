@@ -50,14 +50,18 @@ function initTable(url,keyNum) {
             $.each(tableDatas,function (i,value) {
                 var time = sumTime(value.FAVOR_DATE);
                 var username = $('#userName').text();
+                var belongOf = value.BELONG_QF.replace("[", "");
+                belongOf = belongOf.replace("]", "");
+                belongOf = belongOf.split(',')[0];
+                belongOf = replace(belongOf);
                 console.log(value.COLL_TYPE);
                 if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
                     $(".table").append("<div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>" + value.FAVOR_ID + "</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
                         "        <div class=\"table-td\">" + value.PAR_NAME + "</div>\n" +
-                        "       <div class=\"table-td\"><a href=\"blackDetail?favorId=" + value.FAVOR_ID + "\" target='view_window'>" + value.CHEAT_INFO + "</a></div>" +
-                        "              <div class=\"table-td \">" + value.BELONG_QF + "</div>\n" +
+                        "       <div class=\"table-td\"><a href=\"blackDetail?favorId=" + value.FAVOR_ID + "\" target='_blank'>" + value.CHEAT_INFO + "</a></div>" +
+                        "              <div class=\"table-td \">" + belongOf + "</div>\n" +
                         "              <div class=\"table-td\">" + time + "</div>\n" +
                         "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
                         "          </div>");
@@ -66,13 +70,22 @@ function initTable(url,keyNum) {
                         "        <div class=\"table-td main_id\" style='display: none'>" + value.FAVOR_ID + "</div>\n" +
                         "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
                         "        <div class=\"table-td\">" + value.PAR_NAME + "</div>\n" +
-                        "       <div class=\"table-td\"><a href=\"blackDetail?favorId=" + value.FAVOR_ID + "\" target='view_window'>" + value.CHEAT_INFO + "</a></div>" +
-                        "              <div class=\"table-td \">" + value.BELONG_QF + "</div>\n" +
+                        "       <div class=\"table-td\"><a href=\"blackDetail?favorId=" + value.FAVOR_ID + "\" target='_blank'>" + value.CHEAT_INFO + "</a></div>" +
+                        "              <div class=\"table-td \">" + belongOf + "</div>\n" +
                         "              <div class=\"table-td\">" + time + "</div>\n" +
                         "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
                         "          </div>");
                 }
             });
+            function replace(str){
+                str = str.replace("电月","");
+                str = str.replace("电点","");
+                str = str.replace("网点","");
+                str = str.replace("网月","");
+                str = str.replace("双点","");
+                str = str.replace("双月","");
+                return str;
+            }
             //计算上架时间
             function sumTime(time) {
                 function timeStamp2String (time){

@@ -141,7 +141,7 @@ function initTable(url,keyNum) {
                 $(".table").append("<div class=\"table-tr\">\n" +
                     "            <div class=\"table-td\">" + belongOf + "</div>\n" +
                     "            <div class=\"table-td\">" + TIXIN + "</div>\n" +
-                    "            <div class=\"table-td table_lw\"><a href=\"accountDetail?favorId=" + value.FAVOR_ID + "\"  target='view_window'>" + value.REPLY_CONTENT + "</a></div>\n" +
+                    "            <div class=\"table-td table_lw\"><a href=\"accountDetail?favorId=" + value.FAVOR_ID + "\"  target='_blank'>" + value.REPLY_CONTENT + "</a></div>\n" +
                     "            <div class=\"table-td\">" + tradeType + "</div>\n" +
                     "            <div class=\"table-td\">" + price + "</div>\n" +
                     "            <div class=\"table-td\">" + matchingDegree + "</div>\n" +

@@ -101,7 +101,10 @@ function initTable(url,keyNum) {
                 var isSplit = value.IF_SPLIT==1?"可拆分交易":"整单交易";
                 var isValidNum = value.USER_ISVALID==null?'0':value.USER_ISVALID;
                 var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
-                var belongOf = replace(value.BELONG_QF);
+                var belongOf = value.BELONG_QF.replace("[", "");
+                belongOf = belongOf.replace("]", "");
+                belongOf = belongOf.split(',')[0];
+                belongOf = replace(belongOf);
                 var username = $('#userName').text();
                 console.log(value.COLL_TYPE);
                 if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
