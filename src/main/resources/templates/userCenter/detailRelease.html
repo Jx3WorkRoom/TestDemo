@@ -10,12 +10,14 @@
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/base.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/drop.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/css/jx3/user.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/js/uploader/webuploader.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/dist/js/jx3/select2/select2.min.css}">
     <script th:src="@{/dist/js/jx3/jquery.js}"></script>
     <script th:src="@{/dist/js/jx3/bt.js}"></script>
     <script th:src="@{/dist/js/jx3/base.js}"></script>
     <script th:src="@{/dist/js/jx3/dropdown.js}"></script>
         <script th:src="@{/dist/js/jx3/select2/select2.full.min.js}"></script>
+    <script th:src="@{/dist/js/uploader/webuploader.min.js}"></script>
         <script th:src="@{/dist/js/layer/layer.js}"></script>
         <script th:src="@{/dist/js/page/utils.js}"></script>
         <script th:src="@{/dist/js/page/detailRelease.js}"></script>
@@ -34,6 +36,14 @@
     }
     .group>div>div>span{
         width: 25%!important;
+    }
+    .webuploader-pick{
+        padding: 0;
+        background: transparent;
+    }
+    #filePicker>img{margin: 0;padding: 0}
+    .thumbnail{
+        float: left;
     }
 </style>
 <!-- top logo -->
@@ -667,10 +677,12 @@
                               <td colspan="7">
                                   <div class="imglist">
                                       <ul>
-                                          <li class="upload"><img th:src="@{/dist/css/images/jx3/game02.jpg}" width="167" height="99" /><i class="icon1"></i></li>
-                                          <li class="upload"><img th:src="@{/dist/css/images/jx3/game02.jpg}" width="167" height="99" /><i class="icon1"></i></li>
-                                          <li class="upload"><img th:src="@{/dist/css/images/jx3/game02.jpg}" width="167" height="99" /><i class="icon1"></i></li>
-                                          <li class="addimg"><input id="file" type="file"  /><img th:src="@{/dist/css/images/jx3/addimgicon.png}" width="167" height="99" /></li>
+                                          <div id="uploader-demo">
+                                              <!--用来存放item-->
+                                              <div id="fileList" class="uploader-list"></div>
+                                              <li class="addimg"><div id="filePicker"><img th:src="@{/dist/css/images/jx3/addimgicon.png}" width="167" height="99" /></div></li>
+                                              <li><button class="uploaderImgs">上传图片</button></li>
+                                          </div>
                                       </ul>
                                   </div>
                               </td>
@@ -705,13 +717,6 @@ $().ready(function(e) {
     //图片
 	$(".icon1").click(function(){
 		$(this).parents('li').remove()
-	});
-    //页签切换
-	$('.rightcon .title span').click(function(){
-		$(this).addClass('cur').siblings('span').removeClass('cur');
-        var spanindex=$(this).index();
-        var detailGroup=$('.detailGroup .group');
-        $(detailGroup[spanindex]).show().siblings('.group').hide();
 	});
 	$('#addicon').click(function(){
 		var addft=$(this).parent().find('input').val();

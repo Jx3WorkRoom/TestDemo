@@ -188,4 +188,14 @@ public class webAction {
         return "userCenter/userimgs";
     }
 
+    @RequestMapping("/aboutUs")
+    public String aboutUsaction() {
+        return "aboutUs";
+    }
+
+    @RequestMapping("/servicePetorl")
+    public String servicePetorlaction() {
+        return "servicePetorl";
+    }
+
 }

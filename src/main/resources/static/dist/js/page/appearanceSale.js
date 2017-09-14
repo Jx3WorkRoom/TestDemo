@@ -98,7 +98,10 @@ function initTable(url,keyNum) {
                 var tradeType = value.TRADE_TYPE==1?"求购":"出售";
                 var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
                 var productIsvalid = value.USER_ISVALID==null?'无':value.USER_ISVALID;
-                var belongOf = replace(value.BELONG_QF);
+                var belongOf = value.BELONG_QF.replace("[", "");
+                belongOf = belongOf.replace("]", "");
+                belongOf = belongOf.split(',')[0];
+                belongOf = replace(belongOf);
                 var username = $('#userName').text();
                 console.log(value.COLL_TYPE);
                 if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
@@ -143,13 +146,25 @@ function initTable(url,keyNum) {
                     var year = datetime.getFullYear();
                     var month = datetime.getMonth() + 1;
                     var date = datetime.getDate();
+                    var hour = datetime.getHours();
+                    var min = datetime.getMinutes();
+                    var second = datetime.getSeconds();
                     if(parseInt(month)<10){
                         month = '0'+month;
                     }
                     if(parseInt(date)<10){
                         date = '0'+date;
                     }
-                    return year + "-" + month + "-" + date;
+                    if(parseInt(hour)<10){
+                        hour = '0'+hour;
+                    }
+                    if(parseInt(min)<10){
+                        min = '0'+min;
+                    }
+                    if(parseInt(month)<10){
+                        second = '0'+second;
+                    }
+                    return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
                 };
                 time =timeStamp2String(time);
                 var startTime =new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");

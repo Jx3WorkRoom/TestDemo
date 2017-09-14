@@ -101,7 +101,10 @@ function initTable(url,keyNum) {
                 var isSplit = value.IF_SPLIT==1?"可拆分交易":"整单交易";
                 var isValidNum = value.USER_ISVALID==null?'0':value.USER_ISVALID;
                 var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
-                var belongOf = replace(value.BELONG_QF);
+                var belongOf = value.BELONG_QF.replace("[", "");
+                belongOf = belongOf.replace("]", "");
+                belongOf = belongOf.split(',')[0];
+                belongOf = replace(belongOf);
                 var username = $('#userName').text();
                 console.log(value.COLL_TYPE);
                 if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
@@ -150,19 +153,31 @@ function initTable(url,keyNum) {
             //计算上架时间
             function sumTime(time) {
                 if(time!=null) {
-                    function timeStamp2String(time) {
+                    function timeStamp2String (time){
                         var datetime = new Date();
                         datetime.setTime(time);
                         var year = datetime.getFullYear();
                         var month = datetime.getMonth() + 1;
                         var date = datetime.getDate();
-                        if (parseInt(month) < 10) {
-                            month = '0' + month;
+                        var hour = datetime.getHours();
+                        var min = datetime.getMinutes();
+                        var second = datetime.getSeconds();
+                        if(parseInt(month)<10){
+                            month = '0'+month;
                         }
-                        if (parseInt(date) < 10) {
-                            date = '0' + date;
+                        if(parseInt(date)<10){
+                            date = '0'+date;
                         }
-                        return year + "-" + month + "-" + date;
+                        if(parseInt(hour)<10){
+                            hour = '0'+hour;
+                        }
+                        if(parseInt(min)<10){
+                            min = '0'+min;
+                        }
+                        if(parseInt(month)<10){
+                            second = '0'+second;
+                        }
+                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
                     };
                     time = timeStamp2String(time);
                     var startTime = new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
