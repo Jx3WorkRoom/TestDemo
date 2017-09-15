@@ -13,7 +13,7 @@
     $(function () {
         var username = $('#userName').text();
         $('.last').text(username);
-        initUploader();
+        //initUploader();
         initTable(username);
         initForm();    //初始化Form
     });
@@ -189,9 +189,32 @@
         }*/
     }
 
-    //初始欺诈类型
-    function initCheatType(){
+    //设置编辑数据
+    function setInfo(info){
+        var dataObj=eval(info);//转换为json对象
+        var obj=eval(dataObj[0]);
+        //var obj = {"datas":[{"RECORD_ID":"5c56dedb-14b4-4a7b-905d-1a453a233585","CREATETIME":1505363994000,"UPDATETIME":1505363994000,"ISVALID":1,"FAVOR_ID":134,"USER_ID":4548444,"TRADE_TYPE":2,"FAVOR_DATE":1505363994000,"BELONG_QF":"[电月电一长安城]","TIXIN":"[纯阳]","PRICE_NUM":10,"ACCO_INFO":"茜春树暮云 夺"}]};
 
+        var tradeType=obj.TRADE_TYPE;
+        if(tradeType=="1"){
+            tradeType="买号";
+        }else if(tradeType=="2"){
+            tradeType="卖号";
+        }else{
+            tradeType="换号";
+        }
+        $(".nav-pills ul li").parents('.nav-pills').find('.dropdown-toggle').html(tradeType+'<b class="caret"></b>');//欺诈类型
+        $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
+        $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
+        $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
+        //$("#tixin").find("option:selected").text('abc');
+        //$('#tixin').val('abc');//门派体型
+        //alert(obj.TIXIN);
+        //alert( $('#tixin').val(obj.TIXIN));
+        //$(".js-example-basic-single").select2();
+        //$('#tixin').val();//门派体型
+        $('#priceNum').val(obj.PRICE_NUM);//价格
+        $('#accoInfo').val(obj.ACCO_INFO);//账号资料
     }
     //初始区服下拉数据
     function initSelections(selecttions) {
@@ -260,7 +283,9 @@
     }
     //加载Form
     function initForm() {
-        var url = pageApi+'accountListSelection';
+        //var url = pageApi+'accountListSelection';
+        var url = reportApi+'quickReleaseListSelection?mainId='+getUrlParam('mainId');
+
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
             //填充区域选择框
@@ -269,12 +294,13 @@
             }
             var tixin = data.tixin==null?"":data.tixin;
             //填充体型选择框
-            if(tixin!="") {
-               initTixin(tixin);
+            var tixinList = data.tixinList==null?"":data.tixinList;
+            if(tixinList!="") {
+                initTixin(tixinList);
             }
             var info = data.info==null?"":data.info;
             if(info!=""){
-//                initInfo(info);
+                setInfo(info);
             }
         }).error(function () {
         }).complete(function () {
@@ -328,7 +354,8 @@
                         submit=false;
                     }
 
-                    url = reportApi + 'saveZhssInfo?userId=' + encodeURI(userId)
+                    url = reportApi + 'saveZhssInfo?operate=save&userId=' + encodeURI(userId)
+                        + '&favorId=-1' +
                         + '&tradeType=' + encodeURI(tradeType)
                         + '&belongQf=' + encodeURI(belongQf)
                         + '&tixin=' + encodeURI(tixin)
@@ -337,9 +364,77 @@
 
                     if(submit){
                         saveTable(url);
+                        uploader.upload();
                     }else{
                         layer.closeAll();
                     }
+            });
+            $('#upedit').unbind("click");
+            $('#upedit').click(function () {
+                layer.load();
+                var recordId = getUrlParam('mainId');
+                var tradeType = '1';//账号交易类别
+                var belongQf = ''; //涉事区服
+                var tixin = $('#tixin').val();//门派体型
+                var priceNum = $('#priceNum').val();//价格
+                var accoInfo = $('#accoInfo').val();//账号资料
+
+                tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                if(tradeType=="买号"){
+                    tradeType=1;
+                }else if(tradeType=="卖号"){
+                    tradeType=2;
+                }else{
+                    tradeType=3;
+                }
+
+                $('.areaSelect').find('select').each(function () {
+                    var text = $(this).find('option:selected').text();
+                    if(text.indexOf("请选择")==-1) {
+                        belongQf += text;
+                    }
+                });
+                /*if(belongQf.length>2) {
+                 belongQf = belongQf.substring(0, belongQf.length - 1);
+                 }else{
+                 belongQf="";
+                 }*/
+                console.log('开始tradeType----------->'+tradeType);
+                console.log('输出----------->'+userId);
+                console.log('输出----------->'+belongQf);
+                console.log('输出tixin----------->'+tixin);
+                console.log('输出----------->'+priceNum);
+                console.log('输出----------->'+accoInfo);
+
+                //验证
+                var submit=true;
+                if($.trim(priceNum).length>0) {
+                    var reg = /^[0-9]*$/;
+                    if(!reg.test(priceNum)){
+                        $('#msg1').text("* 请输入正整数!");
+                        submit=false;
+                    }else{
+                        $('#msg1').text("*");
+                    }
+                }else{
+                    $('#msg1').text("* 本项不可为空!");
+                    submit=false;
+                }
+
+                url = reportApi + 'saveZhssInfo?operate=upedit&userId=' + encodeURI(userId)
+                    + '&favorId=' + getUrlParam('mainId')
+                    + '&tradeType=' + encodeURI(tradeType)
+                    + '&belongQf=' + encodeURI(belongQf)
+                    + '&tixin=' + encodeURI(tixin)
+                    +'&priceNum=' + encodeURI(priceNum)
+                    +'&accoInfo=' + encodeURI(accoInfo);
+
+                if(submit){
+                    saveTable(url);
+                    uploader.upload();
+                }else{
+                    layer.closeAll();
+                }
             });
             $('#preview').click(function () {
                 layer.msg('努力开发中……');
@@ -358,21 +453,19 @@
             $(".js-example-basic-single").select2();
         }
     }
-//------------------------------------Function定义 End------------------------------------
 
-
-function initUploader() {
+    //------------------------------------上传 Start------------------------------------
     //uploader
     // 初始化Web Uploader
     var $list = $('#fileList'),
-        // 优化retina, 在retina下这个值是2
+    // 优化retina, 在retina下这个值是2
         ratio = window.devicePixelRatio || 1,
 
-        // 缩略图大小
+    // 缩略图大小
         thumbnailWidth = 167 * ratio,
         thumbnailHeight = 99 * ratio,
 
-        // Web Uploader实例
+    // Web Uploader实例
         uploader;
 
     // 初始化Web Uploader
@@ -397,9 +490,9 @@ function initUploader() {
     // 当有文件添加进来的时候
     uploader.on( 'fileQueued', function( file ) {
         var $li = $(
-            '<div id="' + file.id + '" class="file-item thumbnail">' +
-            '<img>' +
-            '</div>'
+                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '</div>'
             ),
             $img = $li.find('img');
 
@@ -459,4 +552,14 @@ function initUploader() {
     $('.uploaderImgs').click(function () {
         uploader.upload();
     });
-}
+
+    //------------------------------------上传 End------------------------------------
+
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+//------------------------------------Function定义 End------------------------------------
+

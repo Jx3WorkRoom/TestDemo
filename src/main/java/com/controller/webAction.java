@@ -198,4 +198,9 @@ public class webAction {
         return "servicePetorl";
     }
 
+    @RequestMapping("/questions")
+    public String questionsaction() {
+        return "questions";
+    }
+
 }

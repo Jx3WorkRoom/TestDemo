@@ -13,7 +13,7 @@ var userId = null;
 $(function () {
     var username = $('#userName').text();
     $('.last').text(username);
-    initUploader();
+    //initUploader();
     initTable(username);
     initForm();    //初始化Form
 });
@@ -147,7 +147,7 @@ function saveTable(url,keyNum) {
 
 function initTable(username) {
     var url = api+'dataAndSecurity/getUserInfo?userName='+encodeURI(username);
-    console.log(url);
+
     $.getJSON(url,function (data) {
         data=data.datas[0]==null?'':data.datas[0];
         if(data!=''){
@@ -172,7 +172,7 @@ function initTable(username) {
         cheatType=4;
     }
     //var str = getUrlParam('cheatType');
-    console.log('initTable()----------->'+cheatType);
+
     // function getUrlParam(name) {
     //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
     //     var r = window.location.search.substr(1).match(reg); //匹配目标参数
@@ -189,9 +189,53 @@ function initTable(username) {
      }*/
 }
 
-//初始欺诈类型
-function initCheatType(){
+//设置编辑数据
+function setInfo(info){
+    var dataObj=eval(info);//转换为json对象
+    var obj=eval(dataObj[0]);
+    //var obj = {"datas":[{"RECORD_ID":"dda18db4-b2dd-47cd-83b9-a4a8030244ff","CREATETIME":1505234120000,"UPDATETIME":1505234120000,"ISVALID":1,"FAVOR_ID":99,"USER_ID":4548444,"FAVOR_DATE":1505234120000,"CHEAT_TYPE":3,"BELONG_QF":"[网点网一李忘生]","TIXIN":"[少林]","ROLE_NAME":"aaa","CHEAT_INTRO":"bbb","CHEAT_INFO":"ccc","PAGE_URL":""}]};
+    //alert(eval(dataObj[0]).RECORD_ID);
 
+    //$.each(info.datas, function(k, v){
+    // $.each(dataObj, function(k, v){
+    //         //alert("k=" + k);
+    //         //alert("v=" + v);
+    //
+    //         var temp = "";
+    //        for (var i in v) { //用javascript的for/in循环遍历对象的属性
+    //               temp += i + ":" + v[i] + "\n";
+    //                }
+    //            //alert(obj);  //结果：[object Object]
+    //           //console.log(obj);  //使用firebug查看结果
+    //           alert(temp);   //结果：cid:C0 \n ctext:区县
+    //     });
+
+    var sefont=obj.CHEAT_TYPE;
+    if(sefont=="1"){
+         sefont="账号诈骗";
+    }else if(sefont=="2"){
+         sefont="外观诈骗";
+    }else if(sefont=="3"){
+         sefont="道具诈骗";
+    }else if(sefont=="4"){
+         sefont="金币诈骗";
+    }
+    $(".nav-pills ul li").parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>');//欺诈类型
+    $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
+    $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
+    $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
+    //$("#tixin").find("option:selected").text('abc');
+    //$('#tixin').val('abc');//门派体型
+    //alert(obj.TIXIN);
+    //alert( $('#tixin').val(obj.TIXIN));
+    //$(".js-example-basic-single").select2();
+    // $(".js-example-basic-single").prepend("<option value='0'>请选择</option>"); //为Select插入一个Option(第一个位置)
+    //$(".js-example-basic-single").get(0).options[0].text('aaaaaaaaaaaaaaaa');
+    $("#tixin").find("option[text='少林']").attr("selected",true);
+    $('#roleName').val(obj.ROLE_NAME);//角色名
+    $('#cheatIntro').val(obj.CHEAT_INTRO);//被黑经历
+    $('#cheatInfo').val(obj.CHEAT_INFO);//资料信息
+    $('#pageUrl').val(obj.PAGE_URL);//网页链接地址
 }
 //初始区服下拉数据
 function initSelections(selecttions) {
@@ -200,7 +244,6 @@ function initSelections(selecttions) {
     var areaArr = [];
     $.each(selecttions, function (i, value) {
         if (typeArr.indexOf(value.qufu_type) == -1) {
-            console.log(value);
             typeArr.push(value.qufu_type);
         }
     });
@@ -261,21 +304,25 @@ function initSelections(selecttions) {
 }
 //加载Form
 function initForm() {
-    var url = pageApi+'accountListSelection';
+    //var url = pageApi+'accountListSelection';
+    //alert(getUrlParam('mainId'));
+    var url = reportApi+'reportListSelection?mainId='+getUrlParam('mainId');
+
     $.getJSON(url,function (data) {
         var selecttions = data.selecttions==null?"":data.selecttions;
         //填充区域选择框
         if(selecttions!="") {
             initSelections(selecttions);
         }
-        var tixin = data.tixin==null?"":data.tixin;
         //填充体型选择框
-        if(tixin!="") {
-               initTixin(tixin);
+        var tixinList = data.tixinList==null?"":data.tixinList;
+        if(tixinList!="") {
+           initTixin(tixinList);
         }
+        //填充Form
         var info = data.info==null?"":data.info;
         if(info!=""){
-//                initInfo(info);
+            setInfo(info);
         }
     }).error(function () {
     }).complete(function () {
@@ -349,7 +396,96 @@ function initForm() {
                 $('#msg3').text("");
             }
 
-            url = reportApi + 'saveWyjbInfo?userId=' + encodeURI(userId)
+            url = reportApi + 'saveWyjbInfo?operate=save&userId=' + encodeURI(userId)
+                + '&favorId=-1'
+                + '&cheatType=' + encodeURI(cheatType)
+                + '&belongQf=' + encodeURI(belongQf)
+                + '&tixin=' + encodeURI(tixin)
+                +'&roleName=' + encodeURI(roleName)
+                +'&cheatIntro=' + encodeURI(cheatIntro)
+                +'&cheatInfo=' + encodeURI(cheatInfo)
+                +'&pageUrl=' + encodeURI(pageUrl);
+            if(submit){
+                saveTable(url);
+                uploader.upload();
+            }else{
+                layer.closeAll();
+            }
+        });
+        $('#upedit').unbind("click");
+        $('#upedit').click(function () {
+            layer.load();
+            var recordId = getUrlParam('mainId');
+            var cheatType = '1';//欺诈类别
+            var belongQf = ''; //涉事区服
+            var tixin = $('#tixin').val();//门派体型
+            var roleName = $('#roleName').val();//角色名
+            var cheatIntro = $('#cheatIntro').val();//被黑经历
+            var cheatInfo = $('#cheatInfo').val();//资料信息
+            var pageUrl = $('#pageUrl').val();//网页链接地址
+
+            //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
+            cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+            if(cheatType=="账号诈骗"){
+                cheatType=1;
+            }else if(cheatType=="外观诈骗"){
+                cheatType=2;
+            }else if(cheatType=="道具诈骗"){
+                cheatType=3;
+            }else if(cheatType=="金币诈骗"){
+                cheatType=4;
+            }
+
+            $('.areaSelect').find('select').each(function () {
+                var text = $(this).find('option:selected').text();
+                if(text.indexOf("请选择")==-1) {
+                    belongQf += text ;
+                }
+            });
+            //belongQf=trimEnd(belongQf);
+            console.log('修改----------->'+recordId);
+            console.log('输出----------->'+userId);
+            console.log('输出----------->'+cheatType);
+            console.log('输出----------->'+belongQf);
+            console.log('输出tixin----------->'+tixin);
+            console.log('输出----------->'+roleName);
+            console.log('输出----------->'+cheatIntro);
+            console.log('输出----------->'+cheatInfo);
+            console.log('输出----------->'+pageUrl);
+            /*if(tradeType=="求购"){
+             tradeType=1;
+             }else{
+             tradeType=2;
+             }*/
+
+            //验证
+            var submit=true;
+            if($.trim(cheatIntro)==''){
+                $('#msg1').text("* 本项不可为空!");
+                submit=false;
+            }else{
+                $('#msg1').text("*");
+            }
+            if($.trim(cheatInfo)==''){
+                $('#msg2').text("* 本项不可为空!");
+                submit=false;
+            }else{
+                $('#msg2').text("*");
+            }
+            if(pageUrl.length>0){
+                var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+                if (!reg.test(pageUrl)) {
+                    $('#msg3').text("网址不正确，请检查!");
+                    submit=false;
+                }else{
+                    $('#msg3').text("");
+                }
+            }else{
+                $('#msg3').text("");
+            }
+
+            url = reportApi + 'saveWyjbInfo?operate=upedit&userId=' + encodeURI(userId)
+                + '&favorId=' + getUrlParam('mainId')
                 + '&cheatType=' + encodeURI(cheatType)
                 + '&belongQf=' + encodeURI(belongQf)
                 + '&tixin=' + encodeURI(tixin)
@@ -360,6 +496,7 @@ function initForm() {
 
             if(submit){
                 saveTable(url);
+                uploader.upload();
             }else{
                 layer.closeAll();
             }
@@ -381,21 +518,19 @@ function initForm() {
         });
         $(".js-example-basic-single").select2();
     }
-}
-//------------------------------------Function定义 End------------------------------------
 
-function initUploader() {
+    //------------------------------------上传 Start------------------------------------
     //uploader
     // 初始化Web Uploader
     var $list = $('#fileList'),
-        // 优化retina, 在retina下这个值是2
+    // 优化retina, 在retina下这个值是2
         ratio = window.devicePixelRatio || 1,
 
-        // 缩略图大小
+    // 缩略图大小
         thumbnailWidth = 167 * ratio,
         thumbnailHeight = 99 * ratio,
 
-        // Web Uploader实例
+    // Web Uploader实例
         uploader;
 
     // 初始化Web Uploader
@@ -420,9 +555,9 @@ function initUploader() {
     // 当有文件添加进来的时候
     uploader.on( 'fileQueued', function( file ) {
         var $li = $(
-            '<div id="' + file.id + '" class="file-item thumbnail">' +
-            '<img>' +
-            '</div>'
+                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '</div>'
             ),
             $img = $li.find('img');
 
@@ -482,4 +617,116 @@ function initUploader() {
     $('.uploaderImgs').click(function () {
         uploader.upload();
     });
+
+    //------------------------------------上传 End------------------------------------
 }
+
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+
+//------------------------------------Function定义 End------------------------------------
+
+/*
+function initUploader() {
+    //uploader
+    // 初始化Web Uploader
+    var $list = $('#fileList'),
+    // 优化retina, 在retina下这个值是2
+        ratio = window.devicePixelRatio || 1,
+
+    // 缩略图大小
+        thumbnailWidth = 167 * ratio,
+        thumbnailHeight = 99 * ratio,
+
+    // Web Uploader实例
+        uploader;
+
+    // 初始化Web Uploader
+    uploader = WebUploader.create({
+        // 自动上传。
+        auto: false,
+        // swf文件路径
+        swf:  './dist/js/uploader/Uploader.swf',
+        // 文件接收服务端。
+        server: api+'uploaderImgs',
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#filePicker',
+        // 只允许选择文件，可选。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/jpg,image/jpeg,image/png'//这里默认是 image/!*,但是会导致很慢
+        }
+    });
+
+    // 当有文件添加进来的时候
+    uploader.on( 'fileQueued', function( file ) {
+        var $li = $(
+                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '</div>'
+            ),
+            $img = $li.find('img');
+
+        $list.append( $li );
+
+        // 创建缩略图
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+
+            $img.attr( 'src', src );
+        }, thumbnailWidth, thumbnailHeight );
+    });
+
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+        var $li = $( '#'+file.id ),
+            $percent = $li.find('.progress span');
+
+        // 避免重复创建
+        if ( !$percent.length ) {
+            $percent = $('<p class="progress"><span></span></p>')
+                .appendTo( $li )
+                .find('span');
+        }
+
+        $percent.css( 'width', percentage * 100 + '%' );
+    });
+
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on( 'uploadSuccess', function( file,response) {
+        $( '#'+file.id ).addClass('upload-state-done');
+        //console.log(response);输出
+        $('#file_name').prop("value", response.data);
+    });
+
+    // 文件上传失败，现实上传出错。
+    uploader.on( 'uploadError', function( file ) {
+        var $li = $( '#'+file.id ),
+            $error = $li.find('div.error');
+
+        // 避免重复创建
+        if ( !$error.length ) {
+            $error = $('<div class="error"></div>').appendTo( $li );
+        }
+
+        $error.text('上传失败');
+    });
+
+    // 完成上传完了，成功或者失败，先删除进度条。
+    uploader.on( 'uploadComplete', function( file ) {
+        $( '#'+file.id ).find('.progress').remove();
+    });
+
+    $('.uploaderImgs').click(function () {
+        uploader.upload();
+    });
+}*/
