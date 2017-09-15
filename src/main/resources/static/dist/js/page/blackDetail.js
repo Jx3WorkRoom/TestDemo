@@ -23,13 +23,26 @@ function initDetail(favorId) {
             if(data!=""){
                 $('.mt15').empty();
                 var cheatType = value.PAR_NAME;
+                var belongOf = value.BELONG_QF.replace("[", "");
+                belongOf = belongOf.replace("]", "");
+                belongOf = belongOf.split(',')[0];
+                belongOf = replace(belongOf);
+                function replace(str){
+                    str = str.replace("电月","");
+                    str = str.replace("电点","");
+                    str = str.replace("网点","");
+                    str = str.replace("网月","");
+                    str = str.replace("双点","");
+                    str = str.replace("双月","");
+                    return str;
+                }
                 $('.mt15').append("<tr>\n" +
                     "                         <td align=\"right\" class=\"wr ft1\">欺诈类型：</td>\n" +
                     "                         <td colspan=\"7\">"+cheatType+"</td>\n" +
                     "                     </tr>\n" +
                     "                     <tr>\n" +
                     "                         <td align=\"right\" class=\"wr ft1\">涉事区服：</td>\n" +
-                    "                         <td colspan=\"7\">"+value.BELONG_QF+"</td>\n" +
+                    "                         <td colspan=\"7\">"+belongOf+"</td>\n" +
                     "                     </tr>\n" +
                     "                     <tr>\n" +
                     "                         <td align=\"right\" class=\"wr ft1\">门派体型：</td>\n" +
