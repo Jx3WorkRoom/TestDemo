@@ -1,4 +1,5 @@
 // JavaScript Document
+var refreshNum = 0;
 $(document).ready(function(e) {
     var userRole =null;
     var username = $('#userName').text();

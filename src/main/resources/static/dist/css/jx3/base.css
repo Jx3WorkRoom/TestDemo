@@ -134,7 +134,7 @@ html {font-size: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;
 .logininput2{ background:url(../images/jx3/logintitle.png) top no-repeat; width:420px; height:370px; overflow:hidden}
 .leftimg{ width:510px; height:370px}
 .leftimg img{ width:510px!important; height:370px!important}
-.logininput2{ border-right:1px solid #e0dddd;border-left:1px solid #e0dddd; border-bottom:1px solid #e0dddd;width:418px; height:280px; padding-top:89px;}
+.logininput2{ border-right:1px solid #e0dddd;border-left:1px solid #e0dddd; border-bottom:1px solid #e0dddd;width:418px; height:340px; padding-top:89px;}
 .getcodetime{ border-radius:6px; background:#bcbcbc; font-size:12px; height:28px; line-height:28px; width:100px; text-align:center; color:#fff; display:inline-block}
 .codebtn{ border-radius:6px; background:#fc8453; cursor:pointer; font-size:12px; height:28px; line-height:28px; padding:0 15px; text-align:center; color:#fff; display:inline-block}
 .show0{ display:block}

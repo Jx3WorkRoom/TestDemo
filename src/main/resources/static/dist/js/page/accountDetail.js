@@ -25,7 +25,7 @@ function initDetail(favorId) {
                 $('.account').append(value.REPLY_CONTENT);
                 mainId = value.MAIN_ID==null?1:value.MAIN_ID;
                 if(mainId==1){
-                    window.location.reload();
+                    // window.location.reload();
                 }
                 replyTime = value.REPLY_TIME==null?"":value.REPLY_TIME;
                 sourceType =value.SOURCE_TYPE==null?1:value.SOURCE_TYPE;
@@ -221,8 +221,35 @@ function initDetail(favorId) {
                             "                        <td align=\"center\"  valign=\"middle\" bgcolor=\"#ccc\" width=\"150px\" height=\"30\">贴吧楼层</td>\n" +
                             "                    </tr>");
                         $.each(data, function (i, value) {
+                            function timeStamp2String (time){
+                                var datetime = new Date();
+                                datetime.setTime(time);
+                                var year = datetime.getFullYear();
+                                var month = datetime.getMonth() + 1;
+                                var date = datetime.getDate();
+                                var hour = datetime.getHours();
+                                var min = datetime.getMinutes();
+                                var second = datetime.getSeconds();
+                                if(parseInt(month)<10){
+                                    month = '0'+month;
+                                }
+                                if(parseInt(date)<10){
+                                    date = '0'+date;
+                                }
+                                if(parseInt(hour)<10){
+                                    hour = '0'+hour;
+                                }
+                                if(parseInt(min)<10){
+                                    min = '0'+min;
+                                }
+                                if(parseInt(month)<10){
+                                    second = '0'+second;
+                                }
+                                return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
+                            };
+                            var time = timeStamp2String(value.REPLY_TIME);
                             $('#source1').append("<tr>\n" +
-                                "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.REPLY_TIME + "</td>\n" +
+                                "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + time + "</td>\n" +
                                 "                        <td align=\"center\"  valign=\"middle\" width=\"300x\" height=\"30\" class='sourceHref'><a href='" + value.PAGE_URL + "' target='_blank'>" + value.PAGE_URL + "</a></td>\n" +
                                 "                        <td align=\"center\"  valign=\"middle\" width=\"150px\" height=\"30\">" + value.BELONG_FLOOR + "</td>\n" +
                                 "                    </tr>")
