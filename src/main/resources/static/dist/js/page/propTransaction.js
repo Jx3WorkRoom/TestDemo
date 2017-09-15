@@ -203,11 +203,11 @@
         $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
         $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
         $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
-        //$("#tixin").find("option:selected").text('abc');
-        //$('#tixin').val('abc');//门派体型
-        //alert(obj.TIXIN);
-        //alert( $('#tixin').val(obj.TIXIN));
-        //$(".js-example-basic-single").select2();
+
+        var propName=$("#propName").select2();
+        propName.val(obj.PROP_NAME).trigger("change");
+        propName.change();
+
         $('#priceNum').val(obj.PRICE_NUM);//价格预期
         $('#favorInfo').val(obj.FAVOR_INFO);//其他说明
     }

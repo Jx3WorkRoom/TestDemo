@@ -224,14 +224,11 @@ function setInfo(info){
     $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
     $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
     $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
-    //$("#tixin").find("option:selected").text('abc');
-    //$('#tixin').val('abc');//门派体型
-    //alert(obj.TIXIN);
-    //alert( $('#tixin').val(obj.TIXIN));
-    //$(".js-example-basic-single").select2();
-    // $(".js-example-basic-single").prepend("<option value='0'>请选择</option>"); //为Select插入一个Option(第一个位置)
-    //$(".js-example-basic-single").get(0).options[0].text('aaaaaaaaaaaaaaaa');
-    $("#tixin").find("option[text='少林']").attr("selected",true);
+
+    var tixin=$("#tixin").select2();
+    tixin.val(obj.TIXIN.substring(1,obj.TIXIN.length-1)).trigger("change");
+    tixin.change();
+
     $('#roleName').val(obj.ROLE_NAME);//角色名
     $('#cheatIntro').val(obj.CHEAT_INTRO);//被黑经历
     $('#cheatInfo').val(obj.CHEAT_INFO);//资料信息

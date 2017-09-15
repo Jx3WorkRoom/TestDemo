@@ -205,11 +205,11 @@ function setInfo(info){
     $("#pre").find("option:selected").text(obj.BELONG_QF.substring(1,3));
     $("#city").find("option:selected").text(obj.BELONG_QF.substring(3,5));
     $("#area").find("option:selected").text(obj.BELONG_QF.substring(5,obj.BELONG_QF.length-1));
-    //$("#tixin").find("option:selected").text('abc');
-    //$('#tixin').val('abc');//门派体型
-    //alert(obj.TIXIN);
-    //alert( $('#tixin').val(obj.TIXIN));
-    //$(".js-example-basic-single").select2();
+
+    /*var tixin=$("#tixin").select2();
+    tixin.val(obj.TIXIN.substring(1,obj.TIXIN.length-1)).trigger("change");
+    tixin.change();*/
+
     $('#favorInfo').val(obj.FAVOR_INFO);//代练说明
 }
 
@@ -392,7 +392,7 @@ function setInfo(info){
                 }else{
                     $('#msg1').text("*");
                 }
-                
+
                 url = reportApi + 'saveDlddInfo?operate=upedit&userId=' + encodeURI(userId)
                     + '&favorId=' + getUrlParam('mainId')
                     + '&tradeType=' + encodeURI(tradeType)
