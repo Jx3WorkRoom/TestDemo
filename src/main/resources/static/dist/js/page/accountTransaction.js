@@ -186,6 +186,28 @@
             var sefont=$(".nav-pills ul li").eq(1).find('a').text();
             $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
         }*/
+
+        if(getUrlParam('mainId')==null){
+            $("#upedit").hide();    //隐藏更新按钮
+        }else{
+            $("#save").hide();      //隐藏保存按钮
+        }
+
+        $('#preview').click(function () {
+            layer.msg('努力开发中……');
+        });
+        $('#cancel').click(function () {
+            //信息框
+            layer.msg('未编辑完，确定取消吗？', {
+                time: 0 //不自动关闭
+                ,btn: ['确定', '取消']
+                ,yes: function(index){
+                    layer.close(index);
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                }
+            });
+        });
     }
 
     //设置编辑数据
@@ -402,106 +424,94 @@
             });
             $('#upedit').unbind("click");
             $('#upedit').click(function () {
-                // layer.load();
-                // var recordId = getUrlParam('mainId');
-                // var tradeType = '1';//交易类型
-                // var belongQf = ''; //涉事区服
-                // var goldTotal = $('#goldTotal').val();;//金币总量
-                // var unitPrice = $('#unitPrice').val();;//单价
-                // var ifSplit = '';//是否可以拆分
-                // var favorInfo = $('#favorInfo').val();;//其他说明
-                //
-                // tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                // if(tradeType=="收购"){
-                //     tradeType=1;
-                // }else{
-                //     tradeType=2;
-                // }
-                //
-                // $('.areaSelect').find('select').each(function () {
-                //     var text = $(this).find('option:selected').text();
-                //     if(text.indexOf("请选择")==-1) {
-                //         belongQf += text;
-                //     }
-                // });
-                // /*if(belongQf.length>2) {
-                //  belongQf = belongQf.substring(0, belongQf.length - 1);
-                //  }else{
-                //  belongQf="";
-                //  }*/
-                //
-                // ifSplit = $('input:radio[name="ifSplit"]:checked').val();
-                //
-                // console.log('开始----------->'+tradeType);
-                // console.log('开始----------->'+belongQf);
-                // console.log('开始----------->'+goldTotal);
-                // console.log('开始----------->'+unitPrice);
-                // console.log('开始----------->'+ifSplit);
-                // console.log('开始----------->'+favorInfo);
-                // /*if(tradeType=="求购"){
-                //  tradeType=1;
-                //  }else{
-                //  tradeType=2;
-                //  }*/
-                //
-                // //验证
-                // var submit=true;
-                // if($.trim(goldTotal).length>0) {
-                //     var reg = /^[0-9]*$/;
-                //     if(!reg.test(goldTotal)){
-                //         $('#msg1').text("* 请输入正整数!");
-                //         submit=false;
-                //     }else{
-                //         $('#msg1').text("*");
-                //     }
-                //     if(goldTotal>1000000){
-                //         $('#msg1').text("* 金币总量不能超过100万!");
-                //         submit=false;
-                //     }
-                // }else{
-                //     $('#msg1').text("* 本项不可为空!");
-                // }
-                // if($.trim(unitPrice).length>0) {
-                //     var reg = /^[0-9]*$/;
-                //     if(!reg.test(unitPrice)){
-                //         $('#msg2').text("* 请输入正整数!");
-                //         submit=false;
-                //     }else{
-                //         $('#msg2').text("*");
-                //     }
-                // }else{
-                //     $('#msg2').text("* 本项不可为空!");
-                //     submit=false;
-                // }
-                //
-                // url = reportApi + 'saveJbjyInfo?operate=upedit&userId=' + encodeURI(userId)
-                //     + '&favorId=' + getUrlParam('mainId')
-                //     + '&tradeType=' + encodeURI(tradeType)
-                //     + '&belongQf=' + encodeURI(belongQf)
-                //     + '&goldTotal=' + encodeURI(goldTotal)
-                //     +'&unitPrice=' + encodeURI(unitPrice)
-                //     +'&ifSplit=' + encodeURI(ifSplit)
-                //     +'&favorInfo=' + encodeURI(favorInfo);
-                //
-                // if(submit){
-                //     saveTable(url);
-                // }else{
-                //     layer.closeAll();
-                // }
-                $('.dropdown-menu li').removeClass('disabled');
-                $('.areaSelect select').removeAttr('disabled');
-                $('.viewName').removeAttr('disabled');
-                $('#goldTotal').removeAttr('disabled');
-                $('#unitPrice').removeAttr('disabled');
-                $('input[name="ifSplit"]').removeAttr('disabled');
-                $('#favorInfo').removeAttr('disabled');
+                layer.load();
+                var recordId = getUrlParam('mainId');
+                var tradeType = '1';//交易类型
+                var belongQf = ''; //涉事区服
+                var goldTotal = $('#goldTotal').val();;//金币总量
+                var unitPrice = $('#unitPrice').val();;//单价
+                var ifSplit = '';//是否可以拆分
+                var favorInfo = $('#favorInfo').val();;//其他说明
+
+                tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                if(tradeType=="收购"){
+                    tradeType=1;
+                }else{
+                    tradeType=2;
+                }
+
+                $('.areaSelect').find('select').each(function () {
+                    var text = $(this).find('option:selected').text();
+                    if(text.indexOf("请选择")==-1) {
+                        belongQf += text;
+                    }
+                });
+                /*if(belongQf.length>2) {
+                 belongQf = belongQf.substring(0, belongQf.length - 1);
+                 }else{
+                 belongQf="";
+                 }*/
+
+                ifSplit = $('input:radio[name="ifSplit"]:checked').val();
+
+                console.log('开始----------->'+tradeType);
+                console.log('开始----------->'+belongQf);
+                console.log('开始----------->'+goldTotal);
+                console.log('开始----------->'+unitPrice);
+                console.log('开始----------->'+ifSplit);
+                console.log('开始----------->'+favorInfo);
+                /*if(tradeType=="求购"){
+                 tradeType=1;
+                 }else{
+                 tradeType=2;
+                 }*/
+
+                //验证
+                var submit=true;
+                if($.trim(goldTotal).length>0) {
+                    var reg = /^[0-9]*$/;
+                    if(!reg.test(goldTotal)){
+                        $('#msg1').text("* 请输入正整数!");
+                        submit=false;
+                    }else{
+                        $('#msg1').text("*");
+                    }
+                    if(goldTotal>1000000){
+                        $('#msg1').text("* 金币总量不能超过100万!");
+                        submit=false;
+                    }
+                }else{
+                    $('#msg1').text("* 本项不可为空!");
+                }
+                if($.trim(unitPrice).length>0) {
+                    var reg = /^[0-9]*$/;
+                    if(!reg.test(unitPrice)){
+                        $('#msg2').text("* 请输入正整数!");
+                        submit=false;
+                    }else{
+                        $('#msg2').text("*");
+                    }
+                }else{
+                    $('#msg2').text("* 本项不可为空!");
+                    submit=false;
+                }
+
+                url = reportApi + 'saveJbjyInfo?operate=upedit&userId=' + encodeURI(userId)
+                    + '&favorId=' + getUrlParam('mainId')
+                    + '&tradeType=' + encodeURI(tradeType)
+                    + '&belongQf=' + encodeURI(belongQf)
+                    + '&goldTotal=' + encodeURI(goldTotal)
+                    +'&unitPrice=' + encodeURI(unitPrice)
+                    +'&ifSplit=' + encodeURI(ifSplit)
+                    +'&favorInfo=' + encodeURI(favorInfo);
+
+                if(submit){
+                    saveTable(url);
+                }else{
+                    layer.closeAll();
+                }
             });
-            $('#preview').click(function () {
-                layer.msg('努力开发中……');
-            });
-            $('#cancel').click(function () {
-                layer.msg('努力开发中……');
-            });
+
             //initTable();
         });
     }

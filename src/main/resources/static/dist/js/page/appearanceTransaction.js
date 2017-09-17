@@ -186,6 +186,28 @@
             var sefont=$(".nav-pills ul li").eq(1).find('a').text();
             $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
         }*/
+
+        if(getUrlParam('mainId')==null){
+            $("#upedit").hide();    //隐藏更新按钮
+        }else{
+            $("#save").hide();      //隐藏保存按钮
+        }
+
+        $('#preview').click(function () {
+            layer.msg('努力开发中……');
+        });
+        $('#cancel').click(function () {
+            //信息框
+            layer.msg('未编辑完，确定取消吗？', {
+                time: 0 //不自动关闭
+                ,btn: ['确定', '取消']
+                ,yes: function(index){
+                    layer.close(index);
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                }
+            });
+        });
     }
 
 //设置编辑数据
@@ -378,85 +400,74 @@ function setInfo(info){
             });
             $('#upedit').unbind("click");
             $('#upedit').click(function () {
-                //     layer.load();
-                //     var recordId = getUrlParam('mainId');
-                //     var cheatType = '';//欺诈类别
-                //     var belongQf = ''; //涉事区服
-                //     var viewName = $('#viewName').val();//外观名
-                //     var priceNum = $('#priceNum').val();//价格预期
-                //     var favorInfo = $('#favorInfo').val();//其他说明
-                //
-                //     //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
-                //     cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                //
-                //     if(cheatType=="购买"){
-                //         cheatType=1;
-                //     }else{
-                //         cheatType=2;
-                //     }
-                //
-                //     $('.areaSelect').find('select').each(function () {
-                //         var text = $(this).find('option:selected').text();
-                //         if(text.indexOf("请选择")==-1) {
-                //             belongQf += text ;
-                //         }
-                //     });
-                //     //belongQf=trimEnd(belongQf);
-                //     console.log('修改----------->'+recordId);
-                //     console.log('开始----------->'+cheatType);
-                //     console.log('开始----------->'+belongQf);
-                //     console.log('开始----------->'+viewName);
-                //     console.log('开始----------->'+priceNum);
-                //     console.log('开始----------->'+favorInfo);
-                //     /*if(tradeType=="求购"){
-                //      tradeType=1;
-                //      }else{
-                //      tradeType=2;
-                //      }*/
-                //
-                //     //验证
-                //     var submit=true;
-                //     if($.trim(priceNum).length>0) {
-                //         var reg = /^[0-9]*$/;
-                //         if(!reg.test(priceNum)){
-                //             $('#msg1').text("* 请输入正整数!");
-                //             submit=false;
-                //         }else{
-                //             $('#msg1').text("*");
-                //         }
-                //     }else{
-                //         $('#msg1').text("* 本项不可为空!");
-                //         submit=false;
-                //     }
-                //
-                //     url = reportApi + 'saveWgjyInfo?operate=upedit&userId=' + encodeURI(userId)
-                //         + '&favorId=' + getUrlParam('mainId')
-                //         + '&cheatType=' + encodeURI(cheatType)
-                //         + '&belongQf=' + encodeURI(belongQf)
-                //         + '&viewName=' + encodeURI(viewName)
-                //         +'&priceNum=' + encodeURI(priceNum)
-                //         +'&favorInfo=' + encodeURI(favorInfo);
-                //
-                //     if(submit){
-                //         saveTable(url);
-                //     }else{
-                //         layer.closeAll();
-                //     }
-                //
-                // });
-                // $('#preview').click(function () {
-                //     layer.msg('努力开发中……');
-                // });
-                // $('#cancel').click(function () {
-                //     layer.msg('努力开发中……');
-                // });
-                // //initTable();
-                $('.dropdown-menu li').removeClass('disabled');
-                $('.areaSelect select').removeAttr('disabled');
-                $('.viewName').removeAttr('disabled');
-                $('#priceNum').removeAttr('disabled');
-                $('#favorInfo').removeAttr('disabled');
+                layer.load();
+                var recordId = getUrlParam('mainId');
+                var cheatType = '';//欺诈类别
+                var belongQf = ''; //涉事区服
+                var viewName = $('#viewName').val();//外观名
+                var priceNum = $('#priceNum').val();//价格预期
+                var favorInfo = $('#favorInfo').val();//其他说明
+
+                //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
+                cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+
+                if(cheatType=="购买"){
+                    cheatType=1;
+                }else{
+                    cheatType=2;
+                }
+
+                $('.areaSelect').find('select').each(function () {
+                    var text = $(this).find('option:selected').text();
+                    if(text.indexOf("请选择")==-1) {
+                        belongQf += text ;
+                    }
+                });
+                //belongQf=trimEnd(belongQf);
+                console.log('修改----------->'+recordId);
+                console.log('开始----------->'+cheatType);
+                console.log('开始----------->'+belongQf);
+                console.log('开始----------->'+viewName);
+                console.log('开始----------->'+priceNum);
+                console.log('开始----------->'+favorInfo);
+                /*if(tradeType=="求购"){
+                 tradeType=1;
+                 }else{
+                 tradeType=2;
+                 }*/
+
+                //验证
+                var submit=true;
+                if($.trim(priceNum).length>0) {
+                    var reg = /^[0-9]*$/;
+                    if(!reg.test(priceNum)){
+                        $('#msg1').text("* 请输入正整数!");
+                        submit=false;
+                    }else{
+                        $('#msg1').text("*");
+                    }
+                }else{
+                    $('#msg1').text("* 本项不可为空!");
+                    submit=false;
+                }
+
+                url = reportApi + 'saveWgjyInfo?operate=upedit&userId=' + encodeURI(userId)
+                    + '&favorId=' + getUrlParam('mainId')
+                    + '&cheatType=' + encodeURI(cheatType)
+                    + '&belongQf=' + encodeURI(belongQf)
+                    + '&viewName=' + encodeURI(viewName)
+                    +'&priceNum=' + encodeURI(priceNum)
+                    +'&favorInfo=' + encodeURI(favorInfo);
+
+                if(submit){
+                    saveTable(url);
+                }else{
+                    layer.closeAll();
+                }
+                
             });
+
+            //initTable();
         });
 
         function initViewName(data) {
