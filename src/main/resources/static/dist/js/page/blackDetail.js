@@ -27,6 +27,10 @@ function initDetail(favorId) {
                 belongOf = belongOf.replace("]", "");
                 belongOf = belongOf.split(',')[0];
                 belongOf = replace(belongOf);
+                var tixin = value.TIXIN.replace("[", "");
+                tixin = tixin.replace("]", "");
+                tixin = tixin.split(',')[0];
+                tixin = replace(tixin);
                 function replace(str){
                     str = str.replace("电月","");
                     str = str.replace("电点","");
@@ -46,7 +50,7 @@ function initDetail(favorId) {
                     "                     </tr>\n" +
                     "                     <tr>\n" +
                     "                         <td align=\"right\" class=\"wr ft1\">门派体型：</td>\n" +
-                    "                         <td colspan=\"7\">"+value.TIXIN+"</td>\n" +
+                    "                         <td colspan=\"7\">"+tixin+"</td>\n" +
                     "                     </tr>\n" +
                     "                     <tr>\n" +
                     "                         <td align=\"right\" class=\"wr ft1\">角色名：</td>\n" +

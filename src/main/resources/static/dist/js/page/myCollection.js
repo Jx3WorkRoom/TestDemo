@@ -30,22 +30,23 @@ function initTable(name,keyNum) {
             $.each(data,function(i,value){
                 var collectType = "";
                 if(parseInt(value.COLLECT_TYPE)==1){
-                    collectType = '账号出售';
+                    collectType = '账号交易';
                 }else if(parseInt(value.COLLECT_TYPE)==2){
-                    collectType = '账号求购';
+                    collectType = '外观交易';
                 }else if(parseInt(value.COLLECT_TYPE)==3){
-                    collectType = '外观出售';
+                    collectType = '道具交易';
                 }else if(parseInt(value.COLLECT_TYPE)==4){
-                    collectType = '外观求购';
-                }else if(parseInt(value.COLLECT_TYPE)==5){
-                    collectType = '道具出售';
-                }else if(parseInt(value.COLLECT_TYPE)==6){
-                    collectType = '道具求购';
-                }else if(parseInt(value.COLLECT_TYPE)==7){
                     collectType = '金币交易';
-                }else if(parseInt(value.COLLECT_TYPE)==8){
+                }else if(parseInt(value.COLLECT_TYPE)==5){
                     collectType = '代练代打';
+                }else if(parseInt(value.COLLECT_TYPE)==6){
+                    collectType = '剑三黑鬼';
                 }
+                // else if(parseInt(value.COLLECT_TYPE)==7){
+                //     collectType = '金币交易';
+                // }else if(parseInt(value.COLLECT_TYPE)==8){
+                //     collectType = '代练代打';
+                // }
                 var time =timeStamp2String(value.FAVOR_DATE);
                 function timeStamp2String (time){
                         var datetime = new Date();

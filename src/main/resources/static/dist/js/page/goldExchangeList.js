@@ -95,206 +95,219 @@ function initTable(url,keyNum) {
             dataTemp = data;
             //填充表格数据
             var tableDatas = data.datas==null?"":data.datas;
-            $.each(tableDatas,function (i,value) {
-                var time = sumTime(value.FAVOR_DATE);
-                var tradeType = value.TRADE_TYPE==1?"求购":"出售";
-                var isSplit = value.IF_SPLIT==1?"可拆分交易":"整单交易";
-                var isValidNum = value.USER_ISVALID==null?'0':value.USER_ISVALID;
-                var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
-                var belongOf = value.BELONG_QF.replace("[", "");
-                belongOf = belongOf.replace("]", "");
-                belongOf = belongOf.split(',')[0];
-                belongOf = replace(belongOf);
-                var username = $('#userName').text();
-                console.log(value.COLL_TYPE);
-                if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
-                    $(".table").append(" <div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
-                        "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
-                        "            <div class=\"table-td\">" + belongOf + "</div>\n" +
-                        "              <div class=\"table-td\">" + value.GOLD_TOTAL + "</div>\n" +
-                        "              <div class=\"table-td\">" + value.UNIT_PRICE + "</div>\n" +
-                        "              <div class=\"table-td\">" + isSplit + "</div>\n" +
-                        "              <div class=\"table-td\">" + tradeType + "</div>\n" +
-                        "            <div class=\"table-td \">" + follow + "</div>\n" +
-                        "            <div class=\"table-td\">" + time + "</div>\n" +
-                        "              <div class=\"table-td\"><a class=\"modalBtn\" href=\"javascript:;\">卖方QQ</a></div>\n" +
-                        "        <div class=\"table-td warn\">" + isValidNum + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
-                        "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
-                        "      </div>");
-                }else{
-                    $(".table").append(" <div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
-                        "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
-                        "            <div class=\"table-td\">" + belongOf + "</div>\n" +
-                        "              <div class=\"table-td\">" + value.GOLD_TOTAL + "</div>\n" +
-                        "              <div class=\"table-td\">" + value.UNIT_PRICE + "</div>\n" +
-                        "              <div class=\"table-td\">" + isSplit + "</div>\n" +
-                        "              <div class=\"table-td\">" + tradeType + "</div>\n" +
-                        "            <div class=\"table-td \">" + follow + "</div>\n" +
-                        "            <div class=\"table-td\">" + time + "</div>\n" +
-                        "              <div class=\"table-td\"><a class=\"modalBtn\" href=\"javascript:;\">卖方QQ</a></div>\n" +
-                        "        <div class=\"table-td warn\">" + isValidNum + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
-                        "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
-                        "      </div>");
-                }
-            });
-            function replace(str){
-                str = str.replace("电月","");
-                str = str.replace("电点","");
-                str = str.replace("网点","");
-                str = str.replace("网月","");
-                str = str.replace("双点","");
-                str = str.replace("双月","");
-                return str;
-            }
-            //计算上架时间
-            function sumTime(time) {
-                if(time!=null) {
-                    function timeStamp2String (time){
-                        var datetime = new Date();
-                        datetime.setTime(time);
-                        var year = datetime.getFullYear();
-                        var month = datetime.getMonth() + 1;
-                        var date = datetime.getDate();
-                        var hour = datetime.getHours();
-                        var min = datetime.getMinutes();
-                        var second = datetime.getSeconds();
-                        if(parseInt(month)<10){
-                            month = '0'+month;
+            var username = $('#userName').text();
+            var useNameurl = api+'getUserId?username='+encodeURI(username);
+            var userId = '';
+            $.getJSON(useNameurl,function (data) {
+                userId = data.userId;
+            }).complete(function () {
+                $.each(tableDatas, function (i, value) {
+                    var time = sumTime(value.FAVOR_DATE);
+                    var tradeType = value.TRADE_TYPE == 1 ? "求购" : "出售";
+                    var isSplit = value.IF_SPLIT == 1 ? "可拆分交易" : "整单交易";
+                    var isValidNum = value.USER_ISVALID == null ? '0' : value.USER_ISVALID;
+                    var follow = value.USER_FOLLOW == null ? '--' : value.USER_FOLLOW;
+                    var belongOf = value.BELONG_QF.replace("[", "");
+                    belongOf = belongOf.replace("]", "");
+                    belongOf = belongOf.split(',')[0];
+                    belongOf = replace(belongOf);
+                    var username = $('#userName').text();
+                    if(userId!=""){
+                        if(userId!=value.userIdColl){
+                            value.COLL_TYPE=0;
                         }
-                        if(parseInt(date)<10){
-                            date = '0'+date;
-                        }
-                        if(parseInt(hour)<10){
-                            hour = '0'+hour;
-                        }
-                        if(parseInt(min)<10){
-                            min = '0'+min;
-                        }
-                        if(parseInt(month)<10){
-                            second = '0'+second;
-                        }
-                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
-                    };
-                    time = timeStamp2String(time);
-                    var startTime = new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
-                    time = time + " 00:00:00";
-                    var reStr = null;
-                    var diff = new DateUtil().diffDateTime(time, startTime) / 1000;
-                    var day = parseInt(diff / (24 * 60 * 60));//计算整数天数
-                    var hour = parseInt(diff / (60 * 60));//计算整数小时数
-                    var min = parseInt(diff / 60);//计算整数分
-                    if (day > 1) {
-                        reStr = day + "天前";
-                    } else {
-                        var hour = parseInt(diff / (60 * 60));//计算整数小时数
-                        if (hour < 1) {
-                            hour = 1;
-                        }
-                        reStr = hour + "小时前";
+                    }else{
+                        value.COLL_TYPE=0;
                     }
-                    return reStr;
-                }else{
-                    return '--';
+                    console.log(value.COLL_TYPE);
+                    if (value.COLL_TYPE == null || value.COLL_TYPE == 0 || username == '') {
+                        $(".table").append(" <div class=\"table-tr\">\n" +
+                            "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                            "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
+                            "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
+                            "            <div class=\"table-td\">" + belongOf + "</div>\n" +
+                            "              <div class=\"table-td\">" + value.GOLD_TOTAL + "</div>\n" +
+                            "              <div class=\"table-td\">" + value.UNIT_PRICE + "</div>\n" +
+                            "              <div class=\"table-td\">" + isSplit + "</div>\n" +
+                            "              <div class=\"table-td\">" + tradeType + "</div>\n" +
+                            "            <div class=\"table-td \">" + follow + "</div>\n" +
+                            "            <div class=\"table-td\">" + time + "</div>\n" +
+                            "              <div class=\"table-td\"><a class=\"modalBtn\" href=\"javascript:;\">卖方QQ</a></div>\n" +
+                            "        <div class=\"table-td warn\">" + isValidNum + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                            "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
+                            "      </div>");
+                    } else {
+                        $(".table").append(" <div class=\"table-tr\">\n" +
+                            "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                            "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
+                            "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
+                            "            <div class=\"table-td\">" + belongOf + "</div>\n" +
+                            "              <div class=\"table-td\">" + value.GOLD_TOTAL + "</div>\n" +
+                            "              <div class=\"table-td\">" + value.UNIT_PRICE + "</div>\n" +
+                            "              <div class=\"table-td\">" + isSplit + "</div>\n" +
+                            "              <div class=\"table-td\">" + tradeType + "</div>\n" +
+                            "            <div class=\"table-td \">" + follow + "</div>\n" +
+                            "            <div class=\"table-td\">" + time + "</div>\n" +
+                            "              <div class=\"table-td\"><a class=\"modalBtn\" href=\"javascript:;\">卖方QQ</a></div>\n" +
+                            "        <div class=\"table-td warn\">" + isValidNum + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                            "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
+                            "      </div>");
+                    }
+                });
+                function replace(str) {
+                    str = str.replace("电月", "");
+                    str = str.replace("电点", "");
+                    str = str.replace("网点", "");
+                    str = str.replace("网月", "");
+                    str = str.replace("双点", "");
+                    str = str.replace("双月", "");
+                    return str;
                 }
-            }
-
-            //弹出详情框
-            $('.modalBtn').click(function () {
-                var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.userId').text();
-                var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
-                var username = $('#userName').text();
-                if(username==""){
-                    layer.msg("你还未登陆,请先前往用户中心登陆!");
-                }else {
-                    var url = api + 'goldExchangeSource?userId=' + encodeURI(userId) + '&userName=' + encodeURI(username) + '&mainId=' + encodeURI(mainId);
-                    $.getJSON(url, function (data) {
-                        if (data.datas == 'noAuth') {
-                            layer.msg("您没有查看权限,请前往用户中心充值!");
-                        } else {
-                            if (data.datas.length < 1) {
-                                layer.msg('未查到有效数据!');
-                            } else {
-                                $('#myModal').addClass('madalHide');
-                                data = data.datas[0].user_qq == null ? "null" : data.datas[0].user_qq;
-                                var $table = $('#myModal').find('table');
-                                $table.empty();
-                                $table.append("<p>用户联系方式：</p>\n" +
-                                    "                    <p>QQ：" + data + "</p>\n" +
-                                    "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
-                                    "                    <p>客服QQ：153435143</p>")
+                //计算上架时间
+                function sumTime(time) {
+                    if (time != null) {
+                        function timeStamp2String(time) {
+                            var datetime = new Date();
+                            datetime.setTime(time);
+                            var year = datetime.getFullYear();
+                            var month = datetime.getMonth() + 1;
+                            var date = datetime.getDate();
+                            var hour = datetime.getHours();
+                            var min = datetime.getMinutes();
+                            var second = datetime.getSeconds();
+                            if (parseInt(month) < 10) {
+                                month = '0' + month;
                             }
+                            if (parseInt(date) < 10) {
+                                date = '0' + date;
+                            }
+                            if (parseInt(hour) < 10) {
+                                hour = '0' + hour;
+                            }
+                            if (parseInt(min) < 10) {
+                                min = '0' + min;
+                            }
+                            if (parseInt(month) < 10) {
+                                second = '0' + second;
+                            }
+                            return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + second;
+                        };
+                        time = timeStamp2String(time);
+                        var startTime = new DateUtil().nowDate2String("yyyy-MM-dd HH:mm:ss");
+                        time = time + " 00:00:00";
+                        var reStr = null;
+                        var diff = new DateUtil().diffDateTime(time, startTime) / 1000;
+                        var day = parseInt(diff / (24 * 60 * 60));//计算整数天数
+                        var hour = parseInt(diff / (60 * 60));//计算整数小时数
+                        var min = parseInt(diff / 60);//计算整数分
+                        if (day > 1) {
+                            reStr = day + "天前";
+                        } else {
+                            var hour = parseInt(diff / (60 * 60));//计算整数小时数
+                            if (hour < 1) {
+                                hour = 1;
+                            }
+                            reStr = hour + "小时前";
                         }
-                    });
-                }
-            });
-            var colose = $('.close');
-            var cancel = $('.btn-default');
-            $(colose,cancel).click(function () {
-                $(this).parents('.modal').removeClass('madalHide');
-            });
-            //收藏
-            $('.icon-save').click(function () {
-                var username = $('#userName').text();
-                var mainId = $(this).parent().parent().find('.main_id').text();
-                var replyTime = $(this).parent().parent().find('.replyTime').text();
-                var isValided = null;
-                if(username==""){
-                    location.href = '/testDemo/login';
-                }else {
-                    if ($(this).attr('class').indexOf('cur') > -1) {
-                        $(this).removeClass('cur');
-                        isValided = 0;
+                        return reStr;
                     } else {
-                        $(this).addClass('cur');
-                        isValided = 1;
+                        return '--';
                     }
-                    replyTime =timeStamp2String(replyTime);
-                    function timeStamp2String (time){
-                        var datetime = new Date();
-                        datetime.setTime(time);
-                        var year = datetime.getFullYear();
-                        var month = datetime.getMonth() + 1;
-                        var date = datetime.getDate();
-                        var hour = datetime.getHours();
-                        var min = datetime.getMinutes();
-                        var second = datetime.getSeconds();
-                        if(parseInt(month)<10){
-                            month = '0'+month;
-                        }
-                        if(parseInt(date)<10){
-                            date = '0'+date;
-                        }
-                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
-                    };
-                    var url = api+'userIsvalid?userName='+encodeURI(username)+
-                        '&mainId='+encodeURI(mainId)+
-                        '&isValided='+encodeURI(isValided)+
-                        '&replyTime='+encodeURI(replyTime);
-                    $.getJSON(url,function (data) {
-                        layer.msg(data.info);
-                    });
                 }
-            });
-
-            //提交失效
-            $('.protDisable').unbind("click");
-            $('.protDisable').click(function () {
-                var username = $('#userName').text();
-                if(username==""){
-                    layer.msg("你还未登陆,请先前往用户中心登陆!");
-                }else {
+                //弹出详情框
+                $('.modalBtn').click(function () {
+                    var userId = $(this).parent().parent().find('.userId').text() == "" ? 1 : $(this).parent().parent().find('.userId').text();
                     var mainId = $(this).parent().parent().find('.main_id').text() == "" ? 1 : $(this).parent().parent().find('.main_id').text();
-                    var url = api + "protDisable?mainId=" + mainId + '&userName=' + encodeURI(username);
-                    $.getJSON(url, function (data) {
-                        layer.msg(data.info);
-                    }).error(function () {
-                        layer.msg("提交失败");
-                    });
-                }
+                    var username = $('#userName').text();
+                    if (username == "") {
+                        layer.msg("你还未登陆,请先前往用户中心登陆!");
+                    } else {
+                        var url = api + 'goldExchangeSource?userId=' + encodeURI(userId) + '&userName=' + encodeURI(username) + '&mainId=' + encodeURI(mainId);
+                        $.getJSON(url, function (data) {
+                            if (data.datas == 'noAuth') {
+                                layer.msg("您没有查看权限,请前往用户中心充值!");
+                            } else {
+                                if (data.datas.length < 1) {
+                                    layer.msg('未查到有效数据!');
+                                } else {
+                                    $('#myModal').addClass('madalHide');
+                                    data = data.datas[0].user_qq == null ? "null" : data.datas[0].user_qq;
+                                    var $table = $('#myModal').find('table');
+                                    $table.empty();
+                                    $table.append("<p>用户联系方式：</p>\n" +
+                                        "                    <p>QQ：" + data + "</p>\n" +
+                                        "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                        "                    <p>客服QQ：153435143</p>")
+                                }
+                            }
+                        });
+                    }
+                });
+                var colose = $('.close');
+                var cancel = $('.btn-default');
+                $(colose, cancel).click(function () {
+                    $(this).parents('.modal').removeClass('madalHide');
+                });
+                //收藏
+                $('.icon-save').click(function () {
+                    var username = $('#userName').text();
+                    var mainId = $(this).parent().parent().find('.main_id').text();
+                    var replyTime = $(this).parent().parent().find('.replyTime').text();
+                    var isValided = null;
+                    if (username == "") {
+                        location.href = '/testDemo/login';
+                    } else {
+                        if ($(this).attr('class').indexOf('cur') > -1) {
+                            $(this).removeClass('cur');
+                            isValided = 0;
+                        } else {
+                            $(this).addClass('cur');
+                            isValided = 1;
+                        }
+                        replyTime = timeStamp2String(replyTime);
+
+                        function timeStamp2String(time) {
+                            var datetime = new Date();
+                            datetime.setTime(time);
+                            var year = datetime.getFullYear();
+                            var month = datetime.getMonth() + 1;
+                            var date = datetime.getDate();
+                            var hour = datetime.getHours();
+                            var min = datetime.getMinutes();
+                            var second = datetime.getSeconds();
+                            if (parseInt(month) < 10) {
+                                month = '0' + month;
+                            }
+                            if (parseInt(date) < 10) {
+                                date = '0' + date;
+                            }
+                            return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + second;
+                        };
+                        var url = api + 'userIsvalid?userName=' + encodeURI(username) +
+                            '&mainId=' + encodeURI(mainId) +
+                            '&isValided=' + encodeURI(isValided) +
+                            '&replyTime=' + encodeURI(replyTime);
+                        $.getJSON(url, function (data) {
+                            layer.msg(data.info);
+                        });
+                    }
+                });
+                //提交失效
+                $('.protDisable').unbind("click");
+                $('.protDisable').click(function () {
+                    var username = $('#userName').text();
+                    if (username == "") {
+                        layer.msg("你还未登陆,请先前往用户中心登陆!");
+                    } else {
+                        var mainId = $(this).parent().parent().find('.main_id').text() == "" ? 1 : $(this).parent().parent().find('.main_id').text();
+                        var url = api + "protDisable?mainId=" + mainId + '&userName=' + encodeURI(username);
+                        $.getJSON(url, function (data) {
+                            layer.msg(data.info);
+                        }).error(function () {
+                            layer.msg("提交失败");
+                        });
+                    }
+                });
             });
         },
         complete:function () {

@@ -61,14 +61,16 @@ function initTable(url,keyNum) {
         }else{
             areaSelection="";
         }
-        var shape = $('.tixin').val()
+        var shape = $('.tixin').val();
         if(shape==""&&areaSelection=="") {
-            url = api + 'appearanceSale?tradeType=' + encodeURI(tradeType) + '&startNum=' + encodeURI(startNum) + '&endNum=' + encodeURI(endNum);
+            url = api + 'appearanceSale?tradeType=' + encodeURI(tradeType) +
+                        '&startNum=' + encodeURI(startNum) +
+                        '&endNum=' + encodeURI(endNum);
         }else{
             url = api + 'appearanceSale?tradeType=' + encodeURI(tradeType)
                 + '&areaSelection=' + encodeURI(areaSelection)
                 + '&shape=' + encodeURI(shape)
-                +'&startNum=' +encodeURI(startNum);
+                +'&startNum=' +encodeURI(startNum)+
                 +'&endNum=20';
         }
     }
@@ -93,50 +95,213 @@ function initTable(url,keyNum) {
             dataTemp = data;
             //填充表格数据
             var tableDatas = data.datas==null?"":data.datas;
-            $.each(tableDatas,function (i,value) {
-                var time = sumTime(value.REPLY_TIME);
-                var tradeType = value.TRADE_TYPE==1?"求购":"出售";
-                var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
-                var productIsvalid = value.USER_ISVALID==null?'无':value.USER_ISVALID;
-                var belongOf = value.BELONG_QF.replace("[", "");
-                belongOf = belongOf.replace("]", "");
-                belongOf = belongOf.split(',')[0];
-                belongOf = replace(belongOf);
-                var username = $('#userName').text();
-                console.log(value.COLL_TYPE);
-                if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
-                    $(".table").append(" <div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
-                        "        <div class=\"table-td sourceType\" style='display: none'>" + value.SOURCE_TYPE + "</div>\n" +
-                        "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
-                        "        <div class=\"table-td\">" + belongOf + "</div>\n" +
-                        "        <div class=\"table-td\">" + value.VIEW_NAME + "</div>\n" +
-                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
-                        "          <div class=\"table-td\">" + tradeType + "</div>\n" +
-                        "        <div class=\"table-td\">" + value.PRICE_NUM + "</div>\n" +
-                        "        <div class=\"table-td\">" + follow + "</div>\n" +
-                        "        <div class=\"table-td\">" + time + "</div>\n" +
-                        "        <div class=\"table-td warn\">" + productIsvalid + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
-                        "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
-                        "      </div>");
-                }else{
-                    $(".table").append(" <div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
-                        "        <div class=\"table-td sourceType\" style='display: none'>" + value.SOURCE_TYPE + "</div>\n" +
-                        "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
-                        "        <div class=\"table-td\">" + belongOf + "</div>\n" +
-                        "        <div class=\"table-td\">" + value.VIEW_NAME + "</div>\n" +
-                        "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
-                        "          <div class=\"table-td\">" + tradeType + "</div>\n" +
-                        "        <div class=\"table-td\">" + value.PRICE_NUM + "</div>\n" +
-                        "        <div class=\"table-td\">" + follow + "</div>\n" +
-                        "        <div class=\"table-td\">" + time + "</div>\n" +
-                        "        <div class=\"table-td warn\">" + productIsvalid + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
-                        "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
-                        "      </div>");
-                }
+            var username = $('#userName').text();
+            var useNameurl = api+'getUserId?username='+encodeURI(username);
+            var userId = '';
+            $.getJSON(useNameurl,function (data) {
+                userId = data.userId;
+            }).complete(function () {
+                $.each(tableDatas,function (i,value) {
+                    var time = sumTime(value.REPLY_TIME);
+                    var tradeType = value.TRADE_TYPE==1?"求购":"出售";
+                    var follow = value.USER_FOLLOW==null?'--':value.USER_FOLLOW;
+                    var productIsvalid = value.USER_ISVALID==null?'无':value.USER_ISVALID;
+                    var belongOf = value.BELONG_QF.replace("[", "");
+                    belongOf = belongOf.replace("]", "");
+                    belongOf = belongOf.split(',')[0];
+                    belongOf = replace(belongOf);
+                    if(userId!=""){
+                        if(userId!=value.userIdColl){
+                            value.COLL_TYPE=0;
+                        }
+                    }else{
+                        value.COLL_TYPE=0;
+                    }
+                    console.log(value.COLL_TYPE);
+                    if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
+                        $(".table").append(" <div class=\"table-tr\">\n" +
+                            "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                            "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
+                            "        <div class=\"table-td sourceType\" style='display: none'>" + value.SOURCE_TYPE + "</div>\n" +
+                            "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
+                            "        <div class=\"table-td\">" + belongOf + "</div>\n" +
+                            "        <div class=\"table-td\">" + value.VIEW_NAME + "</div>\n" +
+                            "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
+                            "          <div class=\"table-td\">" + tradeType + "</div>\n" +
+                            "        <div class=\"table-td\">" + value.PRICE_NUM + "</div>\n" +
+                            "        <div class=\"table-td\">" + follow + "</div>\n" +
+                            "        <div class=\"table-td\">" + time + "</div>\n" +
+                            "        <div class=\"table-td warn\">" + productIsvalid + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                            "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
+                            "      </div>");
+                    }else{
+                        $(".table").append(" <div class=\"table-tr\">\n" +
+                            "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                            "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
+                            "        <div class=\"table-td sourceType\" style='display: none'>" + value.SOURCE_TYPE + "</div>\n" +
+                            "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
+                            "        <div class=\"table-td\">" + belongOf + "</div>\n" +
+                            "        <div class=\"table-td\">" + value.VIEW_NAME + "</div>\n" +
+                            "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
+                            "          <div class=\"table-td\">" + tradeType + "</div>\n" +
+                            "        <div class=\"table-td\">" + value.PRICE_NUM + "</div>\n" +
+                            "        <div class=\"table-td\">" + follow + "</div>\n" +
+                            "        <div class=\"table-td\">" + time + "</div>\n" +
+                            "        <div class=\"table-td warn\">" + productIsvalid + "人报告|<a href=\"javascript:void(0)\" class='protDisable'>提交失效</a></div>\n" +
+                            "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
+                            "      </div>");
+                    }
+                });
+
+                //查看源
+                $('.modalBtn').unbind('click');
+                $('.modalBtn').click(function () {
+                    var sourceType =  $(this).parent().parent().find('.sourceType').text()==""?1:$(this).parent().parent().find('.sourceType').text();
+                    var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
+                    var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.userId').text();
+                    var username = $('#userName').text();
+                    if(username==""){
+                        layer.msg("你还未登陆,请先前往用户中心登陆!");
+                    }else {
+                        if (sourceType == 1) {
+                            var url = api + 'appearanceSaleSource?mainId=' + encodeURI(mainId) +
+                                '&sourceType=' + encodeURI(sourceType) +
+                                '&userName=' + encodeURI(username) +
+                                '&userId=' + encodeURI(userId);
+                            $.getJSON(url, function (data) {
+                                if (data.datas == 'noAuth') {
+                                    layer.msg("您没有查看权限,请前往用户中心充值!");
+                                } else {
+                                    data = data.datas[0] == null ? "" : data.datas[0];
+                                    if (data != '') {
+                                        $('#myModal').addClass('madalHide');
+                                        data.REPLY_TIME = data.REPLY_TIME == null ? 'null' : data.REPLY_TIME;
+                                        var time = timeStamp2String(data.REPLY_TIME);
+                                        function timeStamp2String (time){
+                                            var datetime = new Date();
+                                            datetime.setTime(time);
+                                            var year = datetime.getFullYear();
+                                            var month = datetime.getMonth() + 1;
+                                            var date = datetime.getDate();
+                                            var hour = datetime.getHours();
+                                            var min = datetime.getMinutes();
+                                            var second = datetime.getSeconds();
+                                            if(parseInt(month)<10){
+                                                month = '0'+month;
+                                            }
+                                            if(parseInt(date)<10){
+                                                date = '0'+date;
+                                            }
+                                            return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
+                                        };
+                                        data.BELONG_QF = data.BELONG_QF == null ? 'null' : data.BELONG_QF;
+                                        data.POST_CONTENT = data.POST_CONTENT == null ? 'null' : data.POST_CONTENT;
+                                        data.PAGE_URL = data.PAGE_URL == null ? 'null' : data.PAGE_URL;
+                                        data.BELONG_FLOOR = data.BELONG_FLOOR == null ? 'null' : data.BELONG_FLOOR;
+                                        $('.source1').find('tr').eq(0).find('td').eq(1).text(time);
+                                        $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
+                                        $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
+                                        $('.source1').find('tr').eq(3).find('td').eq(1).empty();
+                                        $('.source1').find('tr').eq(3).find('td').eq(1).append("<a href='" + data.PAGE_URL + "' target=\"_blank\">" + data.PAGE_URL + "</a>");
+                                        $('.source1').find('tr').eq(4).find('td').eq(1).text(data.BELONG_FLOOR + '楼');
+                                    } else {
+                                        layer.msg("未查到有效数据!");
+                                    }
+                                }
+                            }).error(function () {
+                                layer.msg("未查到有效信息!");
+                            });
+                        } else {
+                            var url = api + 'appearanceSaleSource?mainId=' + encodeURI(mainId) +
+                                '&sourceType=' + encodeURI(sourceType) +
+                                '&userName=' + encodeURI(username) +
+                                '&userId=' + encodeURI(userId);
+                            $.getJSON(url, function (data) {
+                                if (data.datas == 'noAuth') {
+                                    layer.msg('您没有查看权限,请前往用户中心充值!');
+                                } else {
+                                    if (data.datas.length < 1) {
+                                        layer.msg('未查到有效信息!');
+                                    } else {
+                                        $('#identifier').addClass('madalHide');
+                                        data = data.datas[0].user_qq == null ? "null" : data.datas[0].user_qq;
+                                        var $table = $('#identifier').find('table');
+                                        $table.empty();
+                                        $table.append("<p>用户联系方式：</p>\n" +
+                                            "                    <p>QQ：" + data + "</p>\n" +
+                                            "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
+                                            "                    <p>客服QQ：153435143</p>")
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+                var colose = $('.close');
+                var cancel = $('.btn-default');
+                $(colose,cancel).click(function () {
+                    $(this).parents('.modal').removeClass('madalHide');
+                });
+                //收藏
+                $('.icon-save').click(function () {
+                    var username = $('#userName').text();
+                    var mainId = $(this).parent().parent().find('.main_id').text();
+                    var replyTime = $(this).parent().parent().find('.replyTime').text();
+                    var isValided = null;
+                    if(username==""){
+                        location.href = '/testDemo/login';
+                    }else {
+                        if ($(this).attr('class').indexOf('cur') > -1) {
+                            $(this).removeClass('cur');
+                            isValided = 0;
+                        } else {
+                            $(this).addClass('cur');
+                            isValided = 1;
+                        }
+                        replyTime =timeStamp2String(replyTime);
+                        function timeStamp2String (time){
+                            var datetime = new Date();
+                            datetime.setTime(time);
+                            var year = datetime.getFullYear();
+                            var month = datetime.getMonth() + 1;
+                            var date = datetime.getDate();
+                            var hour = datetime.getHours();
+                            var min = datetime.getMinutes();
+                            var second = datetime.getSeconds();
+                            if(parseInt(month)<10){
+                                month = '0'+month;
+                            }
+                            if(parseInt(date)<10){
+                                date = '0'+date;
+                            }
+                            return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
+                        };
+                        var url = api+'userIsvalid?userName='+encodeURI(username)+
+                            '&mainId='+encodeURI(mainId)+
+                            '&isValided='+encodeURI(isValided)+
+                            '&replyTime='+encodeURI(replyTime);
+                        $.getJSON(url,function (data) {
+                            layer.msg(data.info);
+                        });
+                    }
+                });
+
+                //提交失效
+                $('.protDisable').unbind("click");
+                $('.protDisable').click(function () {
+                    var username = $('#userName').text();
+                    if(username==""){
+                        layer.msg("你还未登陆,请先前往用户中心登陆!");
+                    }else {
+                        var mainId = $(this).parent().parent().find('.main_id').text() == "" ? 1 : $(this).parent().parent().find('.main_id').text();
+                        var url = api + "protDisable?mainId=" + encodeURI(mainId) + '&userName=' + encodeURI(username);
+                        $.getJSON(url, function (data) {
+                            layer.msg(data.info);
+                        }).error(function () {
+                            layer.msg("提交失败");
+                        });
+                    }
+                });
             });
             //计算上架时间
             function sumTime(time) {
@@ -185,91 +350,6 @@ function initTable(url,keyNum) {
                 }
                 return reStr;
             }
-
-            //查看源
-            $('.modalBtn').unbind('click');
-            $('.modalBtn').click(function () {
-                var sourceType =  $(this).parent().parent().find('.sourceType').text()==""?1:$(this).parent().parent().find('.sourceType').text();
-                var mainId = $(this).parent().parent().find('.main_id').text()==""?1:$(this).parent().parent().find('.main_id').text();
-                var userId = $(this).parent().parent().find('.userId').text()==""?1:$(this).parent().parent().find('.userId').text();
-                var username = $('#userName').text();
-                if(username==""){
-                    layer.msg("你还未登陆,请先前往用户中心登陆!");
-                }else {
-                    if (sourceType == 1) {
-                        var url = api + 'appearanceSaleSource?mainId=' + encodeURI(mainId) +
-                            '&sourceType=' + encodeURI(sourceType) +
-                            '&userName=' + encodeURI(username) +
-                            '&userId=' + encodeURI(userId);
-                        $.getJSON(url, function (data) {
-                            if (data.datas == 'noAuth') {
-                                layer.msg("您没有查看权限,请前往用户中心充值!");
-                            } else {
-                                data = data.datas[0] == null ? "" : data.datas[0];
-                                if (data != '') {
-                                    $('#myModal').addClass('madalHide');
-                                    data.REPLY_TIME = data.REPLY_TIME == null ? 'null' : data.REPLY_TIME;
-                                    var time = timeStamp2String(data.REPLY_TIME);
-                                    function timeStamp2String (time){
-                                        var datetime = new Date();
-                                        datetime.setTime(time);
-                                        var year = datetime.getFullYear();
-                                        var month = datetime.getMonth() + 1;
-                                        var date = datetime.getDate();
-                                        var hour = datetime.getHours();
-                                        var min = datetime.getMinutes();
-                                        var second = datetime.getSeconds();
-                                        if(parseInt(month)<10){
-                                            month = '0'+month;
-                                        }
-                                        if(parseInt(date)<10){
-                                            date = '0'+date;
-                                        }
-                                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
-                                    };
-                                    data.BELONG_QF = data.BELONG_QF == null ? 'null' : data.BELONG_QF;
-                                    data.POST_CONTENT = data.POST_CONTENT == null ? 'null' : data.POST_CONTENT;
-                                    data.PAGE_URL = data.PAGE_URL == null ? 'null' : data.PAGE_URL;
-                                    data.BELONG_FLOOR = data.BELONG_FLOOR == null ? 'null' : data.BELONG_FLOOR;
-                                    $('.source1').find('tr').eq(0).find('td').eq(1).text(time);
-                                    $('.source1').find('tr').eq(1).find('td').eq(1).text(data.BELONG_QF);
-                                    $('.source1').find('tr').eq(2).find('td').eq(1).text(data.POST_CONTENT);
-                                    $('.source1').find('tr').eq(3).find('td').eq(1).empty();
-                                    $('.source1').find('tr').eq(3).find('td').eq(1).append("<a href='" + data.PAGE_URL + "' target=\"_blank\">" + data.PAGE_URL + "</a>");
-                                    $('.source1').find('tr').eq(4).find('td').eq(1).text(data.BELONG_FLOOR + '楼');
-                                } else {
-                                    layer.msg("未查到有效数据!");
-                                }
-                            }
-                        }).error(function () {
-                            layer.msg("未查到有效信息!");
-                        });
-                    } else {
-                        var url = api + 'appearanceSaleSource?mainId=' + encodeURI(mainId) +
-                            '&sourceType=' + encodeURI(sourceType) +
-                            '&userName=' + encodeURI(username) +
-                            '&userId=' + encodeURI(userId);
-                        $.getJSON(url, function (data) {
-                            if (data.datas == 'noAuth') {
-                                layer.msg('您没有查看权限,请前往用户中心充值!');
-                            } else {
-                                if (data.datas.length < 1) {
-                                    layer.msg('未查到有效信息!');
-                                } else {
-                                    $('#identifier').addClass('madalHide');
-                                    data = data.datas[0].user_qq == null ? "null" : data.datas[0].user_qq;
-                                    var $table = $('#identifier').find('table');
-                                    $table.empty();
-                                    $table.append("<p>用户联系方式：</p>\n" +
-                                        "                    <p>QQ：" + data + "</p>\n" +
-                                        "                    <p>特别提示：请注意交易安全，本平台不对信息真实性和信息的安全性提供保证。若有疑问，请联系客服。</p>\n" +
-                                        "                    <p>客服QQ：153435143</p>")
-                                }
-                            }
-                        });
-                    }
-                }
-            });
             function replace(str){
                 str = str.replace("电月","");
                 str = str.replace("电点","");
@@ -279,71 +359,6 @@ function initTable(url,keyNum) {
                 str = str.replace("双月","");
                 return str;
             }
-            var colose = $('.close');
-            var cancel = $('.btn-default');
-            $(colose,cancel).click(function () {
-                $(this).parents('.modal').removeClass('madalHide');
-            });
-            //收藏
-            $('.icon-save').click(function () {
-                var username = $('#userName').text();
-                var mainId = $(this).parent().parent().find('.main_id').text();
-                var replyTime = $(this).parent().parent().find('.replyTime').text();
-                var isValided = null;
-                if(username==""){
-                    location.href = '/testDemo/login';
-                }else {
-                    if ($(this).attr('class').indexOf('cur') > -1) {
-                        $(this).removeClass('cur');
-                        isValided = 0;
-                    } else {
-                        $(this).addClass('cur');
-                        isValided = 1;
-                    }
-                    replyTime =timeStamp2String(replyTime);
-                    function timeStamp2String (time){
-                        var datetime = new Date();
-                        datetime.setTime(time);
-                        var year = datetime.getFullYear();
-                        var month = datetime.getMonth() + 1;
-                        var date = datetime.getDate();
-                        var hour = datetime.getHours();
-                        var min = datetime.getMinutes();
-                        var second = datetime.getSeconds();
-                        if(parseInt(month)<10){
-                            month = '0'+month;
-                        }
-                        if(parseInt(date)<10){
-                            date = '0'+date;
-                        }
-                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
-                    };
-                    var url = api+'userIsvalid?userName='+encodeURI(username)+
-                        '&mainId='+encodeURI(mainId)+
-                        '&isValided='+encodeURI(isValided)+
-                        '&replyTime='+encodeURI(replyTime);
-                    $.getJSON(url,function (data) {
-                        layer.msg(data.info);
-                    });
-                }
-            });
-
-            //提交失效
-            $('.protDisable').unbind("click");
-            $('.protDisable').click(function () {
-                var username = $('#userName').text();
-                if(username==""){
-                    layer.msg("你还未登陆,请先前往用户中心登陆!");
-                }else {
-                    var mainId = $(this).parent().parent().find('.main_id').text() == "" ? 1 : $(this).parent().parent().find('.main_id').text();
-                    var url = api + "protDisable?mainId=" + encodeURI(mainId) + '&userName=' + encodeURI(username);
-                    $.getJSON(url, function (data) {
-                        layer.msg(data.info);
-                    }).error(function () {
-                        layer.msg("提交失败");
-                    });
-                }
-            });
         },
         complete:function () {
             layer.closeAll();
