@@ -17,15 +17,15 @@ function initTable(name,keyNum) {
     $.getJSON(url,function (data) {
         dataTemp=data;
         data = data.datas==null?'':data.datas;
+        $('.table').empty();
+        $('.table').append("<div class=\"table-tr tablech1\">\n" +
+            "                    <div class=\"table-th table-th3\"></div>\n" +
+            "                    <div class=\"table-th\">发布类型</div>\n" +
+            "                    <div class=\"table-th\">发布内容</div>\n" +
+            "                    <div class=\"table-th\">状态</div>\n" +
+            "                    <div class=\"table-th\">发布时间</div>\n" +
+            "                  </div>");
         if(data!=""){
-            $('.table').empty();
-            $('.table').append("<div class=\"table-tr tablech1\">\n" +
-                "                    <div class=\"table-th table-th3\"></div>\n" +
-                "                    <div class=\"table-th\">发布类型</div>\n" +
-                "                    <div class=\"table-th\">发布内容</div>\n" +
-                "                    <div class=\"table-th\">状态</div>\n" +
-                "                    <div class=\"table-th\">发布时间</div>\n" +
-                "                  </div>");
             $.each(data,function(i,value){
                 var pageValueEdit = "";
                 var pageValue = "";
@@ -95,7 +95,7 @@ function initTable(name,keyNum) {
                     };
             });
         }else{
-            layer.msg("加载收藏信息失败")
+            layer.msg("加载发布信息失败")
         }
         $('.icon1').css({
             "display": "inline-block",
@@ -127,7 +127,7 @@ function initTable(name,keyNum) {
             }
         });
     }).error(function () {
-        layer.msg("加载收藏信息失败!");
+        layer.msg("加载发布信息失败!");
     }).complete(function () {
         $('.remove').unbind('click');
         $('.remove').click(function () {
@@ -161,7 +161,6 @@ function initTable(name,keyNum) {
             initPage(pageList,keyNum);
         }else{
             $('.pagination').empty();
-            layer.msg("加载数据出错!");
         }
     });
 }
