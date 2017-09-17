@@ -214,6 +214,12 @@
 
         $('#priceNum').val(obj.PRICE_NUM);//价格
         $('#accoInfo').val(obj.ACCO_INFO);//账号资料
+
+        $('.dropdown-menu li').addClass('disabled');
+        $('.areaSelect select').attr('disabled','true');
+        $('.tixin').attr('disabled','true');
+        $('#priceNum').attr('disabled','true');
+        $('#accoInfo').attr('disabled','true');
     }
     //初始区服下拉数据
     function initSelections(selecttions) {
@@ -372,70 +378,75 @@
             });
             $('#upedit').unbind("click");
             $('#upedit').click(function () {
-                layer.load();
-                var recordId = getUrlParam('mainId');
-                var tradeType = '1';//账号交易类别
-                var belongQf = ''; //涉事区服
-                var tixin = $('#tixin').val();//门派体型
-                var priceNum = $('#priceNum').val();//价格
-                var accoInfo = $('#accoInfo').val();//账号资料
-
-                tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                if(tradeType=="买号"){
-                    tradeType=1;
-                }else if(tradeType=="卖号"){
-                    tradeType=2;
-                }else{
-                    tradeType=3;
-                }
-
-                $('.areaSelect').find('select').each(function () {
-                    var text = $(this).find('option:selected').text();
-                    if(text.indexOf("请选择")==-1) {
-                        belongQf += text;
-                    }
-                });
-                /*if(belongQf.length>2) {
-                 belongQf = belongQf.substring(0, belongQf.length - 1);
-                 }else{
-                 belongQf="";
-                 }*/
-                console.log('开始tradeType----------->'+tradeType);
-                console.log('输出----------->'+userId);
-                console.log('输出----------->'+belongQf);
-                console.log('输出tixin----------->'+tixin);
-                console.log('输出----------->'+priceNum);
-                console.log('输出----------->'+accoInfo);
-
-                //验证
-                var submit=true;
-                if($.trim(priceNum).length>0) {
-                    var reg = /^[0-9]*$/;
-                    if(!reg.test(priceNum)){
-                        $('#msg1').text("* 请输入正整数!");
-                        submit=false;
-                    }else{
-                        $('#msg1').text("*");
-                    }
-                }else{
-                    $('#msg1').text("* 本项不可为空!");
-                    submit=false;
-                }
-
-                url = reportApi + 'saveZhssInfo?operate=upedit&userId=' + encodeURI(userId)
-                    + '&favorId=' + getUrlParam('mainId')
-                    + '&tradeType=' + encodeURI(tradeType)
-                    + '&belongQf=' + encodeURI(belongQf)
-                    + '&tixin=' + encodeURI(tixin)
-                    +'&priceNum=' + encodeURI(priceNum)
-                    +'&accoInfo=' + encodeURI(accoInfo);
-
-                if(submit){
-                    saveTable(url);
-                    uploader.upload();
-                }else{
-                    layer.closeAll();
-                }
+                // layer.load();
+                // var recordId = getUrlParam('mainId');
+                // var tradeType = '1';//账号交易类别
+                // var belongQf = ''; //涉事区服
+                // var tixin = $('#tixin').val();//门派体型
+                // var priceNum = $('#priceNum').val();//价格
+                // var accoInfo = $('#accoInfo').val();//账号资料
+                //
+                // tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                // if(tradeType=="买号"){
+                //     tradeType=1;
+                // }else if(tradeType=="卖号"){
+                //     tradeType=2;
+                // }else{
+                //     tradeType=3;
+                // }
+                //
+                // $('.areaSelect').find('select').each(function () {
+                //     var text = $(this).find('option:selected').text();
+                //     if(text.indexOf("请选择")==-1) {
+                //         belongQf += text;
+                //     }
+                // });
+                // /*if(belongQf.length>2) {
+                //  belongQf = belongQf.substring(0, belongQf.length - 1);
+                //  }else{
+                //  belongQf="";
+                //  }*/
+                // console.log('开始tradeType----------->'+tradeType);
+                // console.log('输出----------->'+userId);
+                // console.log('输出----------->'+belongQf);
+                // console.log('输出tixin----------->'+tixin);
+                // console.log('输出----------->'+priceNum);
+                // console.log('输出----------->'+accoInfo);
+                //
+                // //验证
+                // var submit=true;
+                // if($.trim(priceNum).length>0) {
+                //     var reg = /^[0-9]*$/;
+                //     if(!reg.test(priceNum)){
+                //         $('#msg1').text("* 请输入正整数!");
+                //         submit=false;
+                //     }else{
+                //         $('#msg1').text("*");
+                //     }
+                // }else{
+                //     $('#msg1').text("* 本项不可为空!");
+                //     submit=false;
+                // }
+                //
+                // url = reportApi + 'saveZhssInfo?operate=upedit&userId=' + encodeURI(userId)
+                //     + '&favorId=' + getUrlParam('mainId')
+                //     + '&tradeType=' + encodeURI(tradeType)
+                //     + '&belongQf=' + encodeURI(belongQf)
+                //     + '&tixin=' + encodeURI(tixin)
+                //     +'&priceNum=' + encodeURI(priceNum)
+                //     +'&accoInfo=' + encodeURI(accoInfo);
+                //
+                // if(submit){
+                //     saveTable(url);
+                //     uploader.upload();
+                // }else{
+                //     layer.closeAll();
+                // }
+                $('.dropdown-menu li').removeClass('disabled');
+                $('.areaSelect select').removeAttr('disabled');
+                $('.tixin').removeAttr('disabled');
+                $('#priceNum').removeAttr('disabled');
+                $('#accoInfo').removeAttr('disabled');
             });
             $('#preview').click(function () {
                 layer.msg('努力开发中……');

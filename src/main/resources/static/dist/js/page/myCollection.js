@@ -69,14 +69,18 @@ function initTable(name,keyNum) {
                         }
                         return year + "-" + month + "-" + date+' '+hour+":"+min;
                     };
-                var cont = value.COLLECT_CONT.split('[').join('');
+                var cont = value.COLLECT_CONT.replace("【","");
+                cont = value.COLLECT_CONT.replace("】","");
+                cont = value.COLLECT_CONT.replace("[","");
+                cont = value.COLLECT_CONT.replace("]","");
                 cont = cont.split('').join('');
+                var stusta = value.COLLECT_STUSTA!=0?'正常':'失效';
                 $('.table').append("<div class=\"table-tr\">\n" +
                     "                    <div class=\"table-td\"><i class=\"icon1\"></i></div>\n" +
                     "                    <div class=\"table-td recordId\" style='display: none'>"+value.RECORD_ID+"</div>\n" +
                     "                    <div class=\"table-td\">"+collectType+"</div>\n" +
                     "                    <div class=\"table-td table_lw\">"+cont+"</div>\n" +
-                    "                    <div class=\"table-td warn\">"+value.COLLECT_STUSTA+"人报告失效</div>\n" +
+                    "                    <div class=\"table-td warn\">"+stusta+"</div>\n" +
                     "                    <div class=\"table-td\">"+value.COLLECT_DATE+"</div>\n" +
                     "                    <div class=\"table-td\">"+time+"</div>\n" +
                     "                  </div>");

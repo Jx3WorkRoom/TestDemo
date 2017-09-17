@@ -233,6 +233,14 @@ function setInfo(info){
     $('#cheatIntro').val(obj.CHEAT_INTRO);//被黑经历
     $('#cheatInfo').val(obj.CHEAT_INFO);//资料信息
     $('#pageUrl').val(obj.PAGE_URL);//网页链接地址
+
+    $('.dropdown-menu li').addClass('disabled');
+    $('.areaSelect select').attr('disabled','true');
+    $('.tixin').attr('disabled','true');
+    $('#roleName').attr('disabled','true');
+    $('#cheatIntro').attr('disabled','true');
+    $('#cheatInfo').attr('disabled','true');
+    $('#pageUrl').attr('disabled','true');
 }
 //初始区服下拉数据
 function initSelections(selecttions) {
@@ -411,92 +419,99 @@ function initForm() {
         });
         $('#upedit').unbind("click");
         $('#upedit').click(function () {
-            layer.load();
-            var recordId = getUrlParam('mainId');
-            var cheatType = '1';//欺诈类别
-            var belongQf = ''; //涉事区服
-            var tixin = $('#tixin').val();//门派体型
-            var roleName = $('#roleName').val();//角色名
-            var cheatIntro = $('#cheatIntro').val();//被黑经历
-            var cheatInfo = $('#cheatInfo').val();//资料信息
-            var pageUrl = $('#pageUrl').val();//网页链接地址
-
-            //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
-            cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-            if(cheatType=="账号诈骗"){
-                cheatType=1;
-            }else if(cheatType=="外观诈骗"){
-                cheatType=2;
-            }else if(cheatType=="道具诈骗"){
-                cheatType=3;
-            }else if(cheatType=="金币诈骗"){
-                cheatType=4;
-            }
-
-            $('.areaSelect').find('select').each(function () {
-                var text = $(this).find('option:selected').text();
-                if(text.indexOf("请选择")==-1) {
-                    belongQf += text ;
-                }
-            });
-            //belongQf=trimEnd(belongQf);
-            console.log('修改----------->'+recordId);
-            console.log('输出----------->'+userId);
-            console.log('输出----------->'+cheatType);
-            console.log('输出----------->'+belongQf);
-            console.log('输出tixin----------->'+tixin);
-            console.log('输出----------->'+roleName);
-            console.log('输出----------->'+cheatIntro);
-            console.log('输出----------->'+cheatInfo);
-            console.log('输出----------->'+pageUrl);
-            /*if(tradeType=="求购"){
-             tradeType=1;
-             }else{
-             tradeType=2;
-             }*/
-
-            //验证
-            var submit=true;
-            if($.trim(cheatIntro)==''){
-                $('#msg1').text("* 本项不可为空!");
-                submit=false;
-            }else{
-                $('#msg1').text("*");
-            }
-            if($.trim(cheatInfo)==''){
-                $('#msg2').text("* 本项不可为空!");
-                submit=false;
-            }else{
-                $('#msg2').text("*");
-            }
-            if(pageUrl.length>0){
-                var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
-                if (!reg.test(pageUrl)) {
-                    $('#msg3').text("网址不正确，请检查!");
-                    submit=false;
-                }else{
-                    $('#msg3').text("");
-                }
-            }else{
-                $('#msg3').text("");
-            }
-
-            url = reportApi + 'saveWyjbInfo?operate=upedit&userId=' + encodeURI(userId)
-                + '&favorId=' + getUrlParam('mainId')
-                + '&cheatType=' + encodeURI(cheatType)
-                + '&belongQf=' + encodeURI(belongQf)
-                + '&tixin=' + encodeURI(tixin)
-                +'&roleName=' + encodeURI(roleName)
-                +'&cheatIntro=' + encodeURI(cheatIntro)
-                +'&cheatInfo=' + encodeURI(cheatInfo)
-                +'&pageUrl=' + encodeURI(pageUrl);
-
-            if(submit){
-                saveTable(url);
-                uploader.upload();
-            }else{
-                layer.closeAll();
-            }
+            // layer.load();
+            // var recordId = getUrlParam('mainId');
+            // var cheatType = '1';//欺诈类别
+            // var belongQf = ''; //涉事区服
+            // var tixin = $('#tixin').val();//门派体型
+            // var roleName = $('#roleName').val();//角色名
+            // var cheatIntro = $('#cheatIntro').val();//被黑经历
+            // var cheatInfo = $('#cheatInfo').val();//资料信息
+            // var pageUrl = $('#pageUrl').val();//网页链接地址
+            //
+            // //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
+            // cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+            // if(cheatType=="账号诈骗"){
+            //     cheatType=1;
+            // }else if(cheatType=="外观诈骗"){
+            //     cheatType=2;
+            // }else if(cheatType=="道具诈骗"){
+            //     cheatType=3;
+            // }else if(cheatType=="金币诈骗"){
+            //     cheatType=4;
+            // }
+            //
+            // $('.areaSelect').find('select').each(function () {
+            //     var text = $(this).find('option:selected').text();
+            //     if(text.indexOf("请选择")==-1) {
+            //         belongQf += text ;
+            //     }
+            // });
+            // //belongQf=trimEnd(belongQf);
+            // console.log('修改----------->'+recordId);
+            // console.log('输出----------->'+userId);
+            // console.log('输出----------->'+cheatType);
+            // console.log('输出----------->'+belongQf);
+            // console.log('输出tixin----------->'+tixin);
+            // console.log('输出----------->'+roleName);
+            // console.log('输出----------->'+cheatIntro);
+            // console.log('输出----------->'+cheatInfo);
+            // console.log('输出----------->'+pageUrl);
+            // /*if(tradeType=="求购"){
+            //  tradeType=1;
+            //  }else{
+            //  tradeType=2;
+            //  }*/
+            //
+            // //验证
+            // var submit=true;
+            // if($.trim(cheatIntro)==''){
+            //     $('#msg1').text("* 本项不可为空!");
+            //     submit=false;
+            // }else{
+            //     $('#msg1').text("*");
+            // }
+            // if($.trim(cheatInfo)==''){
+            //     $('#msg2').text("* 本项不可为空!");
+            //     submit=false;
+            // }else{
+            //     $('#msg2').text("*");
+            // }
+            // if(pageUrl.length>0){
+            //     var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+            //     if (!reg.test(pageUrl)) {
+            //         $('#msg3').text("网址不正确，请检查!");
+            //         submit=false;
+            //     }else{
+            //         $('#msg3').text("");
+            //     }
+            // }else{
+            //     $('#msg3').text("");
+            // }
+            //
+            // url = reportApi + 'saveWyjbInfo?operate=upedit&userId=' + encodeURI(userId)
+            //     + '&favorId=' + getUrlParam('mainId')
+            //     + '&cheatType=' + encodeURI(cheatType)
+            //     + '&belongQf=' + encodeURI(belongQf)
+            //     + '&tixin=' + encodeURI(tixin)
+            //     +'&roleName=' + encodeURI(roleName)
+            //     +'&cheatIntro=' + encodeURI(cheatIntro)
+            //     +'&cheatInfo=' + encodeURI(cheatInfo)
+            //     +'&pageUrl=' + encodeURI(pageUrl);
+            //
+            // if(submit){
+            //     saveTable(url);
+            //     uploader.upload();
+            // }else{
+            //     layer.closeAll();
+            // }
+            $('.dropdown-menu li').removeClass('disabled');
+            $('.areaSelect select').removeAttr('disabled');
+            $('.tixin').removeAttr('disabled');
+            $('#roleName').removeAttr('disabled');
+            $('#cheatIntro').removeAttr('disabled');
+            $('#cheatInfo').removeAttr('disabled');
+            $('#pageUrl').removeAttr('disabled');
         });
         $('#preview').click(function () {
             layer.msg('努力开发中……');

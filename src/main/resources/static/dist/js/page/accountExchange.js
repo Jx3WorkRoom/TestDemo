@@ -211,6 +211,10 @@ function setInfo(info){
     tixin.change();*/
 
     $('#favorInfo').val(obj.FAVOR_INFO);//代练说明
+
+    $('.dropdown-menu li').addClass('disabled');
+    $('.areaSelect select').attr('disabled','true');
+    $('#favorInfo').attr('disabled','true');
 }
 
     //初始区服下拉数据
@@ -355,56 +359,59 @@ function setInfo(info){
             });
             $('#upedit').unbind("click");
             $('#upedit').click(function () {
-                layer.load();
-                var recordId = getUrlParam('mainId');
-                var tradeType = '1';//需求类型
-                var belongQf = ''; //涉事区服
-                var favorInfo = $('#favorInfo').val();;//代练说明
-
-                tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                if(tradeType=="接代练"){
-                    tradeType=1;
-                }else{
-                    tradeType=2;
-                }
-
-                $('.areaSelect').find('select').each(function () {
-                    var text = $(this).find('option:selected').text();
-                    if(text.indexOf("请选择")==-1) {
-                        belongQf += text;
-                    }
-                });
-                /*if(belongQf.length>2) {
-                 belongQf = belongQf.substring(0, belongQf.length - 1);
-                 }else{
-                 belongQf="";
-                 }*/
-
-                console.log('输出----------->'+tradeType);
-                console.log('输出----------->'+belongQf);
-                console.log('输出----------->'+favorInfo);
-
-                //验证
-                var submit=true;
-                if($.trim(favorInfo)==''){
-                    $('#msg1').text("* 本项不可为空!");
-                    submit=false;
-                }else{
-                    $('#msg1').text("*");
-                }
-
-                url = reportApi + 'saveDlddInfo?operate=upedit&userId=' + encodeURI(userId)
-                    + '&favorId=' + getUrlParam('mainId')
-                    + '&tradeType=' + encodeURI(tradeType)
-                    + '&belongQf=' + encodeURI(belongQf)
-                    + '&favorInfo=' + encodeURI(favorInfo);
-
-                if(submit){
-                    saveTable(url);
-                    uploader.upload();
-                }else{
-                    layer.closeAll();
-                }
+                // layer.load();
+                // var recordId = getUrlParam('mainId');
+                // var tradeType = '1';//需求类型
+                // var belongQf = ''; //涉事区服
+                // var favorInfo = $('#favorInfo').val();;//代练说明
+                //
+                // tradeType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                // if(tradeType=="接代练"){
+                //     tradeType=1;
+                // }else{
+                //     tradeType=2;
+                // }
+                //
+                // $('.areaSelect').find('select').each(function () {
+                //     var text = $(this).find('option:selected').text();
+                //     if(text.indexOf("请选择")==-1) {
+                //         belongQf += text;
+                //     }
+                // });
+                // /*if(belongQf.length>2) {
+                //  belongQf = belongQf.substring(0, belongQf.length - 1);
+                //  }else{
+                //  belongQf="";
+                //  }*/
+                //
+                // console.log('输出----------->'+tradeType);
+                // console.log('输出----------->'+belongQf);
+                // console.log('输出----------->'+favorInfo);
+                //
+                // //验证
+                // var submit=true;
+                // if($.trim(favorInfo)==''){
+                //     $('#msg1').text("* 本项不可为空!");
+                //     submit=false;
+                // }else{
+                //     $('#msg1').text("*");
+                // }
+                //
+                // url = reportApi + 'saveDlddInfo?operate=upedit&userId=' + encodeURI(userId)
+                //     + '&favorId=' + getUrlParam('mainId')
+                //     + '&tradeType=' + encodeURI(tradeType)
+                //     + '&belongQf=' + encodeURI(belongQf)
+                //     + '&favorInfo=' + encodeURI(favorInfo);
+                //
+                // if(submit){
+                //     saveTable(url);
+                //     uploader.upload();
+                // }else{
+                //     layer.closeAll();
+                // }
+                $('.dropdown-menu li').removeClass('disabled');
+                $('.areaSelect select').removeAttr('disabled');
+                $('#favorInfo').removeAttr('disabled');
             });
             $('#preview').click(function () {
                 layer.msg('努力开发中……');

@@ -54,7 +54,6 @@ function initTable(url,keyNum) {
                 belongOf = belongOf.replace("]", "");
                 belongOf = belongOf.split(',')[0];
                 belongOf = replace(belongOf);
-                console.log(value.COLL_TYPE);
                 if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
                     $(".table").append("<div class=\"table-tr\">\n" +
                         "        <div class=\"table-td main_id\" style='display: none'>" + value.FAVOR_ID + "</div>\n" +
