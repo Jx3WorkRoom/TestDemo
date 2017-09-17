@@ -47,107 +47,125 @@ function initTable(url,keyNum) {
             dataTemp = data;
             //填充表格数据
             var tableDatas = data.datas==null?"":data.datas;
-            $.each(tableDatas,function (i,value) {
-                var time = sumTime(value.FAVOR_DATE);
-                var username = $('#userName').text();
-                var belongOf = value.BELONG_QF.replace("[", "");
-                belongOf = belongOf.replace("]", "");
-                belongOf = belongOf.split(',')[0];
-                belongOf = replace(belongOf);
-                if(value.COLL_TYPE==null||value.COLL_TYPE==0||username=='') {
-                    $(".table").append("<div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>" + value.FAVOR_ID + "</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
-                        "        <div class=\"table-td\">" + value.PAR_NAME + "</div>\n" +
-                        "       <div class=\"table-td\"><a href=\"blackDetail?favorId=" + value.FAVOR_ID + "\" target='_blank'>" + value.CHEAT_INFO + "</a></div>" +
-                        "              <div class=\"table-td \">" + belongOf + "</div>\n" +
-                        "              <div class=\"table-td\">" + time + "</div>\n" +
-                        "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
-                        "          </div>");
-                }else{
-                    $(".table").append("<div class=\"table-tr\">\n" +
-                        "        <div class=\"table-td main_id\" style='display: none'>" + value.FAVOR_ID + "</div>\n" +
-                        "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
-                        "        <div class=\"table-td\">" + value.PAR_NAME + "</div>\n" +
-                        "       <div class=\"table-td\"><a href=\"blackDetail?favorId=" + value.FAVOR_ID + "\" target='_blank'>" + value.CHEAT_INFO + "</a></div>" +
-                        "              <div class=\"table-td \">" + belongOf + "</div>\n" +
-                        "              <div class=\"table-td\">" + time + "</div>\n" +
-                        "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
-                        "          </div>");
-                }
-            });
-            function replace(str){
-                str = str.replace("电月","");
-                str = str.replace("电点","");
-                str = str.replace("网点","");
-                str = str.replace("网月","");
-                str = str.replace("双点","");
-                str = str.replace("双月","");
-                return str;
-            }
-            //计算上架时间
-            function sumTime(time) {
-                function timeStamp2String (time){
-                    var datetime = new Date();
-                    datetime.setTime(time);
-                    var year = datetime.getFullYear();
-                    var month = datetime.getMonth() + 1;
-                    var date = datetime.getDate();
-                    if(parseInt(month)<10){
-                        month = '0'+month;
+            var username = $('#userName').text();
+            var useNameurl = api+'getUserId?username='+encodeURI(username);
+            var userId = '';
+            $.getJSON(useNameurl,function (data) {
+                userId = data.userId;
+            }).complete(function () {
+                $.each(tableDatas, function (i, value) {
+                    var time = sumTime(value.FAVOR_DATE);
+                    var username = $('#userName').text();
+                    var belongOf = value.BELONG_QF.replace("[", "");
+                    belongOf = belongOf.replace("]", "");
+                    belongOf = belongOf.split(',')[0];
+                    belongOf = replace(belongOf);
+                    var username = $('#userName').text();
+                    if(userId!=""){
+                        if(userId!=value.userIdColl){
+                            value.COLL_TYPE=0;
+                        }
+                    }else{
+                        value.COLL_TYPE=0;
                     }
-                    if(parseInt(date)<10){
-                        date = '0'+date;
-                    }
-                    return year + "-" + month + "-" + date;
-                };
-                time =timeStamp2String(time);
-                var timeArr = time.trim().split('-');
-                return timeArr[0]+'年'+timeArr[1]+'月'+timeArr[2]+'日';
-            }
-
-            //收藏
-            $('.icon-save').click(function () {
-                var username = $('#userName').text();
-                var mainId = $(this).parent().parent().find('.main_id').text();
-                var replyTime = $(this).parent().parent().find('.replyTime').text();
-                var isValided = null;
-                if(username==""){
-                    location.href = '/testDemo/login';
-                }else {
-                    if ($(this).attr('class').indexOf('cur') > -1) {
-                        $(this).removeClass('cur');
-                        isValided = 0;
+                    if (value.COLL_TYPE == null || value.COLL_TYPE == 0 || username == '') {
+                        $(".table").append("<div class=\"table-tr\">\n" +
+                            "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                            "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
+                            "        <div class=\"table-td\">" + value.PAR_NAME + "</div>\n" +
+                            "       <div class=\"table-td\"><a href=\"blackDetail?favorId=" + value.FAVOR_ID + "\" target='_blank'>" + value.CHEAT_INFO + "</a></div>" +
+                            "              <div class=\"table-td \">" + belongOf + "</div>\n" +
+                            "              <div class=\"table-td\">" + time + "</div>\n" +
+                            "        <div class=\"table-td\"><i class=\"icon-save\"></i></div>\n" +
+                            "          </div>");
                     } else {
-                        $(this).addClass('cur');
-                        isValided = 1;
+                        $(".table").append("<div class=\"table-tr\">\n" +
+                            "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
+                            "        <div class=\"table-td replyTime\" style='display: none'>" + value.FAVOR_DATE + "</div>\n" +
+                            "        <div class=\"table-td\">" + value.PAR_NAME + "</div>\n" +
+                            "       <div class=\"table-td\"><a href=\"blackDetail?favorId=" + value.FAVOR_ID + "\" target='_blank'>" + value.CHEAT_INFO + "</a></div>" +
+                            "              <div class=\"table-td \">" + belongOf + "</div>\n" +
+                            "              <div class=\"table-td\">" + time + "</div>\n" +
+                            "        <div class=\"table-td\"><i class=\"icon-save cur\"></i></div>\n" +
+                            "          </div>");
                     }
-                    replyTime =timeStamp2String(replyTime);
-                    function timeStamp2String (time){
+                });
+
+                function replace(str) {
+                    str = str.replace("电月", "");
+                    str = str.replace("电点", "");
+                    str = str.replace("网点", "");
+                    str = str.replace("网月", "");
+                    str = str.replace("双点", "");
+                    str = str.replace("双月", "");
+                    return str;
+                }
+
+                //计算上架时间
+                function sumTime(time) {
+                    function timeStamp2String(time) {
                         var datetime = new Date();
                         datetime.setTime(time);
                         var year = datetime.getFullYear();
                         var month = datetime.getMonth() + 1;
                         var date = datetime.getDate();
-                        var hour = datetime.getHours();
-                        var min = datetime.getMinutes();
-                        var second = datetime.getSeconds();
-                        if(parseInt(month)<10){
-                            month = '0'+month;
+                        if (parseInt(month) < 10) {
+                            month = '0' + month;
                         }
-                        if(parseInt(date)<10){
-                            date = '0'+date;
+                        if (parseInt(date) < 10) {
+                            date = '0' + date;
                         }
-                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
+                        return year + "-" + month + "-" + date;
                     };
-                    var url = api+'userIsvalid?userName='+encodeURI(username)+
-                        '&mainId='+encodeURI(mainId)+
-                        '&isValided='+encodeURI(isValided)+
-                        '&replyTime='+encodeURI(replyTime);
-                    $.getJSON(url,function (data) {
-                        layer.msg(data.info);
-                    });
+                    time = timeStamp2String(time);
+                    var timeArr = time.trim().split('-');
+                    return timeArr[0] + '年' + timeArr[1] + '月' + timeArr[2] + '日';
                 }
+
+                //收藏
+                $('.icon-save').click(function () {
+                    var username = $('#userName').text();
+                    var mainId = $(this).parent().parent().find('.main_id').text();
+                    var replyTime = $(this).parent().parent().find('.replyTime').text();
+                    var isValided = null;
+                    if (username == "") {
+                        location.href = '/testDemo/login';
+                    } else {
+                        if ($(this).attr('class').indexOf('cur') > -1) {
+                            $(this).removeClass('cur');
+                            isValided = 0;
+                        } else {
+                            $(this).addClass('cur');
+                            isValided = 1;
+                        }
+                        replyTime = timeStamp2String(replyTime);
+
+                        function timeStamp2String(time) {
+                            var datetime = new Date();
+                            datetime.setTime(time);
+                            var year = datetime.getFullYear();
+                            var month = datetime.getMonth() + 1;
+                            var date = datetime.getDate();
+                            var hour = datetime.getHours();
+                            var min = datetime.getMinutes();
+                            var second = datetime.getSeconds();
+                            if (parseInt(month) < 10) {
+                                month = '0' + month;
+                            }
+                            if (parseInt(date) < 10) {
+                                date = '0' + date;
+                            }
+                            return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + second;
+                        };
+                        var url = api + 'userIsvalid?userName=' + encodeURI(username) +
+                            '&mainId=' + encodeURI(mainId) +
+                            '&isValided=' + encodeURI(isValided) +
+                            '&replyTime=' + encodeURI(replyTime);
+                        $.getJSON(url, function (data) {
+                            layer.msg(data.info);
+                        });
+                    }
+                });
             });
         },
         complete:function () {
