@@ -187,6 +187,28 @@
             var sefont=$(".nav-pills ul li").eq(1).find('a').text();
             $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
         }*/
+
+        if(getUrlParam('mainId')==null){
+            $("#upedit").hide();    //隐藏更新按钮
+        }else{
+            $("#save").hide();      //隐藏保存按钮
+        }
+
+        $('#preview').click(function () {
+            layer.msg('努力开发中……');
+        });
+        $('#cancel').click(function () {
+            //信息框
+            layer.msg('未编辑完，确定取消吗？', {
+                time: 0 //不自动关闭
+                ,btn: ['确定', '取消']
+                ,yes: function(index){
+                    layer.close(index);
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                }
+            });
+        });
     }
 
     //设置编辑数据
@@ -359,101 +381,114 @@
                         submit=false;
                     }
 
-                    url = reportApi + 'saveZhssInfo?operate=save&userId=' + encodeURI(userId)
-
+                    /*url = reportApi + 'saveZhssInfo?operate=save&userId=' + encodeURI(userId)
                         + '&tradeType=' + encodeURI(tradeType)
                         + '&belongQf=' + encodeURI(belongQf)
                         + '&tixin=' + encodeURI(tixin)
                         + '&priceNum=' + encodeURI(priceNum)
-
                         + '&accoInfo=' + encodeURI(accoInfo)
-                        + '&favorId=-1';
+                        + '&favorId=-1';*/
 
                     if(submit){
-                        saveTable(url);
+                        //saveTable(url);
+                        //uploader.upload();
+
+                        // 数据封装
+                        uploader.options.formData.operate = "save";
+                        uploader.options.formData.userId = userId;
+                        uploader.options.formData.tradeType = tradeType;
+                        uploader.options.formData.belongQf = belongQf;
+                        uploader.options.formData.tixin = tixin;
+                        uploader.options.formData.priceNum = priceNum;
+                        uploader.options.formData.accoInfo = accoInfo;
+
                         uploader.upload();
+                        saveTable();
                     }else{
                         layer.closeAll();
                     }
             });
             $('#upedit').unbind("click");
             $('#upedit').click(function () {
-                // layer.load();
-                // var recordId = getUrlParam('mainId');
-                // var tradeType = '1';//账号交易类别
-                // var belongQf = ''; //涉事区服
-                // var tixin = $('#tixin').val();//门派体型
-                // var priceNum = $('#priceNum').val();//价格
-                // var accoInfo = $('#accoInfo').val();//账号资料
-                //
-                // tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-                // if(tradeType=="买号"){
-                //     tradeType=1;
-                // }else if(tradeType=="卖号"){
-                //     tradeType=2;
-                // }else{
-                //     tradeType=3;
-                // }
-                //
-                // $('.areaSelect').find('select').each(function () {
-                //     var text = $(this).find('option:selected').text();
-                //     if(text.indexOf("请选择")==-1) {
-                //         belongQf += text;
-                //     }
-                // });
-                // /*if(belongQf.length>2) {
-                //  belongQf = belongQf.substring(0, belongQf.length - 1);
-                //  }else{
-                //  belongQf="";
-                //  }*/
-                // console.log('开始tradeType----------->'+tradeType);
-                // console.log('输出----------->'+userId);
-                // console.log('输出----------->'+belongQf);
-                // console.log('输出tixin----------->'+tixin);
-                // console.log('输出----------->'+priceNum);
-                // console.log('输出----------->'+accoInfo);
-                //
-                // //验证
-                // var submit=true;
-                // if($.trim(priceNum).length>0) {
-                //     var reg = /^[0-9]*$/;
-                //     if(!reg.test(priceNum)){
-                //         $('#msg1').text("* 请输入正整数!");
-                //         submit=false;
-                //     }else{
-                //         $('#msg1').text("*");
-                //     }
-                // }else{
-                //     $('#msg1').text("* 本项不可为空!");
-                //     submit=false;
-                // }
-                //
-                // url = reportApi + 'saveZhssInfo?operate=upedit&userId=' + encodeURI(userId)
-                //     + '&favorId=' + getUrlParam('mainId')
-                //     + '&tradeType=' + encodeURI(tradeType)
-                //     + '&belongQf=' + encodeURI(belongQf)
-                //     + '&tixin=' + encodeURI(tixin)
-                //     +'&priceNum=' + encodeURI(priceNum)
-                //     +'&accoInfo=' + encodeURI(accoInfo);
-                //
-                // if(submit){
-                //     saveTable(url);
-                //     uploader.upload();
-                // }else{
-                //     layer.closeAll();
-                // }
-                $('.dropdown-menu li').removeClass('disabled');
-                $('.areaSelect select').removeAttr('disabled');
-                $('.tixin').removeAttr('disabled');
-                $('#priceNum').removeAttr('disabled');
-                $('#accoInfo').removeAttr('disabled');
+                layer.load();
+                var recordId = getUrlParam('mainId');
+                var tradeType = '1';//账号交易类别
+                var belongQf = ''; //涉事区服
+                var tixin = $('#tixin').val();//门派体型
+                var priceNum = $('#priceNum').val();//价格
+                var accoInfo = $('#accoInfo').val();//账号资料
+
+                tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
+                if(tradeType=="买号"){
+                    tradeType=1;
+                }else if(tradeType=="卖号"){
+                    tradeType=2;
+                }else{
+                    tradeType=3;
+                }
+
+                $('.areaSelect').find('select').each(function () {
+                    var text = $(this).find('option:selected').text();
+                    if(text.indexOf("请选择")==-1) {
+                        belongQf += text;
+                    }
+                });
+                /*if(belongQf.length>2) {
+                 belongQf = belongQf.substring(0, belongQf.length - 1);
+                 }else{
+                 belongQf="";
+                 }*/
+                console.log('开始tradeType----------->'+tradeType);
+                console.log('输出----------->'+userId);
+                console.log('输出----------->'+belongQf);
+                console.log('输出tixin----------->'+tixin);
+                console.log('输出----------->'+priceNum);
+                console.log('输出----------->'+accoInfo);
+
+                //验证
+                var submit=true;
+                if($.trim(priceNum).length>0) {
+                    var reg = /^[0-9]*$/;
+                    if(!reg.test(priceNum)){
+                        $('#msg1').text("* 请输入正整数!");
+                        submit=false;
+                    }else{
+                        $('#msg1').text("*");
+                    }
+                }else{
+                    $('#msg1').text("* 本项不可为空!");
+                    submit=false;
+                }
+
+                /*url = reportApi + 'saveZhssInfo?operate=upedit&userId=' + encodeURI(userId)
+                    + '&favorId=' + getUrlParam('mainId')
+                    + '&tradeType=' + encodeURI(tradeType)
+                    + '&belongQf=' + encodeURI(belongQf)
+                    + '&tixin=' + encodeURI(tixin)
+                    +'&priceNum=' + encodeURI(priceNum)
+                    +'&accoInfo=' + encodeURI(accoInfo);*/
+
+                if(submit){
+                    //saveTable(url);
+                    //uploader.upload();
+
+                    // 数据封装
+                    uploader.options.formData.operate = "upedit";
+                    uploader.options.formData.favorId = getUrlParam('mainId');
+                    uploader.options.formData.userId = userId;
+                    uploader.options.formData.tradeType = tradeType;
+                    uploader.options.formData.belongQf = belongQf;
+                    uploader.options.formData.tixin = tixin;
+                    uploader.options.formData.priceNum = priceNum;
+                    uploader.options.formData.accoInfo = accoInfo;
+
+                    uploader.upload();
+                    saveTable();
+                }else{
+                    layer.closeAll();
+                }
             });
-            $('#preview').click(function () {
-                layer.msg('努力开发中……');
-            });
-            $('#cancel').click(function () {
-                layer.msg('努力开发中……');
-            });
+
             //initTable();
         });
 
@@ -464,108 +499,110 @@
             });
             $(".js-example-basic-single").select2();
         }
-    }
 
-    //------------------------------------上传 Start------------------------------------
-    //uploader
-    // 初始化Web Uploader
-    var $list = $('#fileList'),
-    // 优化retina, 在retina下这个值是2
-        ratio = window.devicePixelRatio || 1,
+        //------------------------------------上传 Start------------------------------------
+        //uploader
+        // 初始化Web Uploader
+        var $list = $('#fileList'),
+        // 优化retina, 在retina下这个值是2
+            ratio = window.devicePixelRatio || 1,
 
-    // 缩略图大小
-        thumbnailWidth = 167 * ratio,
-        thumbnailHeight = 99 * ratio,
+        // 缩略图大小
+            thumbnailWidth = 167 * ratio,
+            thumbnailHeight = 99 * ratio,
 
-    // Web Uploader实例
-        uploader;
+        // Web Uploader实例
+            uploader;
 
-    // 初始化Web Uploader
-    uploader = WebUploader.create({
-        // 自动上传。
-        auto: false,
-        // swf文件路径
-        swf:  './dist/js/uploader/Uploader.swf',
-        // 文件接收服务端。
-        server: api+'uploaderImgs',
-        // 选择文件的按钮。可选。
-        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#filePicker',
-        // 只允许选择文件，可选。
-        accept: {
-            title: 'Images',
-            extensions: 'gif,jpg,jpeg,bmp,png',
-            mimeTypes: 'image/jpg,image/jpeg,image/png'//这里默认是 image/*,但是会导致很慢
-        }
-    });
+        // 初始化Web Uploader
+        uploader = WebUploader.create({
+            // 自动上传。
+            auto: false,
+            // swf文件路径
+            swf:  './dist/js/uploader/Uploader.swf',
+            // 文件接收服务端。
+            server: reportApi + 'saveZhssInfo',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+            // 只允许选择文件，可选。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/jpg,image/jpeg,image/png'//这里默认是 image/*,但是会导致很慢
+            }
+        });
 
-    // 当有文件添加进来的时候
-    uploader.on( 'fileQueued', function( file ) {
-        var $li = $(
-                '<div id="' + file.id + '" class="file-item thumbnail">' +
-                '<img>' +
-                '</div>'
-            ),
-            $img = $li.find('img');
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {
+            var $li = $(
+                    '<div id="' + file.id + '" class="file-item thumbnail">' +
+                    '<img>' +
+                    '</div>'
+                ),
+                $img = $li.find('img');
 
-        $list.append( $li );
+            $list.append( $li );
 
-        // 创建缩略图
-        uploader.makeThumb( file, function( error, src ) {
-            if ( error ) {
-                $img.replaceWith('<span>不能预览</span>');
-                return;
+            // 创建缩略图
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+
+                $img.attr( 'src', src );
+            }, thumbnailWidth, thumbnailHeight );
+        });
+
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on( 'uploadProgress', function( file, percentage ) {
+            var $li = $( '#'+file.id ),
+                $percent = $li.find('.progress span');
+
+            // 避免重复创建
+            if ( !$percent.length ) {
+                $percent = $('<p class="progress"><span></span></p>')
+                    .appendTo( $li )
+                    .find('span');
             }
 
-            $img.attr( 'src', src );
-        }, thumbnailWidth, thumbnailHeight );
-    });
+            $percent.css( 'width', percentage * 100 + '%' );
+        });
 
-    // 文件上传过程中创建进度条实时显示。
-    uploader.on( 'uploadProgress', function( file, percentage ) {
-        var $li = $( '#'+file.id ),
-            $percent = $li.find('.progress span');
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', function( file,response) {
+            $( '#'+file.id ).addClass('upload-state-done');
+            //console.log(response);输出
+            $('#file_name').prop("value", response.data);
+        });
 
-        // 避免重复创建
-        if ( !$percent.length ) {
-            $percent = $('<p class="progress"><span></span></p>')
-                .appendTo( $li )
-                .find('span');
-        }
+        // 文件上传失败，现实上传出错。
+        uploader.on( 'uploadError', function( file ) {
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
 
-        $percent.css( 'width', percentage * 100 + '%' );
-    });
+            // 避免重复创建
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
 
-    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    uploader.on( 'uploadSuccess', function( file,response) {
-        $( '#'+file.id ).addClass('upload-state-done');
-        //console.log(response);输出
-        $('#file_name').prop("value", response.data);
-    });
+            $error.text('上传失败');
+        });
 
-    // 文件上传失败，现实上传出错。
-    uploader.on( 'uploadError', function( file ) {
-        var $li = $( '#'+file.id ),
-            $error = $li.find('div.error');
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader.on( 'uploadComplete', function( file ) {
+            $( '#'+file.id ).find('.progress').remove();
+        });
 
-        // 避免重复创建
-        if ( !$error.length ) {
-            $error = $('<div class="error"></div>').appendTo( $li );
-        }
+        $('.uploaderImgs').click(function () {
+            uploader.upload();
+        });
 
-        $error.text('上传失败');
-    });
+        //------------------------------------上传 End------------------------------------
+    }
 
-    // 完成上传完了，成功或者失败，先删除进度条。
-    uploader.on( 'uploadComplete', function( file ) {
-        $( '#'+file.id ).find('.progress').remove();
-    });
 
-    $('.uploaderImgs').click(function () {
-        uploader.upload();
-    });
-
-    //------------------------------------上传 End------------------------------------
 
     //获取url中的参数
     function getUrlParam(name) {
