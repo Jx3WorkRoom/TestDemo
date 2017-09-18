@@ -413,7 +413,8 @@ function initForm() {
                 $('#msg2').text("*");
             }
             if(pageUrl.length>0){
-                var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+                // var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+                var reg =  /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/;
                 if (!reg.test(pageUrl)) {
                     $('#msg3').text("网址不正确，请检查!");
                     submit=false;
