@@ -191,6 +191,7 @@ function initTable(username) {
     if(getUrlParam('mainId')==null){
         $("#upedit").hide();    //隐藏更新按钮
     }else{
+        $("#save").text('保存');
         //$("#save").hide();      //隐藏保存按钮
     }
 
