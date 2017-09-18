@@ -191,21 +191,23 @@
         if(getUrlParam('mainId')==null){
             $("#upedit").hide();    //隐藏更新按钮
         }else{
-            $("#save").hide();      //隐藏保存按钮
+            //$("#save").hide();      //隐藏保存按钮
         }
 
         $('#preview').click(function () {
             layer.msg('努力开发中……');
         });
-        //信息框
-        layer.msg('未编辑完，确定取消吗？', {
-            time: 0 //不自动关闭
-            ,btn: ['确定', '取消']
-            ,yes: function(index){
-                layer.close(index);
-                //跳转
-                window.location.href = "/testDemo/myRelease.html";
-            }
+        $('#cancel').click(function () {
+            //信息框
+            layer.msg('未编辑完，确定取消吗？', {
+                time: 0 //不自动关闭
+                ,btn: ['确定', '取消']
+                ,yes: function(index){
+                    layer.close(index);
+                    //跳转
+                    window.location.href = "/testDemo/myRelease.html";
+                }
+            });
         });
     }
 
@@ -374,81 +376,102 @@ function setInfo(info){
                     //saveTable(url);
                     //uploader.upload();
 
-                    // 数据封装
-                    uploader.options.formData.operate = "save";
-                    uploader.options.formData.userId = userId;
-                    uploader.options.formData.needtype = needtype;
-                    uploader.options.formData.belongQf = belongQf;
-                    uploader.options.formData.favorInfo = favorInfo;
+                    if(getUrlParam('mainId')==null){
+                        // 数据封装
+                        uploader.options.formData.operate = "save";
+                        uploader.options.formData.userId = userId;
+                        uploader.options.formData.needtype = needtype;
+                        uploader.options.formData.belongQf = belongQf;
+                        uploader.options.formData.favorInfo = favorInfo;
 
-                    uploader.upload();
-                    saveTable();
+                        uploader.upload();
+                        saveTable();
+                    }else{
+                        // 数据封装
+                            uploader.options.formData.operate = "upedit";
+                            uploader.options.formData.favorId = getUrlParam('mainId');
+                            uploader.options.formData.userId = userId;
+                            uploader.options.formData.needtype = needtype;
+                            uploader.options.formData.belongQf = belongQf;
+                            uploader.options.formData.favorInfo = favorInfo;
+
+                            uploader.upload();
+                            saveTable();
+                    }
+
                 }else{
                     layer.closeAll();
                 }
             });
             $('#upedit').unbind("click");
             $('#upedit').click(function () {
-                layer.load();
-                var recordId = getUrlParam('mainId');
-                var needtype = '1';//需求类型
-                var belongQf = ''; //涉事区服
-                var favorInfo = $('#favorInfo').val();;//代练说明
+                // layer.load();
+                // var recordId = getUrlParam('mainId');
+                // var needtype = '1';//需求类型
+                // var belongQf = ''; //涉事区服
+                // var favorInfo = $('#favorInfo').val();;//代练说明
+                //
+                // if(needtype=="接代练"){
+                //     needtype=1;
+                // }else{
+                //     needtype=2;
+                // }
+                //
+                // $('.areaSelect').find('select').each(function () {
+                //     var text = $(this).find('option:selected').text();
+                //     if(text.indexOf("请选择")==-1) {
+                //         belongQf += text;
+                //     }
+                // });
+                // /*if(belongQf.length>2) {
+                //  belongQf = belongQf.substring(0, belongQf.length - 1);
+                //  }else{
+                //  belongQf="";
+                //  }*/
+                //
+                // console.log('输出----------->'+needtype);
+                // console.log('输出----------->'+belongQf);
+                // console.log('输出----------->'+favorInfo);
+                //
+                // //验证
+                // var submit=true;
+                // if($.trim(needtype)==''){
+                //     $('#msg1').text("* 本项不可为空!");
+                //     submit=false;
+                // }else{
+                //     $('#msg1').text("*");
+                // }
+                //
+                // /*url = reportApi + 'saveDlddInfo?operate=upedit&userId=' + encodeURI(userId)
+                //     + '&favorId=' + getUrlParam('mainId')
+                //     + '&tradeType=' + encodeURI(tradeType)
+                //     + '&belongQf=' + encodeURI(belongQf)
+                //     + '&favorInfo=' + encodeURI(favorInfo);*/
+                //
+                // if(submit){
+                //     //saveTable(url);
+                //     //uploader.upload();
+                //
+                //     // 数据封装
+                //     uploader.options.formData.operate = "upedit";
+                //     uploader.options.formData.favorId = getUrlParam('mainId');
+                //     uploader.options.formData.userId = userId;
+                //     uploader.options.formData.needtype = needtype;
+                //     uploader.options.formData.belongQf = belongQf;
+                //     uploader.options.formData.favorInfo = favorInfo;
+                //
+                //     uploader.upload();
+                //     saveTable();
+                // }else{
+                //     layer.closeAll();
+                // }
 
-                if(needtype=="接代练"){
-                    needtype=1;
-                }else{
-                    needtype=2;
-                }
+                $('.dropdown-menu li').removeClass('disabled');
+                $('.areaSelect select').removeAttr('disabled');
+                $('.viewName').removeAttr('disabled');
+                $('#priceNum').removeAttr('disabled');
+                $('#favorInfo').removeAttr('disabled');
 
-                $('.areaSelect').find('select').each(function () {
-                    var text = $(this).find('option:selected').text();
-                    if(text.indexOf("请选择")==-1) {
-                        belongQf += text;
-                    }
-                });
-                /*if(belongQf.length>2) {
-                 belongQf = belongQf.substring(0, belongQf.length - 1);
-                 }else{
-                 belongQf="";
-                 }*/
-
-                console.log('输出----------->'+needtype);
-                console.log('输出----------->'+belongQf);
-                console.log('输出----------->'+favorInfo);
-
-                //验证
-                var submit=true;
-                if($.trim(needtype)==''){
-                    $('#msg1').text("* 本项不可为空!");
-                    submit=false;
-                }else{
-                    $('#msg1').text("*");
-                }
-
-                /*url = reportApi + 'saveDlddInfo?operate=upedit&userId=' + encodeURI(userId)
-                    + '&favorId=' + getUrlParam('mainId')
-                    + '&tradeType=' + encodeURI(tradeType)
-                    + '&belongQf=' + encodeURI(belongQf)
-                    + '&favorInfo=' + encodeURI(favorInfo);*/
-
-                if(submit){
-                    //saveTable(url);
-                    //uploader.upload();
-
-                    // 数据封装
-                    uploader.options.formData.operate = "upedit";
-                    uploader.options.formData.favorId = getUrlParam('mainId');
-                    uploader.options.formData.userId = userId;
-                    uploader.options.formData.needtype = needtype;
-                    uploader.options.formData.belongQf = belongQf;
-                    uploader.options.formData.favorInfo = favorInfo;
-
-                    uploader.upload();
-                    saveTable();
-                }else{
-                    layer.closeAll();
-                }
             });
 
             //initTable();

@@ -191,7 +191,7 @@ function initTable(username) {
     if(getUrlParam('mainId')==null){
         $("#upedit").hide();    //隐藏更新按钮
     }else{
-        $("#save").hide();      //隐藏保存按钮
+        //$("#save").hide();      //隐藏保存按钮
     }
 
     $('#preview').click(function () {
@@ -437,27 +437,47 @@ function initForm() {
                 //saveTable(url);
                 //uploader.upload();
 
-                // 数据封装
-                uploader.options.formData.operate = "save";
-                uploader.options.formData.userId = userId;
-                uploader.options.formData.favorId = getUrlParam('mainId');
-                uploader.options.formData.cheatType = cheatType;
-                uploader.options.formData.belongQf = belongQf;
-                uploader.options.formData.tixin = tixin;
-                uploader.options.formData.roleName = roleName;
-                uploader.options.formData.cheatIntro = cheatIntro;
-                uploader.options.formData.cheatInfo = cheatInfo;
-                uploader.options.formData.pageUrl = pageUrl;
+                if(getUrlParam('mainId')==null){
+                    // 数据封装
+                    uploader.options.formData.operate = "save";
+                    uploader.options.formData.userId = userId;
+                    uploader.options.formData.favorId = getUrlParam('mainId');
+                    uploader.options.formData.cheatType = cheatType;
+                    uploader.options.formData.belongQf = belongQf;
+                    uploader.options.formData.tixin = tixin;
+                    uploader.options.formData.roleName = roleName;
+                    uploader.options.formData.cheatIntro = cheatIntro;
+                    uploader.options.formData.cheatInfo = cheatInfo;
+                    uploader.options.formData.pageUrl = pageUrl;
 
-                uploader.upload();
-                saveTable();
+                    uploader.upload();
+                    saveTable();
+                }else{
+                    var recordId = getUrlParam('mainId');
+                    // 初始化以后添加
+                    uploader.options.formData.operate = "upedit";
+                    uploader.options.formData.userId = userId;
+                    uploader.options.formData.favorId = getUrlParam('mainId');
+                    uploader.options.formData.cheatType = cheatType;
+                    uploader.options.formData.belongQf = belongQf;
+                    uploader.options.formData.tixin = tixin;
+                    uploader.options.formData.roleName = roleName;
+                    uploader.options.formData.cheatIntro = cheatIntro;
+                    uploader.options.formData.cheatInfo = cheatInfo;
+                    uploader.options.formData.pageUrl = pageUrl;
+
+                    uploader.upload();
+                    saveTable();
+                }
+
+
             }else{
                 layer.closeAll();
             }
         });
         $('#upedit').unbind("click");
         $('#upedit').click(function () {
-            layer.load();
+            /*layer.load();
             var recordId = getUrlParam('mainId');
             var cheatType = '1';//欺诈类别
             var belongQf = ''; //涉事区服
@@ -495,11 +515,11 @@ function initForm() {
             console.log('输出----------->'+cheatIntro);
             console.log('输出----------->'+cheatInfo);
             console.log('输出----------->'+pageUrl);
-            /*if(tradeType=="求购"){
-             tradeType=1;
-             }else{
-             tradeType=2;
-             }*/
+            // if(tradeType=="求购"){
+            //  tradeType=1;
+            //  }else{
+            //  tradeType=2;
+            //  }
 
             //验证
             var submit=true;
@@ -527,16 +547,16 @@ function initForm() {
                 $('#msg3').text("");
             }
 
-            /*url = reportApi + 'saveWyjbInfo?operate=upedit&userId=' + encodeURI(userId)
-                + '&favorId=' + getUrlParam('mainId')
-                + '&cheatType=' + encodeURI(cheatType)
-                + '&belongQf=' + encodeURI(belongQf)
-                + '&tixin=' + encodeURI(tixin)
-                +'&roleName=' + encodeURI(roleName)
-                +'&cheatIntro=' + encodeURI(cheatIntro)
-                +'&cheatInfo=' + encodeURI(cheatInfo)
-                +'&pageUrl=' + encodeURI(pageUrl);
-*/
+            // url = reportApi + 'saveWyjbInfo?operate=upedit&userId=' + encodeURI(userId)
+            //     + '&favorId=' + getUrlParam('mainId')
+            //     + '&cheatType=' + encodeURI(cheatType)
+            //     + '&belongQf=' + encodeURI(belongQf)
+            //     + '&tixin=' + encodeURI(tixin)
+            //     +'&roleName=' + encodeURI(roleName)
+            //     +'&cheatIntro=' + encodeURI(cheatIntro)
+            //     +'&cheatInfo=' + encodeURI(cheatInfo)
+            //     +'&pageUrl=' + encodeURI(pageUrl);
+
             if(submit){
                 //saveTable(url);
                 // 初始化以后添加
@@ -555,7 +575,16 @@ function initForm() {
                 saveTable();
             }else{
                 layer.closeAll();
-            }
+            }*/
+
+            $('.dropdown-menu li').removeClass('disabled');
+            $('.areaSelect select').removeAttr('disabled');
+            $('.tixin').removeAttr('disabled');
+            $('#roleName').removeAttr('disabled');
+            $('#cheatIntro').removeAttr('disabled');
+            $('#cheatInfo').removeAttr('disabled');
+            $('#pageUrl').removeAttr('disabled');
+
         });
 
         //initTable();
