@@ -71,9 +71,9 @@ function initTable(name,keyNum) {
                         return year + "-" + month + "-" + date+' '+hour+":"+min;
                     };
                 var cont = value.COLLECT_CONT.replace("【","");
-                cont = value.COLLECT_CONT.replace("】","");
-                cont = value.COLLECT_CONT.replace("[","");
-                cont = value.COLLECT_CONT.replace("]","");
+                cont = cont.replace("】","");
+                cont = cont.replace("[","");
+                cont = cont.replace("]","");
                 cont = cont.split('').join('');
                 var stusta = value.COLLECT_STUSTA!=0?'正常':'失效';
                 $('.table').append("<div class=\"table-tr\">\n" +
