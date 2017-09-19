@@ -474,12 +474,14 @@ function setInfo(info){
         uploader.on( 'fileQueued', function( file ) {
             var $li = $(
                     '<div id="' + file.id + '" class="file-item thumbnail">' +
-                    '<img>' +
+                    '<img style="float: left">' +
+                    '<span class="deleteImg" style="font-size:30px;z-index:100;cursor:pointer;padding:8px">×</span>'+
                     '</div>'
                 ),
                 $img = $li.find('img');
 
             $list.append( $li );
+
 
             // 创建缩略图
             uploader.makeThumb( file, function( error, src ) {
@@ -490,6 +492,11 @@ function setInfo(info){
 
                 $img.attr( 'src', src );
             }, thumbnailWidth, thumbnailHeight );
+            $('.deleteImg').unbind('click');
+            $('.deleteImg').click(function () {
+                $(this).parent().remove();
+                uploader.removeFile( $(this).parent().attr('id'));
+            });
         });
 
         // 文件上传过程中创建进度条实时显示。
