@@ -191,6 +191,7 @@ function initTable(username) {
     if(getUrlParam('mainId')==null){
         $("#upedit").hide();    //隐藏更新按钮
     }else{
+        $("#save").text('保存');
         //$("#save").hide();      //隐藏保存按钮
     }
 
@@ -413,7 +414,8 @@ function initForm() {
                 $('#msg2').text("*");
             }
             if(pageUrl.length>0){
-                var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+                // var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+                var reg =  /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/;
                 if (!reg.test(pageUrl)) {
                     $('#msg3').text("网址不正确，请检查!");
                     submit=false;
@@ -423,7 +425,7 @@ function initForm() {
             }else{
                 $('#msg3').text("");
             }
-
+            var imgNum =parseInt($('#fileList div').length);
             // url = reportApi + 'saveWyjbInfo?operate=save&userId=' + encodeURI(userId)
             //     + '&favorId=-1'
             //     + '&cheatType=' + encodeURI(cheatType)
@@ -449,7 +451,7 @@ function initForm() {
                     uploader.options.formData.cheatIntro = cheatIntro;
                     uploader.options.formData.cheatInfo = cheatInfo;
                     uploader.options.formData.pageUrl = pageUrl;
-
+                    uploader.options.formData.imgNum = imgNum;
                     uploader.upload();
                     saveTable();
                 }else{
@@ -465,118 +467,16 @@ function initForm() {
                     uploader.options.formData.cheatIntro = cheatIntro;
                     uploader.options.formData.cheatInfo = cheatInfo;
                     uploader.options.formData.pageUrl = pageUrl;
-
+                    uploader.options.formData.imgNum = imgNum;
                     uploader.upload();
                     saveTable();
                 }
-
-
             }else{
                 layer.closeAll();
             }
         });
         $('#upedit').unbind("click");
         $('#upedit').click(function () {
-            /*layer.load();
-            var recordId = getUrlParam('mainId');
-            var cheatType = '1';//欺诈类别
-            var belongQf = ''; //涉事区服
-            var tixin = $('#tixin').val();//门派体型
-            var roleName = $('#roleName').val();//角色名
-            var cheatIntro = $('#cheatIntro').val();//被黑经历
-            var cheatInfo = $('#cheatInfo').val();//资料信息
-            var pageUrl = $('#pageUrl').val();//网页链接地址
-
-            //$('.dropdown.all-camera-dropdown').find("p").eq(0).html();
-            cheatType =$('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
-            if(cheatType=="账号诈骗"){
-                cheatType=1;
-            }else if(cheatType=="外观诈骗"){
-                cheatType=2;
-            }else if(cheatType=="道具诈骗"){
-                cheatType=3;
-            }else if(cheatType=="金币诈骗"){
-                cheatType=4;
-            }
-
-            $('.areaSelect').find('select').each(function () {
-                var text = $(this).find('option:selected').text();
-                if(text.indexOf("请选择")==-1) {
-                    belongQf += text ;
-                }
-            });
-            //belongQf=trimEnd(belongQf);
-            console.log('修改----------->'+recordId);
-            console.log('输出----------->'+userId);
-            console.log('输出----------->'+cheatType);
-            console.log('输出----------->'+belongQf);
-            console.log('输出tixin----------->'+tixin);
-            console.log('输出----------->'+roleName);
-            console.log('输出----------->'+cheatIntro);
-            console.log('输出----------->'+cheatInfo);
-            console.log('输出----------->'+pageUrl);
-            // if(tradeType=="求购"){
-            //  tradeType=1;
-            //  }else{
-            //  tradeType=2;
-            //  }
-
-            //验证
-            var submit=true;
-            if($.trim(cheatIntro)==''){
-                $('#msg1').text("* 本项不可为空!");
-                submit=false;
-            }else{
-                $('#msg1').text("*");
-            }
-            if($.trim(cheatInfo)==''){
-                $('#msg2').text("* 本项不可为空!");
-                submit=false;
-            }else{
-                $('#msg2').text("*");
-            }
-            if(pageUrl.length>0){
-                var reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
-                if (!reg.test(pageUrl)) {
-                    $('#msg3').text("网址不正确，请检查!");
-                    submit=false;
-                }else{
-                    $('#msg3').text("");
-                }
-            }else{
-                $('#msg3').text("");
-            }
-
-            // url = reportApi + 'saveWyjbInfo?operate=upedit&userId=' + encodeURI(userId)
-            //     + '&favorId=' + getUrlParam('mainId')
-            //     + '&cheatType=' + encodeURI(cheatType)
-            //     + '&belongQf=' + encodeURI(belongQf)
-            //     + '&tixin=' + encodeURI(tixin)
-            //     +'&roleName=' + encodeURI(roleName)
-            //     +'&cheatIntro=' + encodeURI(cheatIntro)
-            //     +'&cheatInfo=' + encodeURI(cheatInfo)
-            //     +'&pageUrl=' + encodeURI(pageUrl);
-
-            if(submit){
-                //saveTable(url);
-                // 初始化以后添加
-                uploader.options.formData.operate = "upedit";
-                uploader.options.formData.userId = userId;
-                uploader.options.formData.favorId = getUrlParam('mainId');
-                uploader.options.formData.cheatType = cheatType;
-                uploader.options.formData.belongQf = belongQf;
-                uploader.options.formData.tixin = tixin;
-                uploader.options.formData.roleName = roleName;
-                uploader.options.formData.cheatIntro = cheatIntro;
-                uploader.options.formData.cheatInfo = cheatInfo;
-                uploader.options.formData.pageUrl = pageUrl;
-
-                uploader.upload();
-                saveTable();
-            }else{
-                layer.closeAll();
-            }*/
-
             $('.dropdown-menu li').removeClass('disabled');
             $('.areaSelect select').removeAttr('disabled');
             $('.tixin').removeAttr('disabled');
@@ -586,7 +486,6 @@ function initForm() {
             $('#pageUrl').removeAttr('disabled');
 
         });
-
         //initTable();
     });
 
@@ -622,6 +521,7 @@ function initForm() {
         // 文件接收服务端。
         //server: api+'uploaderImgs',
         server: reportApi + 'saveWyjbInfo',
+        threads:10,
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#filePicker',

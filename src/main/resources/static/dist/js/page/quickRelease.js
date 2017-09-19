@@ -191,24 +191,10 @@
         if(getUrlParam('mainId')==null){
             $("#upedit").hide();    //隐藏更新按钮
         }else{
+            $("#save").text('保存');
             //$("#save").hide();      //隐藏保存按钮
         }
 
-        $('#preview').click(function () {
-            layer.msg('努力开发中……');
-        });
-        $('#cancel').click(function () {
-            //信息框
-            layer.msg('未编辑完，确定取消吗？', {
-                time: 0 //不自动关闭
-                ,btn: ['确定', '取消']
-                ,yes: function(index){
-                    layer.close(index);
-                    //跳转
-                    window.location.href = "/testDemo/myRelease.html";
-                }
-            });
-        });
     }
 
     //设置编辑数据
