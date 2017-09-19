@@ -366,7 +366,7 @@
                         $('#msg1').text("* 本项不可为空!");
                         submit=false;
                     }
-
+                var imgNum =parseInt($('#fileList div').length);
                     /*url = reportApi + 'saveZhssInfo?operate=save&userId=' + encodeURI(userId)
                         + '&tradeType=' + encodeURI(tradeType)
                         + '&belongQf=' + encodeURI(belongQf)
@@ -387,7 +387,7 @@
                             uploader.options.formData.tixin = tixin;
                             uploader.options.formData.priceNum = priceNum;
                             uploader.options.formData.accoInfo = accoInfo;
-
+                            uploader.options.formData.imgNum = imgNum;
                             uploader.upload();
                             saveTable();
                         }else{
@@ -400,7 +400,7 @@
                             uploader.options.formData.tixin = tixin;
                             uploader.options.formData.priceNum = priceNum;
                             uploader.options.formData.accoInfo = accoInfo;
-
+                            uploader.options.formData.imgNum = imgNum;
                             uploader.upload();
                             saveTable();
                         }
@@ -527,6 +527,7 @@
             auto: false,
             // swf文件路径
             swf:  './dist/js/uploader/Uploader.swf',
+            threads:10,
             // 文件接收服务端。
             server: reportApi + 'saveZhssInfo',
             // 选择文件的按钮。可选。

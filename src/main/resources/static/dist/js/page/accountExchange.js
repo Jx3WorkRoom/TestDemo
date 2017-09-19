@@ -173,21 +173,6 @@
         }
         //var str = getUrlParam('cheatType');
         console.log('initTable()----------->'+cheatType);
-        // function getUrlParam(name) {
-        //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        //     var r = window.location.search.substr(1).match(reg); //匹配目标参数
-        //     if (r != null) return unescape(r[2]); return null; //返回参数值
-        // }
-        /*if(parseInt(str)==1){
-            tradeType=1;
-            var sefont=$(".nav-pills ul li").eq(0).find('a').text();
-            $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
-        }else if(parseInt(str)==2){
-            tradeType=2;
-            var sefont=$(".nav-pills ul li").eq(1).find('a').text();
-            $(".nav-pills ul li").eq(0).parents('.nav-pills').find('.dropdown-toggle').html(sefont+'<b class="caret"></b>')
-        }*/
-
         if(getUrlParam('mainId')==null){
             $("#upedit").hide();    //隐藏更新按钮
         }else{
@@ -334,11 +319,6 @@ function setInfo(info){
                         belongQf += text;
                     }
                 });
-                /*if(belongQf.length>2) {
-                    belongQf = belongQf.substring(0, belongQf.length - 1);
-                }else{
-                    belongQf="";
-                }*/
 
                 console.log('输出----------->'+needtype);
                 console.log('输出----------->'+belongQf);
@@ -353,16 +333,8 @@ function setInfo(info){
                     $('#msg1').text("*");
                 }
 
-                /*url = reportApi + 'saveDlddInfo?operate=save&userId=' + encodeURI(userId)
-                    + '&favorId=-1'
-                    + '&needtype=' + encodeURI(needtype)
-                    + '&belongQf=' + encodeURI(belongQf)
-                    + '&favorInfo=' + encodeURI(favorInfo);*/
-
+                var imgNum =parseInt($('#fileList div').length);
                 if(submit){
-                    //saveTable(url);
-                    //uploader.upload();
-
                     if(getUrlParam('mainId')==null){
                         // 数据封装
                         uploader.options.formData.operate = "save";
@@ -370,7 +342,7 @@ function setInfo(info){
                         uploader.options.formData.needtype = needtype;
                         uploader.options.formData.belongQf = belongQf;
                         uploader.options.formData.favorInfo = favorInfo;
-
+                        uploader.options.formData.imgNum = imgNum;
                         uploader.upload();
                         saveTable();
                     }else{
@@ -381,7 +353,7 @@ function setInfo(info){
                             uploader.options.formData.needtype = needtype;
                             uploader.options.formData.belongQf = belongQf;
                             uploader.options.formData.favorInfo = favorInfo;
-
+                            uploader.options.formData.imgNum = imgNum;
                             uploader.upload();
                             saveTable();
                     }
@@ -486,6 +458,7 @@ function setInfo(info){
             swf:  './dist/js/uploader/Uploader.swf',
             // 文件接收服务端。
             server: reportApi + 'saveDlddInfo',
+            threads:10,
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: '#filePicker',
