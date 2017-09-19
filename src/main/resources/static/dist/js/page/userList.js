@@ -66,8 +66,35 @@ function initTable(url,keyNum) {
                     var weixin = data.USER_WEIXIN == ""?'--':data.USER_WEIXIN;
                     var zfb = data.USER_ZFB == ""?'--':data.USER_ZFB;
                     var sfz = data.USER_SFZ == ""?'--':data.USER_SFZ;
+                    var time = timeStamp2String(data.REGIST_DATE);
+                    function timeStamp2String (time){
+                        var datetime = new Date();
+                        datetime.setTime(time);
+                        var year = datetime.getFullYear();
+                        var month = datetime.getMonth() + 1;
+                        var date = datetime.getDate();
+                        var hour = datetime.getHours();
+                        var min = datetime.getMinutes();
+                        var second = datetime.getSeconds();
+                        if(parseInt(month)<10){
+                            month = '0'+month;
+                        }
+                        if(parseInt(date)<10){
+                            date = '0'+date;
+                        }
+                        if(parseInt(hour)<10){
+                            hour = '0'+hour;
+                        }
+                        if(parseInt(min)<10){
+                            min = '0'+min;
+                        }
+                        if(parseInt(second)<10){
+                            second = '0'+second;
+                        }
+                        return year + "-" + month + "-" + date+" "+hour+":"+min+":"+second;
+                    };
                     $('.mid').eq(0).text(data.USER_ID);
-                    $('.mid').eq(1).text(data.REGIST_DATE);
+                    $('.mid').eq(1).text(time);
                     $('.mid').eq(2).text(data.LOGIN_NAME);
                     $('.mid').eq(3).text(password);
                     $('.mid').eq(4).text(data.USER_NAME);

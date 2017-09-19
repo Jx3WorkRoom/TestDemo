@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -112,4 +113,5 @@ public class User implements Serializable, UserDetails  {
     public void setEmployeeNo(String employeeNo) {
         EmployeeNo = employeeNo;
     }
+
 }
