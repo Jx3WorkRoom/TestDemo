@@ -37,11 +37,14 @@ function initTable() {
             var TIXIN = value.TIXIN.replace("[","");
             TIXIN = TIXIN.replace("]","");
             TIXIN = TIXIN.split(',')[0];
+            var price = value.PRICE_NUM.replace("[", "");
+            price = price.replace("]", "");
+            price = price.split(',')[0];
             $("#table1").append("<div class=\"table-tr\">\n" +
                 "        <div class=\"table-td\" style=\"width: 11% !important;\">"+belongOf+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 8%\">"+TIXIN+"</div>\n" +
                 "        <div class=\"table-td table_lw\" style=\"width: 59%;padding-left: 34px;\">"+value.REPLY_CONTENT+"</div>\n" +
-                "        <div class=\"table-td\" style=\"width: 10%\">"+value.PRICE_NUM+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 10%\">"+price+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width:12%;\">"+follow+"</div>\n" +
                 "      </div>")
         });
@@ -58,15 +61,17 @@ function initTable() {
             var belongOf = value.BELONG_QF.replace("[","");
             belongOf = belongOf.replace("]","");
             belongOf = belongOf.split(',')[0];
-            belongOf = replace(belongOf);
             var TIXIN = value.TIXIN.replace("[","");
             TIXIN = TIXIN.replace("]","");
             TIXIN = TIXIN.split(',')[0];
+            var price = value.PRICE_NUM.replace("[", "");
+            price = price.replace("]", "");
+            price = price.split(',')[0];
             $('#table2').append("<div class=\"table-tr\">\n" +
                 "        <div class=\"table-td\" style=\"width: 11% !important;\">"+belongOf+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 8%\">"+TIXIN+"</div>\n" +
                 "        <div class=\"table-td table_lw\" style=\"width: 59%;padding-left: 34px;\">"+value.REPLY_CONTENT+"</div>\n" +
-                "        <div class=\"table-td\" style=\"width: 10%\">"+value.PRICE_NUM+"</div>\n" +
+                "        <div class=\"table-td\" style=\"width: 10%\">"+price+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width:12%;\">"+follow+"</div>\n" +
                 "      </div>");
         });
@@ -81,7 +86,9 @@ function initTable() {
         $.each(table3Datas,function (i,value) {
             var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             var tixin = value.TIXIN ==null?'--':value.TIXIN;
-            var belongOf = replace(value.BELONG_QF);
+            var belongOf = value.BELONG_QF.replace("[","");
+            belongOf = belongOf.replace("]","");
+            belongOf = belongOf.split(',')[0];
             $('#table3').append("<div class=\"table-tr\">\n" +
                 "        <div class=\"table-td\" style=\"width: 25% !important\">"+belongOf+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 20%\">"+tixin+"</div>\n" +
@@ -100,7 +107,9 @@ function initTable() {
         $.each(table4Datas,function (i,value) {
             var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
             var tixin = value.TIXIN ==null?'--':value.TIXIN;
-            var belongOf = replace(value.BELONG_QF);
+            var belongOf = value.BELONG_QF.replace("[","");
+            belongOf = belongOf.replace("]","");
+            belongOf = belongOf.split(',')[0];
             $('#table4').append("<div class=\"table-tr\">\n" +
                 "        <div class=\"table-td\" style=\"width: 25% !important;\">"+belongOf+"</div>\n" +
                 "        <div class=\"table-td\" style=\"width: 20%\">"+tixin+"</div>\n" +
@@ -117,7 +126,9 @@ function initTable() {
             "          </div>");
         $.each(table5Datas,function (i,value) {
             var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
-            var belongOf = replace(value.BELONG_QF);
+            var belongOf = value.BELONG_QF.replace("[","");
+            belongOf = belongOf.replace("]","");
+            belongOf = belongOf.split(',')[0];
             $('#table5').append("<div class=\"table-tr\">\n" +
                 "            <div class=\"table-td\" style=\"width: 25% !important\">"+belongOf+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 20%\">"+value.PROP_NAME+"</div>\n" +
@@ -134,7 +145,9 @@ function initTable() {
             "          </div>");
         $.each(table6Datas,function (i,value) {
             var follow = value.USER_FOLLOW ==null?"--":value.USER_FOLLOW;
-            var belongOf = replace(value.BELONG_QF);
+            var belongOf = value.BELONG_QF.replace("[","");
+            belongOf = belongOf.replace("]","");
+            belongOf = belongOf.split(',')[0];
             $('#table6').append("<div class=\"table-tr\">\n" +
                 "            <div class=\"table-td\" style=\"width: 25% !important\">"+belongOf+"</div>\n" +
                 "            <div class=\"table-td\" style=\"width: 20%\">"+value.PROP_NAME+"</div>\n" +
@@ -157,4 +170,3 @@ function initTable() {
         return str;
     }
 }
-
