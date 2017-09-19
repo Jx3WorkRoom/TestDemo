@@ -298,6 +298,7 @@
     function initForm() {
         //var url = pageApi+'accountListSelection';
         var url = reportApi+'quickReleaseListSelection?mainId='+getUrlParam('mainId');
+        var maxImgId=0;
 
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
@@ -322,9 +323,13 @@
                 var pic_path = obj.pic_path;
                 imgSrc = api+'uploadFile/getImage?WENJIAN_PATH='+encodeURI(obj.pic_path);
                 var record_id = obj.record_id;
+                if(obj.seq_num>maxImgId){
+                    maxImgId=obj.seq_num;
+                }
                 imgs = imgs+'<li class="upload" id="img' + record_id + '"><img src="' + imgSrc + '" width="167" height="99" /><i class="icon1" id="' + record_id + '"></i></li>';
             });
             $('#imgs').html(imgs);
+            // alert(data.imgList.length);
         }).error(function () {
         }).complete(function () {
             $('#save').unbind("click");
@@ -377,6 +382,7 @@
                         submit=false;
                     }
                 var imgNum =parseInt($('#fileList div').length);
+                var imgTotal =parseInt($('.icon1').length);
                     /*url = reportApi + 'saveZhssInfo?operate=save&userId=' + encodeURI(userId)
                         + '&tradeType=' + encodeURI(tradeType)
                         + '&belongQf=' + encodeURI(belongQf)
@@ -411,6 +417,7 @@
                             uploader.options.formData.priceNum = priceNum;
                             uploader.options.formData.accoInfo = accoInfo;
                             uploader.options.formData.imgNum = imgNum;
+                            uploader.options.formData.imgTotal = imgTotal;//原图片总数
                             uploader.upload();
                             saveTable();
                         }

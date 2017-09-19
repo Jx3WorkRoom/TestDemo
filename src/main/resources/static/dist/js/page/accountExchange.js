@@ -280,6 +280,7 @@ function setInfo(info){
     function initForm() {
         //var url = pageApi+'accountListSelection';
         var url = reportApi+'accountExchangeListSelection?mainId='+getUrlParam('mainId');
+        var maxImgId=0;
 
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
@@ -303,8 +304,10 @@ function setInfo(info){
                 var pic_path = obj.pic_path;
                 imgSrc = api+'uploadFile/getImage?WENJIAN_PATH='+encodeURI(obj.pic_path);
                 var record_id = obj.record_id;
+                if(obj.seq_num>maxImgId){
+                    maxImgId=obj.seq_num;
+                }
                 imgs = imgs+'<li class="upload" id="img' + record_id + '"><img src="' + imgSrc + '" width="167" height="99" /><i class="icon1" id="' + record_id + '"></i></li>';
-                console.log(imgs);
             });
             $('#imgs').html(imgs);
     }).error(function () {
@@ -344,6 +347,7 @@ function setInfo(info){
                 }
 
                 var imgNum =parseInt($('#fileList div').length);
+                var imgTotal =parseInt($('.icon1').length);
                 if(submit){
                     if(getUrlParam('mainId')==null){
                         // 数据封装
@@ -357,15 +361,16 @@ function setInfo(info){
                         saveTable();
                     }else{
                         // 数据封装
-                            uploader.options.formData.operate = "upedit";
-                            uploader.options.formData.favorId = getUrlParam('mainId');
-                            uploader.options.formData.userId = userId;
-                            uploader.options.formData.needtype = needtype;
-                            uploader.options.formData.belongQf = belongQf;
-                            uploader.options.formData.favorInfo = favorInfo;
-                            uploader.options.formData.imgNum = imgNum;
-                            uploader.upload();
-                            saveTable();
+                        uploader.options.formData.operate = "upedit";
+                        uploader.options.formData.favorId = getUrlParam('mainId');
+                        uploader.options.formData.userId = userId;
+                        uploader.options.formData.needtype = needtype;
+                        uploader.options.formData.belongQf = belongQf;
+                        uploader.options.formData.favorInfo = favorInfo;
+                        uploader.options.formData.imgNum = imgNum;
+                        uploader.options.formData.imgTotal = imgTotal;//原图片总数
+                        uploader.upload();
+                        saveTable();
                     }
 
                 }else{
