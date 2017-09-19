@@ -114,6 +114,9 @@ function initTable() {
             }
             $('#serverCost').val(serverCost.replace("元",""));
             $('#serverNum').val(serverNum.replace("条",""));
+
+            $('#BELONG_WEB').attr('disabled','true');
+            $('#MOD_ID').attr('disabled','true');
         });
         $('.codebtn').click(function () {
             $('#BELONG_WEB').val("");
@@ -208,7 +211,6 @@ function initModDetail(modId) {
                 "      <div class=\"table-th\">付费金额</div>\n" +
                 "      <div class=\"table-th\">可用条数</div>\n" +
                 "      <div class=\"table-th\">启用日期</div>\n" +
-                "      <div class=\"table-th\">操作</div>\n" +
                 "  </div>");
             $.each(data,function (i,value) {
                 var serverCost =value.SERVER_COST==null?'':value.SERVER_COST+'元';
@@ -242,15 +244,13 @@ function initModDetail(modId) {
                     }
                 };
                 $('.table2').append("<div class=\"table-tr\">\n" +
-                    "     <div class=\"table-td recordId\" style='display: none'>"+value.RECORD_ID+"</div>\n" +
+                    "     <div class=\"table-td recordId detailFlag\" style='display: none'>"+value.RECORD_ID+"</div>\n" +
                     "     <div class=\"table-td\">"+value.BELONG_WEB+"</div>\n" +
                     "     <div class=\"table-td\">"+value.MOD_ID+"</div>\n" +
                     "     <div class=\"table-td\">"+value.MOD_NAME+"</div>\n" +
                     "     <div class=\"table-td\">"+serverCost+"</div>\n" +
                     "     <div class=\"table-td\">"+serverNum+"</div>\n" +
                     "     <div class=\"table-td\">"+startDate+"</div>\n" +
-                    "     <div class=\"table-td\"><a class='editDetail'>修改</a>" +
-                    "|    <a class='delDetail'>删除</a></div>" +
                     "                                    </div>")
             });
         }else{
@@ -269,7 +269,7 @@ function initModDetail(modId) {
                 initModDetail(modId);
             });
         });
-        $('.editDetail').unbind('click');;
+        $('.editDetail').unbind('click');
         $('.editDetail').click(function () {
             var recordId = $(this).parent().parent().find('.recordId').text();
             var th1  = $(this).parent().parent().find('.table-td').eq(1).text();
@@ -291,12 +291,15 @@ function initModDetail(modId) {
         $('.moreDetail').click(function () {
             $('#addModDetail').modal('show');
             $('.modal-title3').text("新增模块详情");
-            $('#recordId').text("");
-            $('#BELONG_WEB2').val("");
-            $('#MOD_ID2').val("");
-            $('#MOD_NAME2').val("");
+            $('#recordId').text();
+            $('#BELONG_WEB2').val($('.detailFlag').parent().find('.table-td').eq(3).text());
+            $('#MOD_ID2').val($('.detailFlag').parent().find('.table-td').eq(2).text());
+            $('#MOD_NAME2').val($('.detailFlag').parent().find('.table-td').eq(4).text());
             $('#costNum').val("");
             $('#canNum').val("");
+            $('#BELONG_WEB2').attr('disabled','true');
+            $('#MOD_ID2').attr('disabled','true');
+            $('#MOD_NAME2').attr('disabled','true');
         });
 
         $('#sureBtn2').click(function () {
