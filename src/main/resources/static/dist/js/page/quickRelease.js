@@ -315,6 +315,16 @@
             if(info!=""){
                 setInfo(info);
             }
+
+            //图片加载
+            var imgs='';
+            $.each(data.imgList,function (i,obj) {
+                var pic_path = obj.pic_path;
+                imgSrc = api+'uploadFile/getImage?WENJIAN_PATH='+encodeURI(obj.pic_path);
+                var record_id = obj.record_id;
+                imgs = imgs+'<li class="upload" id="img' + record_id + '"><img src="' + imgSrc + '" width="167" height="99" /><i class="icon1" id="' + record_id + '"></i></li>';
+            });
+            $('#imgs').html(imgs);
         }).error(function () {
         }).complete(function () {
             $('#save').unbind("click");
@@ -497,6 +507,30 @@
             });
 
             //initTable();
+            //删除图片
+            $(".icon1").click(function(){
+                var id= $(this).attr("id");
+                //$(this).hide();
+                $("#img"+id).hide();
+                $.ajax({
+                    url: reportApi+'delImgInfo?recordId='+id,
+                    async: false,
+                    success: function (data) {
+                        layer.closeAll();
+                        //跳转
+                        //window.location.href = reportApi+'delImgInfo?recordId='+id;
+                    },
+                    complete: function () {
+                        layer.closeAll();
+                        //layer.msg("保存出错!")
+                    },
+                    error: function () {
+                        layer.closeAll();
+                        layer.msg("数据请求失败!")
+                    }
+
+                });
+            });
         });
 
         function initTixin(data) {
