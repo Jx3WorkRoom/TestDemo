@@ -292,9 +292,9 @@ function initModDetail(modId) {
             $('#addModDetail').modal('show');
             $('.modal-title3').text("新增模块详情");
             $('#recordId').text();
-            $('#BELONG_WEB2').val($('.detailFlag').parent().find('.table-td').eq(3).text());
+            $('#BELONG_WEB2').val($('.detailFlag').parent().find('.table-td').eq(1).text());
             $('#MOD_ID2').val($('.detailFlag').parent().find('.table-td').eq(2).text());
-            $('#MOD_NAME2').val($('.detailFlag').parent().find('.table-td').eq(4).text());
+            $('#MOD_NAME2').val($('.detailFlag').parent().find('.table-td').eq(3).text());
             $('#costNum').val("");
             $('#canNum').val("");
             $('#BELONG_WEB2').attr('disabled','true');

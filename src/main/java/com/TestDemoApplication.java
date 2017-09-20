@@ -14,13 +14,13 @@ public class TestDemoApplication {
 		SpringApplication.run(TestDemoApplication.class, args);
 	}
 
-//	@Bean
-//	public EmbeddedServletContainerCustomizer containerCustomizer(){
-//		return new EmbeddedServletContainerCustomizer() {
-//			@Override
-//			public void customize(ConfigurableEmbeddedServletContainer Container) {
-//				Container.setSessionTimeout(0);//单位为mS
-//			}
-//		};
-//	}
+	@Bean
+	public EmbeddedServletContainerCustomizer containerCustomizer(){
+		return new EmbeddedServletContainerCustomizer() {
+			@Override
+			public void customize(ConfigurableEmbeddedServletContainer Container) {
+				Container.setSessionTimeout(0);//单位为mS
+			}
+		};
+	}
 }
