@@ -169,6 +169,8 @@
             cheatType=3;
         }else if(cheatType=="金币诈骗"){
             cheatType=4;
+        }else if(cheatType=="代练欺诈"){
+            cheatType=5;
         }
         //var str = getUrlParam('cheatType');
 
@@ -205,7 +207,7 @@
 
         var tradeType=obj.TRADE_TYPE;
         if(tradeType=="1"){
-            tradeType="购买";
+            tradeType="收购";
         }else if(tradeType=="2"){
             tradeType="出售";
         }
@@ -396,7 +398,6 @@
 
 
                 if(submit){
-
                     if(getUrlParam('mainId')==null){
                         url = reportApi + 'saveJbjyInfo?operate=save&userId=' + encodeURI(userId)
                             + '&favorId=-1'
@@ -406,7 +407,6 @@
                             +'&unitPrice=' + encodeURI(unitPrice)
                             +'&ifSplit=' + encodeURI(ifSplit)
                             +'&favorInfo=' + encodeURI(favorInfo);
-
                         saveTable(url);
                     }else{
                         url = reportApi + 'saveJbjyInfo?operate=upedit&userId=' + encodeURI(userId)
@@ -417,7 +417,6 @@
                             +'&unitPrice=' + encodeURI(unitPrice)
                             +'&ifSplit=' + encodeURI(ifSplit)
                             +'&favorInfo=' + encodeURI(favorInfo);
-
                         saveTable(url);
                     }
 

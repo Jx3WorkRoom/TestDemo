@@ -168,6 +168,8 @@
             cheatType=3;
         }else if(cheatType=="金币诈骗"){
             cheatType=4;
+        }else if(cheatType=="代练欺诈"){
+            cheatType=5;
         }
         //var str = getUrlParam('cheatType');
         console.log('initTable()----------->'+cheatType);

@@ -170,6 +170,8 @@
             cheatType=3;
         }else if(cheatType=="金币诈骗"){
             cheatType=4;
+        }else if(cheatType=="代练欺诈"){
+            cheatType=5;
         }
         //var str = getUrlParam('cheatType');
         console.log('initTable()----------->'+cheatType);
@@ -383,43 +385,56 @@
                     }
                 var imgNum =parseInt($('#fileList li').length);
                 var imgTotal =parseInt($('.icon1').length);
-                    /*url = reportApi + 'saveZhssInfo?operate=save&userId=' + encodeURI(userId)
-                        + '&tradeType=' + encodeURI(tradeType)
-                        + '&belongQf=' + encodeURI(belongQf)
-                        + '&tixin=' + encodeURI(tixin)
-                        + '&priceNum=' + encodeURI(priceNum)
-                        + '&accoInfo=' + encodeURI(accoInfo)
-                        + '&favorId=-1';*/
 
                     if(submit){
-                        //saveTable(url);
-                        //uploader.upload();
-                        if(getUrlParam('mainId')==null) {
-                            // 数据封装
-                            uploader.options.formData.operate = "save";
-                            uploader.options.formData.userId = userId;
-                            uploader.options.formData.tradeType = tradeType;
-                            uploader.options.formData.belongQf = belongQf;
-                            uploader.options.formData.tixin = tixin;
-                            uploader.options.formData.priceNum = priceNum;
-                            uploader.options.formData.accoInfo = accoInfo;
-                            uploader.options.formData.imgNum = imgNum;
-                            uploader.upload();
-                            saveTable();
-                        }else{
-                            // 数据封装
-                            uploader.options.formData.operate = "upedit";
-                            uploader.options.formData.favorId = getUrlParam('mainId');
-                            uploader.options.formData.userId = userId;
-                            uploader.options.formData.tradeType = tradeType;
-                            uploader.options.formData.belongQf = belongQf;
-                            uploader.options.formData.tixin = tixin;
-                            uploader.options.formData.priceNum = priceNum;
-                            uploader.options.formData.accoInfo = accoInfo;
-                            uploader.options.formData.imgNum = imgNum;
-                            uploader.options.formData.imgTotal = imgTotal;//原图片总数
-                            uploader.upload();
-                            saveTable();
+                        if(imgNum==0) {   //无图片保存
+                            if(getUrlParam('mainId') == null){
+                                url = reportApi + 'saveZhssInfoNotImg?operate=save&userId=' + encodeURI(userId)
+                                    + '&tradeType=' + encodeURI(tradeType)
+                                    + '&belongQf=' + encodeURI(belongQf)
+                                    + '&tixin=' + encodeURI(tixin)
+                                    + '&priceNum=' + encodeURI(priceNum)
+                                    + '&accoInfo=' + encodeURI(accoInfo)
+                                    + '&favorId=-1';
+                                saveTable(url);
+                            }else{
+                                url = reportApi + 'saveZhssInfoNotImg?operate=update&userId=' + encodeURI(userId)
+                                    + '&tradeType=' + encodeURI(tradeType)
+                                    + '&belongQf=' + encodeURI(belongQf)
+                                    + '&tixin=' + encodeURI(tixin)
+                                    + '&priceNum=' + encodeURI(priceNum)
+                                    + '&accoInfo=' + encodeURI(accoInfo)
+                                    + '&favorId=' +getUrlParam('mainId');
+                                saveTable(url);
+                            }
+                        }else {  //有图片保存
+                            if (getUrlParam('mainId') == null) {
+                                // 数据封装
+                                uploader.options.formData.operate = "save";
+                                uploader.options.formData.userId = userId;
+                                uploader.options.formData.tradeType = tradeType;
+                                uploader.options.formData.belongQf = belongQf;
+                                uploader.options.formData.tixin = tixin;
+                                uploader.options.formData.priceNum = priceNum;
+                                uploader.options.formData.accoInfo = accoInfo;
+                                uploader.options.formData.imgNum = imgNum;
+                                uploader.upload();
+                                saveTable();
+                            } else {
+                                // 数据封装
+                                uploader.options.formData.operate = "upedit";
+                                uploader.options.formData.favorId = getUrlParam('mainId');
+                                uploader.options.formData.userId = userId;
+                                uploader.options.formData.tradeType = tradeType;
+                                uploader.options.formData.belongQf = belongQf;
+                                uploader.options.formData.tixin = tixin;
+                                uploader.options.formData.priceNum = priceNum;
+                                uploader.options.formData.accoInfo = accoInfo;
+                                uploader.options.formData.imgNum = imgNum;
+                                uploader.options.formData.imgTotal = imgTotal;//原图片总数
+                                uploader.upload();
+                                saveTable();
+                            }
                         }
                     }else{
                         layer.closeAll();
@@ -517,25 +532,32 @@
             //删除图片
             $(".icon1").click(function(){
                 var id= $(this).attr("id");
-                //$(this).hide();
-                $("#img"+id).hide();
-                $.ajax({
-                    url: reportApi+'delImgInfo?recordId='+id,
-                    async: false,
-                    success: function (data) {
-                        layer.closeAll();
-                        //跳转
-                        //window.location.href = reportApi+'delImgInfo?recordId='+id;
-                    },
-                    complete: function () {
-                        layer.closeAll();
-                        //layer.msg("保存出错!")
-                    },
-                    error: function () {
-                        layer.closeAll();
-                        layer.msg("数据请求失败!")
-                    }
+                //信息框
+                layer.msg('是否确定要删除图片？', {
+                    time: 0 //不自动关闭
+                    ,btn: ['确定', '取消']
+                    ,yes: function(index){
+                        //$(this).hide();
+                        $("#img"+id).hide();
+                        $.ajax({
+                            url: reportApi+'delImgInfo?recordId='+id,
+                            async: false,
+                            success: function (data) {
+                                layer.closeAll();
+                                //跳转
+                                //window.location.href = reportApi+'delImgInfo?recordId='+id;
+                            },
+                            complete: function () {
+                                layer.closeAll();
+                                //layer.msg("保存出错!")
+                            },
+                            error: function () {
+                                layer.closeAll();
+                                layer.msg("数据请求失败!")
+                            }
 
+                        });
+                    }
                 });
             });
         });
