@@ -32,23 +32,42 @@ function initTable(url,keyNum) {
             //填充表格数据
             var tableDatas = data.datas==null?"":data.datas;
             $.each(tableDatas,function (i,value) {
+                var timestamp = parseInt(Date.parse(new Date()));
                 var tel = change(value.USER_TEL);
                 var time =timeStamp2String(value.REGIST_DATE);
                 var status = change2(value.ADMIN_LOCK);
-                $(".table").append("<div class=\"table-tr\">\n" +
-                    "                                                        <div class=\"table-td\">"+value.USER_ID+"</div>\n" +
-                    "                                                        <div class=\"table-td\">"+time+"</div>\n" +
-                    "                                                        <div class=\"table-td\"><a href='javascript:void(0)'  class='userDetail'>"+value.USER_NAME+"</a></div>\n" +
-                    "                                                        <div class=\"table-td\">"+tel+"</div>\n" +
-                    "                                                        <div class=\"table-td\">"+value.LOGIN_NAME+"</div>\n" +
-                    "                                                        <div class=\"table-td\">"+status+"</div>\n" +
-                    "                                                        <div class=\"table-td\">\n" +
-                    "                                                            停用\n" +
-                    "                                                            <input type=\"text \" value=\"24\">小时\n" +
-                    "                                                            \n" +
-                    "                                                            <span class=\"codebtn\">保存</span>\n" +
-                    "                                                        </div>\n" +
-                    "                                                    </div>");
+                var lockTime = value.ADMIN_LOCK==null?0:value.ADMIN_LOCK;
+                if(timestamp>lockTime) {
+                    $(".table").append("<div class=\"table-tr\">\n" +
+                        "                                                        <div class=\"table-td\">" + value.USER_ID + "</div>\n" +
+                        "                                                        <div class=\"table-td\">" + time + "</div>\n" +
+                        "                                                        <div class=\"table-td\"><a href='javascript:void(0)'  class='userDetail'>" + value.USER_NAME + "</a></div>\n" +
+                        "                                                        <div class=\"table-td\">" + tel + "</div>\n" +
+                        "                                                        <div class=\"table-td\">" + value.LOGIN_NAME + "</div>\n" +
+                        "                                                        <div class=\"table-td\">" + status + "</div>\n" +
+                        "                                                        <div class=\"table-td\">\n" +
+                        "                                                            停用\n" +
+                        "                                                            <input class='checkNum' type=\"number \" value=\"24\">小时\n" +
+                        "                                                            \n" +
+                        "                                                            <span class=\"codebtn\">保存</span>\n" +
+                        "                                                        </div>\n" +
+                        "                                                    </div>");
+                }else{
+                    $(".table").append("<div class=\"table-tr gray\">\n" +
+                        "                                                        <div class=\"table-td\">" + value.USER_ID + "</div>\n" +
+                        "                                                        <div class=\"table-td\">" + time + "</div>\n" +
+                        "                                                        <div class=\"table-td\"><a href='javascript:void(0)'  class='userDetail'>" + value.USER_NAME + "</a></div>\n" +
+                        "                                                        <div class=\"table-td\">" + tel + "</div>\n" +
+                        "                                                        <div class=\"table-td\">" + value.LOGIN_NAME + "</div>\n" +
+                        "                                                        <div class=\"table-td\">" + status + "</div>\n" +
+                        "                                                        <div class=\"table-td\">\n" +
+                        "                                                            停用\n" +
+                        "                                                            <input class='checkNum' type=\"number \" value=\"24\">小时\n" +
+                        "                                                            \n" +
+                        "                                                            <span class=\"grayBtn\">禁用中</span>\n" +
+                        "                                                        </div>\n" +
+                        "                                                    </div>");
+                }
             });
 
             $('.userDetail').click(function () {
@@ -112,10 +131,14 @@ function initTable(url,keyNum) {
             $('.codebtn').click(function () {
                 var userId = $(this).parent().parent().find('div').eq(0).text();
                 var hour = $(this).parent().find('input').val();
-                var url = api+'editLockTime?userId='+encodeURI(userId)+"&hour="+encodeURI(hour);
-                $.getJSON(url,function (data) {
-                    layer.msg(data.info)
-                });
+                if(hour==""){
+                    layer.msg("请填写禁用时间!");
+                }else {
+                    var url = api + 'editLockTime?userId=' + encodeURI(userId) + "&hour=" + encodeURI(hour);
+                    $.getJSON(url, function (data) {
+                        layer.msg(data.info)
+                    });
+                }
             });
 
             function change(str) {
@@ -180,6 +203,14 @@ function initTable(url,keyNum) {
                 $('.pagination').empty();
                 layer.msg("加载数据出错!");
             }
+            $('.checkNum').unbind('blur');
+            $('.checkNum').blur(function () {
+                var val = $('.checkNum').val();
+                if(isNaN(Number(val))){  //当输入不是数字的时候，Number后返回的值是NaN;然后用isNaN判断。
+                    layer.msg("禁用时间必须为数字!");
+                    $(this).val("");
+                }
+            });
         },
         error:function () {
             layer.closeAll();

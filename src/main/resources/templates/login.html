@@ -238,6 +238,11 @@ $('#checkCode').click(function () {
       $('.code').css("border","1px solid red");
   }
 });
+var errorText = $('.errorInfo').text();
+while(errorText.indexOf(".")>-1||errorText.indexOf("0!")>-1){
+    errorText = errorText.substring(0,errorText.length-3);
+    $('.errorInfo').text(errorText);
+}
 </script>
 </body>
 </html>
