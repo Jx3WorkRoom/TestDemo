@@ -585,10 +585,12 @@
         // 当有文件添加进来的时候
         uploader.on( 'fileQueued', function( file ) {
             var $li = $(
-                    '<div id="' + file.id + '" class="file-item thumbnail">' +
-                    '<img>' +
-                    '</div>'
+                '<li id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<i class="icon1 deleteImg" id="\' + record_id + \'"></i>'+
+                '</li>'
                 ),
+
                 $img = $li.find('img');
 
             $list.append( $li );
@@ -602,6 +604,11 @@
 
                 $img.attr( 'src', src );
             }, thumbnailWidth, thumbnailHeight );
+            $('.deleteImg').unbind('click');
+            $('.deleteImg').click(function () {
+                $(this).parent().remove();
+                uploader.removeFile( $(this).parent().attr('id'));
+            });
         });
 
         // 文件上传过程中创建进度条实时显示。

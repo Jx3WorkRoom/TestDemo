@@ -512,15 +512,15 @@ function setInfo(info){
         // 当有文件添加进来的时候
         uploader.on( 'fileQueued', function( file ) {
             var $li = $(
-                    '<div id="' + file.id + '" class="file-item thumbnail">' +
-                    '<img style="float: left">' +
-                    '<span class="deleteImg" style="font-size:30px;z-index:100;cursor:pointer;padding:8px">×</span>'+
-                    '</div>'
+                '<li id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<i class="icon1 deleteImg" id="\' + record_id + \'"></i>'+
+                '</li>'
                 ),
+
                 $img = $li.find('img');
 
             $list.append( $li );
-
 
             // 创建缩略图
             uploader.makeThumb( file, function( error, src ) {
