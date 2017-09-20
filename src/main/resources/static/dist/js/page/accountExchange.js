@@ -280,6 +280,7 @@ function setInfo(info){
     function initForm() {
         //var url = pageApi+'accountListSelection';
         var url = reportApi+'accountExchangeListSelection?mainId='+getUrlParam('mainId');
+        var maxImgId=0;
 
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
@@ -297,6 +298,18 @@ function setInfo(info){
             if(info!=""){
                 setInfo(info);
             }
+            //图片加载
+            var imgs='';
+            $.each(data.imgList,function (i,obj) {
+                var pic_path = obj.pic_path;
+                imgSrc = api+'uploadFile/getImage?WENJIAN_PATH='+encodeURI(obj.pic_path);
+                var record_id = obj.record_id;
+                if(obj.seq_num>maxImgId){
+                    maxImgId=obj.seq_num;
+                }
+                imgs = imgs+'<li class="upload" id="img' + record_id + '"><img src="' + imgSrc + '" width="167" height="99" /><i class="icon1" id="' + record_id + '"></i></li>';
+            });
+            $('#imgs').html(imgs);
     }).error(function () {
     }).complete(function () {
             $('#save').unbind("click");
@@ -333,7 +346,8 @@ function setInfo(info){
                     $('#msg1').text("*");
                 }
 
-                var imgNum =parseInt($('#fileList div').length);
+                var imgNum =parseInt($('#fileList li').length);
+                var imgTotal =parseInt($('.icon1').length);
                 if(submit){
                     if(getUrlParam('mainId')==null){
                         // 数据封装
@@ -347,15 +361,16 @@ function setInfo(info){
                         saveTable();
                     }else{
                         // 数据封装
-                            uploader.options.formData.operate = "upedit";
-                            uploader.options.formData.favorId = getUrlParam('mainId');
-                            uploader.options.formData.userId = userId;
-                            uploader.options.formData.needtype = needtype;
-                            uploader.options.formData.belongQf = belongQf;
-                            uploader.options.formData.favorInfo = favorInfo;
-                            uploader.options.formData.imgNum = imgNum;
-                            uploader.upload();
-                            saveTable();
+                        uploader.options.formData.operate = "upedit";
+                        uploader.options.formData.favorId = getUrlParam('mainId');
+                        uploader.options.formData.userId = userId;
+                        uploader.options.formData.needtype = needtype;
+                        uploader.options.formData.belongQf = belongQf;
+                        uploader.options.formData.favorInfo = favorInfo;
+                        uploader.options.formData.imgNum = imgNum;
+                        uploader.options.formData.imgTotal = imgTotal;//原图片总数
+                        uploader.upload();
+                        saveTable();
                     }
 
                 }else{
@@ -434,6 +449,30 @@ function setInfo(info){
             });
 
             //initTable();
+            //删除图片
+            $(".icon1").click(function(){
+                var id= $(this).attr("id");
+                //$(this).hide();
+                $("#img"+id).hide();
+                $.ajax({
+                    url: reportApi+'delImgInfo?recordId='+id,
+                    async: false,
+                    success: function (data) {
+                        layer.closeAll();
+                        //跳转
+                        //window.location.href = reportApi+'delImgInfo?recordId='+id;
+                    },
+                    complete: function () {
+                        layer.closeAll();
+                        //layer.msg("保存出错!")
+                    },
+                    error: function () {
+                        layer.closeAll();
+                        layer.msg("数据请求失败!")
+                    }
+
+                });
+            });
         });
 
         //------------------------------------上传 Start------------------------------------
@@ -473,15 +512,15 @@ function setInfo(info){
         // 当有文件添加进来的时候
         uploader.on( 'fileQueued', function( file ) {
             var $li = $(
-                    '<div id="' + file.id + '" class="file-item thumbnail">' +
-                    '<img style="float: left">' +
-                    '<span class="deleteImg" style="font-size:30px;z-index:100;cursor:pointer;padding:8px">×</span>'+
-                    '</div>'
+                '<li id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<i class="icon1 deleteImg" id="\' + record_id + \'"></i>'+
+                '</li>'
                 ),
+
                 $img = $li.find('img');
 
             $list.append( $li );
-
 
             // 创建缩略图
             uploader.makeThumb( file, function( error, src ) {

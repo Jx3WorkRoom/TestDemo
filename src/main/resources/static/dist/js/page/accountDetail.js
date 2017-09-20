@@ -12,7 +12,7 @@ function initDetail(favorId) {
     var username = $('#userName').text();
     var url = api+"accountList/accountDetail?favorId="+encodeURI(favorId)+'&userName='+encodeURI(username);
     var userId =null;
-    var mainId =null
+    var mainId =null;
     var replyTime = null;
     var sourceType = null;
     var imgLength = 0;

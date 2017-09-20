@@ -298,6 +298,7 @@
     function initForm() {
         //var url = pageApi+'accountListSelection';
         var url = reportApi+'quickReleaseListSelection?mainId='+getUrlParam('mainId');
+        var maxImgId=0;
 
         $.getJSON(url,function (data) {
             var selecttions = data.selecttions==null?"":data.selecttions;
@@ -315,6 +316,20 @@
             if(info!=""){
                 setInfo(info);
             }
+
+            //图片加载
+            var imgs='';
+            $.each(data.imgList,function (i,obj) {
+                var pic_path = obj.pic_path;
+                imgSrc = api+'uploadFile/getImage?WENJIAN_PATH='+encodeURI(obj.pic_path);
+                var record_id = obj.record_id;
+                if(obj.seq_num>maxImgId){
+                    maxImgId=obj.seq_num;
+                }
+                imgs = imgs+'<li class="upload" id="img' + record_id + '"><img src="' + imgSrc + '" width="167" height="99" /><i class="icon1" id="' + record_id + '"></i></li>';
+            });
+            $('#imgs').html(imgs);
+            // alert(data.imgList.length);
         }).error(function () {
         }).complete(function () {
             $('#save').unbind("click");
@@ -366,7 +381,8 @@
                         $('#msg1').text("* 本项不可为空!");
                         submit=false;
                     }
-                var imgNum =parseInt($('#fileList div').length);
+                var imgNum =parseInt($('#fileList li').length);
+                var imgTotal =parseInt($('.icon1').length);
                     /*url = reportApi + 'saveZhssInfo?operate=save&userId=' + encodeURI(userId)
                         + '&tradeType=' + encodeURI(tradeType)
                         + '&belongQf=' + encodeURI(belongQf)
@@ -401,6 +417,7 @@
                             uploader.options.formData.priceNum = priceNum;
                             uploader.options.formData.accoInfo = accoInfo;
                             uploader.options.formData.imgNum = imgNum;
+                            uploader.options.formData.imgTotal = imgTotal;//原图片总数
                             uploader.upload();
                             saveTable();
                         }
@@ -497,6 +514,30 @@
             });
 
             //initTable();
+            //删除图片
+            $(".icon1").click(function(){
+                var id= $(this).attr("id");
+                //$(this).hide();
+                $("#img"+id).hide();
+                $.ajax({
+                    url: reportApi+'delImgInfo?recordId='+id,
+                    async: false,
+                    success: function (data) {
+                        layer.closeAll();
+                        //跳转
+                        //window.location.href = reportApi+'delImgInfo?recordId='+id;
+                    },
+                    complete: function () {
+                        layer.closeAll();
+                        //layer.msg("保存出错!")
+                    },
+                    error: function () {
+                        layer.closeAll();
+                        layer.msg("数据请求失败!")
+                    }
+
+                });
+            });
         });
 
         function initTixin(data) {
@@ -544,10 +585,12 @@
         // 当有文件添加进来的时候
         uploader.on( 'fileQueued', function( file ) {
             var $li = $(
-                    '<div id="' + file.id + '" class="file-item thumbnail">' +
-                    '<img>' +
-                    '</div>'
+                '<li id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<i class="icon1 deleteImg" id="\' + record_id + \'"></i>'+
+                '</li>'
                 ),
+
                 $img = $li.find('img');
 
             $list.append( $li );
@@ -561,6 +604,11 @@
 
                 $img.attr( 'src', src );
             }, thumbnailWidth, thumbnailHeight );
+            $('.deleteImg').unbind('click');
+            $('.deleteImg').click(function () {
+                $(this).parent().remove();
+                uploader.removeFile( $(this).parent().attr('id'));
+            });
         });
 
         // 文件上传过程中创建进度条实时显示。
