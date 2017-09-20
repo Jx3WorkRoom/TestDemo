@@ -37,7 +37,7 @@
     }
 </style>
 <!-- top logo -->
-<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div><div class="contactUs" style="position: absolute;top: 20px;right: 100px">    <h4>咨询QQ：824460354，3032254434</h4>    <h4>QQ群号：296733805</h4></div>
 <div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <!-- navigation -->
 <div class="navCon">
@@ -80,7 +80,11 @@
                     <a href="#" class="close" data-dismiss="alert">
                         &times;
                     </a>
-                    <strong>温馨提示：</strong>一次仅可发布一条黑鬼信息；最好能在资料信息栏中写明黑鬼的身份识别资料，以便其他玩家快速搜索。上传之图片仅起佐证，其他玩家无法搜到截图中资料。
+                    <strong>温馨提示：</strong>
+                    <div style="width: 70%;margin-left: 70px;font-size: 16px;">
+                        一次仅可发布一条黑鬼信息；最好能在资料信息栏中写明黑鬼的身份识别资料，以便其他玩家快速搜索。上传之图片仅起佐证，其他玩家无法搜到截图中资料。
+                        若恶意上传欺诈信息，一经核实，将直接封号处理。
+                    </div>
                 </div>
               <table class="mt15">
                 <tr>

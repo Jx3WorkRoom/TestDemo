@@ -31,7 +31,7 @@
 </head>
 <body>
 <!-- top logo -->
-<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div><div class="contactUs" style="position: absolute;top: 20px;right: 100px">    <h4>咨询QQ：824460354，3032254434</h4>    <h4>QQ群号：296733805</h4></div>
 <!-- navigation -->
 <div class="navCon">
  <div class="nav"><a href="index" class="cur">首页</a><a href="accountList">账号交易</a><a href="appearanceSale">外观交易</a><a href="propSale">道具交易</a><a href="goldExchangeList">金币收售</a><a href="levelingList">代练代打</a><a href="blackList">剑三黑榜</a><a href="dataAndSecurity">用户中心</a><a class="last" href="login">登录 / 注册</a><a href="javascript:void(0)" id="exitUser" style="display: none;">            <form th:action="@{/logout}" method="post">                <input type="submit" class="btn btn-primary exit" value="退出"/>            </form>        </a>        <img class="gift" th:src="@{/dist/css/images/jx3/gift.png}"></div>
@@ -76,6 +76,9 @@
        <td class="ft2" id="checkResult"></td>
       </tr>
       <tr>
+       <td>
+        <a href="servicePetorl.html"target='_blank' class="servicePetorl">用户协议</a>
+       </td>
        <td colspan="3">
         <div class="checkbox">
          <label>
@@ -86,7 +89,7 @@
       </tr>
       <tr>
        <td class="wr ft1"></td>
-       <td><a href="javascript:void(0)" id="addUser"><img th:src="@{/dist/css/images/jx3/register-btn.png}" /></a></td>
+       <td><a href="javascript:void(0);" id="addUser"><img th:src="@{/dist/css/images/jx3/register-btn.png}" /></a></td>
        <td></td>
       </tr>
      </table>

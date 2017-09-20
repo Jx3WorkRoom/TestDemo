@@ -26,7 +26,7 @@
 
 <body>
 <!-- top logo -->
-<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div>
+<div class="topLogo"><img th:src="@{/dist/css/images/jx3/logo_2.png}" /></div><div class="contactUs" style="position: absolute;top: 20px;right: 100px">    <h4>咨询QQ：824460354，3032254434</h4>    <h4>QQ群号：296733805</h4></div>
 <div id="userName" style="display: none">[[${#httpServletRequest.remoteUser}]]</div>
 <!-- navigation -->
 <div class="navCon">
@@ -108,6 +108,7 @@
                     <select class="js-example-basic-single propName" id="propName"  style="width: 200px;">
                       <option value=""></option>
                     </select>
+                    &nbsp;&nbsp;&nbsp;<font size="3" id="msg1" color="red">*</font>
                   </td>
                 </tr>
                 <tr>

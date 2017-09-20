@@ -89,6 +89,9 @@ function initDetail(favorId) {
                 $(this).attr('src', './dist/css/images/nopicture.jpg');
             });
         });
+        $(".bigimgs img").error(function () {
+            $(this).attr('src', './dist/css/images/nopicture.jpg');
+        });
         //图片轮播
         $(".scrollimg img").click(function(){
             $(".scrollimg img").removeClass('cur');
