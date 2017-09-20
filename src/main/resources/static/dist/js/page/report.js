@@ -425,7 +425,7 @@ function initForm() {
             }else{
                 $('#msg3').text("");
             }
-            var imgNum =parseInt($('#fileList div').length);
+            var imgNum =parseInt($('#fileList li').length);
             //var imgTotal =parseInt($('.icon1').length);
             // url = reportApi + 'saveWyjbInfo?operate=save&userId=' + encodeURI(userId)
             //     + '&favorId=-1'

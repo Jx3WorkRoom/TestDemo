@@ -381,7 +381,7 @@
                         $('#msg1').text("* 本项不可为空!");
                         submit=false;
                     }
-                var imgNum =parseInt($('#fileList div').length);
+                var imgNum =parseInt($('#fileList li').length);
                 var imgTotal =parseInt($('.icon1').length);
                     /*url = reportApi + 'saveZhssInfo?operate=save&userId=' + encodeURI(userId)
                         + '&tradeType=' + encodeURI(tradeType)

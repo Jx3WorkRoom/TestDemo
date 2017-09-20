@@ -346,7 +346,7 @@ function setInfo(info){
                     $('#msg1').text("*");
                 }
 
-                var imgNum =parseInt($('#fileList div').length);
+                var imgNum =parseInt($('#fileList li').length);
                 var imgTotal =parseInt($('.icon1').length);
                 if(submit){
                     if(getUrlParam('mainId')==null){
