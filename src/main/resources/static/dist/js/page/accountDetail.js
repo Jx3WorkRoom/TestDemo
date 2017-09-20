@@ -162,7 +162,7 @@ function initDetail(favorId,sourceType) {
                                 layer.msg('未查到有效数据!');
                             } else {
                                 $('#identifier').addClass('madalHide');
-                                data = data.datas[0].USER_QQ == null ? "null" : data.datas[0].USER_QQ;
+                                data = data.datas[0].user_qq == null ? "null" : data.datas[0].user_qq;
                                 var $table = $('#identifier').find('table');
                                 $table.empty();
                                 $table.append("<p>用户联系方式：</p>\n" +

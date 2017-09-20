@@ -30,9 +30,9 @@ function initTable(url,keyNum) {
     if(url==null) {
         var tradeType = $('.dropdown.all-camera-dropdown').find("a").eq(0).text().trim();
         if (tradeType == "找代练") {
-            tradeType = 1;
-        } else {
             tradeType = 2;
+        } else {
+            tradeType = 1;
         }
         var str = getUrlParam('tradeType');
 
