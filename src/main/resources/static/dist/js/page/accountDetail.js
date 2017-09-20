@@ -1,16 +1,19 @@
 $(function () {
     var favorId = getUrlParam('favorId');
+    var sourceType = getUrlParam('sourceType');
     function getUrlParam(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var r = window.location.search.substr(1).match(reg); //匹配目标参数
         if (r != null) return unescape(r[2]); return null; //返回参数值
     }
-    initDetail(favorId);
+    initDetail(favorId,sourceType);
 });
 
-function initDetail(favorId) {
+function initDetail(favorId,sourceType) {
     var username = $('#userName').text();
-    var url = api+"accountList/accountDetail?favorId="+encodeURI(favorId)+'&userName='+encodeURI(username);
+    var url = api+"accountList/accountDetail?favorId="+encodeURI(favorId)+
+        '&sourceType='+encodeURI(sourceType)+
+        '&userName='+encodeURI(username);
     var userId =null;
     var mainId =null;
     var replyTime = null;
@@ -41,11 +44,12 @@ function initDetail(favorId) {
                     }
                 });
                 $('.userIsvalid').text(value.USER_ISVALID+"人提交失效!");
-                var imgSrc = value.WENJIAN_PATH;
+                var imgSrc = value.WENJIAN_PATH==null?value.PIC_PATH:value.WENJIAN_PATH;
                 imgSrc = api+'uploadFile/getImage?WENJIAN_PATH='+encodeURI(imgSrc);
                 var imgHtml = "";
                 imgLength++;
-                if(value.WENJIAN_SEQ==1) {
+                var picNum = value.WENJIAN_SEQ==null?value.SEQ_NUM:value.WENJIAN_SEQl
+                if(picNum==1) {
                     $('.bigimgs img').attr('src',imgSrc);
                     imgHtml = "<img class=\"moveimg cur\" src='" + imgSrc + "' style=\"margin-left: 0px;\">";
                     $('.scrollimg').append(imgHtml);
@@ -63,6 +67,9 @@ function initDetail(favorId) {
             $(this).error(function () {
                 $(this).attr('src', './dist/css/images/nopicture.jpg');
             });
+        });
+        $(".bigimgs img").error(function () {
+            $(this).attr('src', './dist/css/images/nopicture.jpg');
         });
         //图片轮播
         $(".scrollimg img").click(function(){
