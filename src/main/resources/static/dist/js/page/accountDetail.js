@@ -64,8 +64,13 @@ function initDetail(favorId,sourceType) {
     }).complete(function () {
         //图片加载 失败处理
         $(".scrollimg img").each(function(){
+            var num = $(this).index();
             $(this).error(function () {
-                $(this).attr('src', './dist/css/images/nopicture.jpg');
+                if(num!=0) {
+                    $(this).attr('src', './dist/css/images/nopicture' + num + '.jpg');
+                }else{
+                    $(this).attr('src', './dist/css/images/nopicture.jpg');
+                }
             });
         });
         $(".bigimgs img").error(function () {
