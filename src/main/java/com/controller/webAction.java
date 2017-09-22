@@ -203,4 +203,9 @@ public class webAction {
         return "questions";
     }
 
+    @RequestMapping("/levelingDetail")
+    public String levelingDetailaction() {
+        return "levelingDetail";
+    }
+
 }

@@ -119,13 +119,14 @@ function initTable(url,keyNum) {
                         value.COLL_TYPE=0;
                     }
                     if (value.COLL_TYPE == null || value.COLL_TYPE == 0 || username == '') {
+                        var favorId = value.FAVOR_ID;
                         $(".table").append(" <div class=\"table-tr\">\n" +
                             "        <div class=\"table-td main_id\" style='display: none'>" + value.MAIN_ID + "</div>\n" +
                             "        <div class=\"table-td replyTime\" style='display: none'>" + value.REPLY_TIME + "</div>\n" +
                             "        <div class=\"table-td sourceType\" style='display: none'>" + value.NEED_TYPE + "</div>\n" +
                             "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
                             "        <div class=\"table-td\">" + belongOf + "</div>\n" +
-                            "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
+                            "        <div class=\"table-td table_lw\"><a  href='levelingDetail?favorId="+favorId+"&userId="+value.USER_ID+"&sourceType="+value.SOURCE_TYPE+"' target='_blank'>" + value.POST_CONTENT + "</a></div>\n" +
                             "          <div class=\"table-td\">" + tradeType + "</div>\n" +
                             "        <div class=\"table-td\">" + follow + "</div>\n" +
                             "        <div class=\"table-td\">" + time + "</div>\n" +
@@ -139,7 +140,7 @@ function initTable(url,keyNum) {
                             "        <div class=\"table-td sourceType\" style='display: none'>" + value.NEED_TYPE + "</div>\n" +
                             "        <div class=\"table-td userId\" style='display: none'>" + value.USER_ID + "</div>\n" +
                             "        <div class=\"table-td\">" + belongOf + "</div>\n" +
-                            "        <div class=\"table-td table_lw\"><a class=\"modalBtn\" href=\"javascript:;\">" + value.POST_CONTENT + "</a></div>\n" +
+                            "        <div class=\"table-td table_lw\"><a  href='levelingDetail?favorId="+favorId+"&userId="+value.USER_ID+"' target='_blank'>" + value.POST_CONTENT + "</a></div>\n" +
                             "          <div class=\"table-td\">" + tradeType + "</div>\n" +
                             "        <div class=\"table-td\">" + follow + "</div>\n" +
                             "        <div class=\"table-td\">" + time + "</div>\n" +
